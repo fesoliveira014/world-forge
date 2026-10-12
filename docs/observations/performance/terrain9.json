@@ -1,0 +1,85 @@
+{
+  "surfaceCells": 2621442,
+  "processCells": 642,
+  "elapsed": 139815.712072,
+  "bytes": 2141154018,
+  "stages": [
+    {
+      "name": "Simulation grid",
+      "ms": 35.76096200000006
+    },
+    {
+      "name": "Surface grid",
+      "ms": 29053.956235999998
+    },
+    {
+      "name": "Spatial transfer",
+      "ms": 226.20737599999848
+    },
+    {
+      "name": "Plates & tectonics",
+      "ms": 26.142316999998002
+    },
+    {
+      "name": "Crust evolution",
+      "ms": 305.6651840000013
+    },
+    {
+      "name": "Terrain & oceans",
+      "ms": 14689.424582
+    },
+    {
+      "name": "Seasonal climate",
+      "ms": 95.00241700000333
+    },
+    {
+      "name": "Land water budget",
+      "ms": 8806.18144
+    },
+    {
+      "name": "Landscape weathering & sediment",
+      "ms": 19927.154192999995
+    },
+    {
+      "name": "Rivers & reservoirs",
+      "ms": 14147.154767
+    },
+    {
+      "name": "River landscape evolution",
+      "ms": 4208.232118999993
+    },
+    {
+      "name": "Final climate",
+      "ms": 46.76288600001135
+    },
+    {
+      "name": "Final water & drainage",
+      "ms": 26982.424677999996
+    },
+    {
+      "name": "Headwaters & channels",
+      "ms": 7901.204683000004
+    },
+    {
+      "name": "River courses & deltas",
+      "ms": 1319.975757999986
+    },
+    {
+      "name": "Biomes & ecology",
+      "ms": 2662.7422440000228
+    },
+    {
+      "name": "Minerals & fertility",
+      "ms": 5994.303906000016
+    },
+    {
+      "name": "Publish world",
+      "ms": 47.75372199999401
+    }
+  ],
+  "atmosphereResidual": 1.302902434682468e-13,
+  "waterResidual": 8.377206330952017e-8,
+  "lakes": 5384,
+  "areaError": 3.6415315207705135e-13,
+  "rssPeakMiB": 2905.00390625
+}

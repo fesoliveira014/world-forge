@@ -1,0 +1,22 @@
+{
+  "surfaceCells": 655362,
+  "processLevel": 6,
+  "oldMs": 3373.049748,
+  "newMs": 755.6686119999995,
+  "oldLakes": 2271,
+  "newLakes": 2271,
+  "maxDischargeDifference": 2.2737367544323206e-13,
+  "changedReceivers": 0,
+  "maxLakeLevelDifference": 0,
+  "waterLedgerError": -8.258211892098188e-10,
+  "lakeTransferError": -3.637978807091713e-12,
+  "seed": "AETHER-2408",
+  "note": "One cached pre-erosion drainage input at maximum surface/weather detail, using other v2.2 defaults. Old and new drainage run sequentially in one Node process; timings are observations, not performance guarantees.",
+  "comb": {
+    "corners": 65,
+    "ponds": 33,
+    "oldStoppedAfterMs": 5000.518491,
+    "oldSettleCallsAtStop": 41771008,
+    "newCompletedMs": 3.3884610000000066
+  }
+}

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500" role="img"><title>River endpoints and an explicit flat-basin shoreline</title><style>text{font-family:system-ui,sans-serif;fill:#20394b} .title{font-size:26px;font-weight:700}.sub{font-size:14px;fill:#5d7280}.label{font-size:17px;font-weight:650}.small{font-size:13px} .panel{fill:#f3f7f7;stroke:#d9e2e6} .axis{stroke:#7f969f;stroke-width:1.5}</style>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#238da8"/></marker></defs>
+<rect width="1200" height="500" fill="white"/><text x="28" y="40" class="title">A flat floor can have water area without resolvable depth</text>
+<text x="28" y="66" class="sub">Schematic plan view · annual reservoir accounting and spatial shoreline are separate representations</text>
+<rect x="28" y="94" width="548" height="302" rx="12" class="panel"/><rect x="600" y="94" width="572" height="302" rx="12" class="panel"/>
+<text x="51" y="127" class="label">Previous: depth-only display</text><text x="623" y="127" class="label">Revised: explicit wet footprint</text>
+<path d="M151 199Q246 154 412 203L467 291Q332 365 151 309Z" fill="#d9cca5" stroke="#aa9568" stroke-dasharray="6 5"/>
+<path d="M52 190L107 218L170 230M65 355L126 319L191 283M432 147L392 185L362 222M525 325L460 295L414 262" fill="none" stroke="#238da8" stroke-width="7" marker-end="url(#arrow)"/>
+<text x="216" y="247" class="small">level = sampled floor</text><text x="216" y="269" class="small">cell depth = 0</text><text x="51" y="377" class="small">Rivers stop at wet model nodes; the water is invisible.</text>
+<path d="M723 199Q818 154 984 203L1039 291Q904 365 723 309Z" fill="#d9cca5" stroke="#aa9568" stroke-dasharray="6 5"/>
+<path d="M767 236Q814 188 902 218L967 240L986 286Q912 329 797 293L766 267Z" fill="#69b7c7" stroke="#287f95" stroke-width="2"/>
+<path d="M623 190L679 218L742 230L779 242M637 355L698 319L763 283L789 277M1004 147L964 185L934 222M1097 325L1032 295L986 262" fill="none" stroke="#238da8" stroke-width="7" marker-end="url(#arrow)"/>
+<text x="820" y="258" class="small">Balanced wet area</text><text x="819" y="280" class="small">Visible shore</text><text x="623" y="377" class="small">Exposed flat corners continue toward the actual shore.</text>
+<text x="28" y="437" class="sub">Wet corners terminate in a lake node. A spilling lake releases its recorded outflow; a closed lake has no downstream release.</text>
+<text x="28" y="465" class="sub">The fix preserves annual water exchange and does not invent water depth or erase a large river through unspecified losses.</text>
+</svg>

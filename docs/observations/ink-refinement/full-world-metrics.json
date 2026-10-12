@@ -1,0 +1,39 @@
+{
+  "surfaceCells": 655362,
+  "before": {
+    "milliseconds": 98.049520999999,
+    "total": 2035,
+    "mountains": 599,
+    "hills": 742,
+    "forests": 694,
+    "mountainWidth": [
+      0.038267957355827095,
+      0.044773514420608986,
+      0.0517494029434165
+    ]
+  },
+  "after": {
+    "milliseconds": 77.74650800000018,
+    "total": 411,
+    "mountains": 101,
+    "hills": 46,
+    "forests": 264,
+    "mountainWidth": [
+      0.04520142037324614,
+      0.05432530771447686,
+      0.09059740857141847
+    ]
+  },
+  "cached": {
+    "milliseconds": 0.10531799999989744,
+    "total": 411,
+    "mountains": 101,
+    "hills": 46,
+    "forests": 264,
+    "mountainWidth": [
+      0.04520142037324614,
+      0.05432530771447686,
+      0.09059740857141847
+    ]
+  }
+}

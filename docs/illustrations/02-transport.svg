@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="851.04pt" height="382.716pt" viewBox="0 0 851.04 382.716" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <title>Conservative advection and diffusion</title>
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title>Conservative advection and diffusion</dc:title>
+    <dc:description>At dt = 1 second, advective area flux 0.5 m²/s moves 1.5 m³ from A to B. Conductance 0.25 m²/s and the two-metre column difference move another 0.5 m³. Equal-and-opposite updates conserve 11 m³.</dc:description>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.8, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 382.716 
+L 851.04 382.716 
+L 851.04 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 70.7184 263.5758 
+L 334.7568 263.5758 
+L 334.7568 133.12584 
+L 70.7184 133.12584 
+z
+" clip-path="url(#p3e3bad347d)" style="fill: #e7f2f7; stroke: #357fa8; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 499.7808 263.5758 
+L 763.8192 263.5758 
+L 763.8192 133.12584 
+L 499.7808 133.12584 
+z
+" clip-path="url(#p3e3bad347d)" style="fill: #e7f5f1; stroke: #168582; stroke-width: 1.4; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 345.006841 175.59792 
+Q 417.268836 175.59792 486.176729 175.59792 
+" clip-path="url(#p3e3bad347d)" style="fill: none; stroke: #357fa8; stroke-width: 3; stroke-linecap: round"/>
+    <path d="M 480.976729 172.99792 
+L 486.176729 175.59792 
+L 480.976729 178.19792 
+z
+" clip-path="url(#p3e3bad347d)" style="fill: #357fa8; stroke: #357fa8; stroke-width: 3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 345.006841 230.20488 
+Q 417.268836 230.20488 486.176729 230.20488 
+" clip-path="url(#p3e3bad347d)" style="fill: none; stroke: #168582; stroke-width: 3; stroke-linecap: round"/>
+    <path d="M 480.976729 227.60488 
+L 486.176729 230.20488 
+L 480.976729 232.80488 
+z
+" clip-path="url(#p3e3bad347d)" style="fill: #168582; stroke: #168582; stroke-width: 3; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #20394b" x="202.7376" y="151.32816" transform="rotate(-0 202.7376 151.32816)">CELL A</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; fill: #20394b" transform="translate(173.051663 193.37184)">Area 2 m²</text>
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; fill: #20394b" transform="translate(166.284788 212.28009)">Column 3 m</text>
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; fill: #20394b" transform="translate(158.196975 231.18834)">Inventory 6 m³</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #20394b" x="631.8" y="151.32816" transform="rotate(-0 631.8 151.32816)">CELL B</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; fill: #20394b" transform="translate(602.114063 193.37184)">Area 5 m²</text>
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; fill: #20394b" transform="translate(595.347188 212.28009)">Column 1 m</text>
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; fill: #20394b" transform="translate(587.259375 231.18834)">Inventory 5 m³</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #357fa8" x="417.2688" y="155.87874" transform="rotate(-0 417.2688 155.87874)">Advection</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #357fa8" x="417.2688" y="190.76652" transform="rotate(-0 417.2688 190.76652)">1.5 m³</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #168582" x="417.2688" y="213.51942" transform="rotate(-0 417.2688 213.51942)">Diffusion</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #168582" x="417.2688" y="246.89034" transform="rotate(-0 417.2688 246.89034)">0.5 m³</text>
+   </g>
+   <g id="patch_6">
+    <path d="M 84.74544 343.362636 
+L 320.72976 343.362636 
+Q 341.35776 343.362636 341.35776 335.778336 
+L 341.35776 294.519744 
+Q 341.35776 286.935444 320.72976 286.935444 
+L 84.74544 286.935444 
+Q 64.11744 286.935444 64.11744 294.519744 
+L 64.11744 335.778336 
+Q 64.11744 343.362636 84.74544 343.362636 
+z
+" clip-path="url(#p3e3bad347d)" style="fill: #f0f6f9; stroke: #357fa8; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 513.80784 343.362636 
+L 749.79216 343.362636 
+Q 770.42016 343.362636 770.42016 335.778336 
+L 770.42016 294.519744 
+Q 770.42016 286.935444 749.79216 286.935444 
+L 513.80784 286.935444 
+Q 493.17984 286.935444 493.17984 294.519744 
+L 493.17984 335.778336 
+Q 493.17984 343.362636 513.80784 343.362636 
+z
+" clip-path="url(#p3e3bad347d)" style="fill: #edf6f5; stroke: #168582; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; fill: #20394b" transform="translate(377.981378 305.339428)">Total stays</text>
+    <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; fill: #20394b" transform="translate(396.340831 319.998147)">11 m³</text>
+   </g>
+   <g id="text_10">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #20394b" x="202.7376" y="311.479831" transform="rotate(-0 202.7376 311.479831)">After: 4 m³</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #627582" x="202.7376" y="328.223063" transform="rotate(-0 202.7376 328.223063)">column = 2 m</text>
+   </g>
+   <g id="text_12">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #20394b" x="631.8" y="311.479831" transform="rotate(-0 631.8 311.479831)">After: 7 m³</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #627582" x="631.8" y="328.223063" transform="rotate(-0 631.8 328.223063)">column = 1.4 m</text>
+   </g>
+  </g>
+  <g id="text_14">
+   <text style="font-weight: 700; font-size: 19px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #20394b" x="21.6" y="27.397031" transform="rotate(-0 21.6 27.397031)">Inventory moves across a shared face</text>
+  </g>
+  <g id="text_15">
+   <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #627582" x="21.6" y="37.764" transform="rotate(-0 21.6 37.764)">Teaching example: areas and water columns are deliberately small round numbers, not a planetary climate sample.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p3e3bad347d">
+   <rect x="12.96" y="66.384" width="825.12" height="303.372"/>
+  </clipPath>
+ </defs>
+</svg>

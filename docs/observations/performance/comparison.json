@@ -1,0 +1,13 @@
+{
+  "comparisonSource": "Retained 2.12.0 AETHER-0004 snapshot; same recipe and source as fresh baseline run",
+  "unchangedArrays": 3540,
+  "changedArrays": 0,
+  "changedScalars": [
+    {
+      "name": "world.climate.atmosphereResidual",
+      "before": 2.867892928268287e-11,
+      "after": 2.8679054730457086e-11
+    }
+  ],
+  "rows": []
+}

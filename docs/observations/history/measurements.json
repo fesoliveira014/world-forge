@@ -1,0 +1,37 @@
+{
+  "date": "2026-09-04",
+  "runtime": "Node.js 24.19.0, headless CPU execution",
+  "seed": "AETHER-2408",
+  "version": "2.0.0",
+  "note": "Single ordinary and high-detail runs on this machine. Retained typed buffers exclude JS objects, scratch, render buffers, and GPU allocations. Not browser frame rates or performance guarantees.",
+  "runs": [
+    {
+      "surfaceCells": 10242,
+      "processCells": 10242,
+      "totalMs": 2222.403922,
+      "retainedMiB": 7.578794479370117,
+      "provisionalClimateMs": 1051.710834,
+      "finalClimateMs": 885.1323130000001,
+      "surfaceGridMs": 0.032682000000022526,
+      "atmosphereRelativeResidual": 6.648434065266136e-14,
+      "oceanFluxDivergenceM2PerS": 5.820766091346741e-11,
+      "reservoirs": 30
+    },
+    {
+      "surfaceCells": 163842,
+      "processCells": 10242,
+      "totalMs": 3232.4696320000003,
+      "retainedMiB": 93.91675758361816,
+      "provisionalClimateMs": 948.6137479999998,
+      "finalClimateMs": 847.1744689999996,
+      "surfaceGridMs": 566.5898069999998,
+      "atmosphereRelativeResidual": 6.108330343957932e-14,
+      "oceanFluxDivergenceM2PerS": 5.820766091346741e-11,
+      "reservoirs": 400
+    }
+  ],
+  "validation": {
+    "coreTests": 2,
+    "browserQA": false
+  }
+}

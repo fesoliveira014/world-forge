@@ -1,0 +1,742 @@
+{
+  "seed": "AETHER-2408",
+  "note": "One seed, three resolutions, default settings of each version; not climate calibration. Final timing stored separately from pre-optimization measurements.",
+  "before": [
+    {
+      "surface": 5,
+      "process": 5,
+      "surfaceCells": 10242,
+      "processCells": 10242,
+      "elapsed": 2431.390933,
+      "landAreaPercent": 34.05873729094894,
+      "meanLandHeight": 1598.5593473752083,
+      "landRain": 162.69540243933704,
+      "landPet": 324.93469574188094,
+      "desertPercent": 33.74000172758049,
+      "aridPercent": 45.16896441416405,
+      "runoffAreaPercent": 3.9289965386127514,
+      "runoffDepthMm": 9.879956683668699,
+      "runoffTotal": 54388.20055463947,
+      "oceanDischarge": 55908.10960140248,
+      "lakeExchange": -1519.9090467629553,
+      "lakes": 30,
+      "closedLakes": 22,
+      "meanWind": 3.9792058127473435,
+      "atmosphereDtDays": 0.09103481408455745,
+      "atmosphereResidual": 6.648434065266136e-14,
+      "bands": [
+        {
+          "fromKm": 0,
+          "toKm": 300,
+          "areaPercent": 38.56911563888868,
+          "rain": 289.41540081747473,
+          "pet": 451.1911378372081,
+          "runoffMm": 24.43377022824176,
+          "desertPercent": 35.99234784523038
+        },
+        {
+          "fromKm": 300,
+          "toKm": 1000,
+          "areaPercent": 38.80790457596167,
+          "rain": 93.18475906058694,
+          "pet": 263.8986076027643,
+          "runoffMm": 0.7260463514642171,
+          "desertPercent": 32.80580363026826
+        },
+        {
+          "fromKm": 1000,
+          "toKm": 2000,
+          "areaPercent": 19.877995455537782,
+          "rain": 67.0297206118345,
+          "pet": 211.91244065371276,
+          "runoffMm": 0.8768701780527464,
+          "desertPercent": 30.11887299340932
+        },
+        {
+          "fromKm": 2000,
+          "toKm": null,
+          "areaPercent": 2.744984329612113,
+          "rain": 57.67700061381794,
+          "pet": 232.30729697077976,
+          "runoffMm": 0,
+          "desertPercent": 41.52294352305535
+        }
+      ],
+      "rivers": [
+        {
+          "threshold": 0.01,
+          "segments": 358,
+          "totalKm": 49267.65238383165,
+          "longestKm": 2623.3540756532075,
+          "confluences": 15,
+          "terminals": 117,
+          "maxQ": 2485.5857330830113,
+          "cycles": 0
+        },
+        {
+          "threshold": 20,
+          "segments": 287,
+          "totalKm": 39564.484369531914,
+          "longestKm": 2623.3540756532075,
+          "confluences": 13,
+          "terminals": 101,
+          "maxQ": 2485.5857330830113,
+          "cycles": 0
+        },
+        {
+          "threshold": 100,
+          "segments": 163,
+          "totalKm": 22946.44711687215,
+          "longestKm": 1906.3088979341833,
+          "confluences": 6,
+          "terminals": 69,
+          "maxQ": 2485.5857330830113,
+          "cycles": 0
+        },
+        {
+          "threshold": 400,
+          "segments": 43,
+          "totalKm": 6010.521662612587,
+          "longestKm": 854.1846513067279,
+          "confluences": 1,
+          "terminals": 25,
+          "maxQ": 2485.5857330830113,
+          "cycles": 0
+        },
+        {
+          "threshold": 1500,
+          "segments": 5,
+          "totalKm": 693.617684567773,
+          "longestKm": 540.1994218543109,
+          "confluences": 0,
+          "terminals": 2,
+          "maxQ": 2485.5857330830113,
+          "cycles": 0
+        }
+      ]
+    },
+    {
+      "surface": 7,
+      "process": 5,
+      "surfaceCells": 163842,
+      "processCells": 10242,
+      "elapsed": 2976.2799159999995,
+      "landAreaPercent": 34.0398969015142,
+      "meanLandHeight": 1598.0705841370786,
+      "landRain": 163.83786802334544,
+      "landPet": 324.55154063765934,
+      "desertPercent": 33.536169920055166,
+      "aridPercent": 44.94072673804215,
+      "runoffAreaPercent": 3.8417005310396406,
+      "runoffDepthMm": 9.77827302076618,
+      "runoffTotal": 53798.66541551805,
+      "oceanDischarge": 55216.0425246962,
+      "lakeExchange": -1417.3771091781903,
+      "lakes": 400,
+      "closedLakes": 276,
+      "meanWind": 3.9819896014233387,
+      "atmosphereDtDays": 0.09103481408455745,
+      "atmosphereResidual": 6.108330343957932e-14,
+      "bands": [
+        {
+          "fromKm": 0,
+          "toKm": 300,
+          "areaPercent": 27.950072926232554,
+          "rain": 333.9249067268902,
+          "pet": 474.2005515041217,
+          "runoffMm": 32.883694460775324,
+          "desertPercent": 32.44755450263728
+        },
+        {
+          "fromKm": 300,
+          "toKm": 1000,
+          "areaPercent": 44.37948970342802,
+          "rain": 119.16612093289189,
+          "pet": 300.5345226165117,
+          "runoffMm": 0.952924613768619,
+          "desertPercent": 35.63525899121245
+        },
+        {
+          "fromKm": 1000,
+          "toKm": 2000,
+          "areaPercent": 24.09189670643083,
+          "rain": 64.5419983330878,
+          "pet": 211.51727381749808,
+          "runoffMm": 0.6821935163254914,
+          "desertPercent": 30.35111324367703
+        },
+        {
+          "fromKm": 2000,
+          "toKm": null,
+          "areaPercent": 3.578540663908389,
+          "rain": 57.87010205445891,
+          "pet": 214.55477951897527,
+          "runoffMm": 0,
+          "desertPercent": 37.44961851605118
+        }
+      ],
+      "rivers": [
+        {
+          "threshold": 0.01,
+          "segments": 6827,
+          "totalKm": 233502.60957574696,
+          "longestKm": 3452.265012513227,
+          "confluences": 284,
+          "terminals": 667,
+          "maxQ": 1851.6490250715226,
+          "cycles": 0
+        },
+        {
+          "threshold": 20,
+          "segments": 2426,
+          "totalKm": 82910.90560255043,
+          "longestKm": 2359.208042365335,
+          "confluences": 64,
+          "terminals": 345,
+          "maxQ": 1851.6490250715226,
+          "cycles": 0
+        },
+        {
+          "threshold": 100,
+          "segments": 660,
+          "totalKm": 22022.091132520032,
+          "longestKm": 1014.2788667509564,
+          "confluences": 11,
+          "terminals": 130,
+          "maxQ": 1851.6490250715226,
+          "cycles": 0
+        },
+        {
+          "threshold": 400,
+          "segments": 94,
+          "totalKm": 3242.4275289399134,
+          "longestKm": 582.7700876523938,
+          "confluences": 0,
+          "terminals": 34,
+          "maxQ": 1851.6490250715226,
+          "cycles": 0
+        },
+        {
+          "threshold": 1500,
+          "segments": 18,
+          "totalKm": 582.7700876523938,
+          "longestKm": 582.7700876523938,
+          "confluences": 0,
+          "terminals": 1,
+          "maxQ": 1851.6490250715226,
+          "cycles": 0
+        }
+      ]
+    },
+    {
+      "surface": 6,
+      "process": 6,
+      "surfaceCells": 40962,
+      "processCells": 40962,
+      "elapsed": 14041.936367,
+      "landAreaPercent": 34.00121310044765,
+      "meanLandHeight": 1644.3625726653154,
+      "landRain": 155.1124147750829,
+      "landPet": 329.65500498538944,
+      "desertPercent": 34.63038414509902,
+      "aridPercent": 49.13762819861191,
+      "runoffAreaPercent": 3.967340083180048,
+      "runoffDepthMm": 11.935001942186963,
+      "runoffTotal": 65590.05774620383,
+      "oceanDischarge": 66030.0648522181,
+      "lakeExchange": -440.0071060140099,
+      "lakes": 70,
+      "closedLakes": 52,
+      "meanWind": 3.957080434684228,
+      "atmosphereDtDays": 0.042501498396701844,
+      "atmosphereResidual": 9.806225285907127e-14,
+      "bands": [
+        {
+          "fromKm": 0,
+          "toKm": 300,
+          "areaPercent": 31.79705073083321,
+          "rain": 320.8983248916242,
+          "pet": 476.7158680483126,
+          "runoffMm": 36.44068700240338,
+          "desertPercent": 37.048427154112794
+        },
+        {
+          "fromKm": 300,
+          "toKm": 1000,
+          "areaPercent": 44.480631175157484,
+          "rain": 95.51570489455773,
+          "pet": 303.71371549518284,
+          "runoffMm": 0.7822240831037098,
+          "desertPercent": 37.78900329261189
+        },
+        {
+          "fromKm": 1000,
+          "toKm": 2000,
+          "areaPercent": 20.707264041903965,
+          "rain": 43.31970744554452,
+          "pet": 185.79670711275097,
+          "runoffMm": 0,
+          "desertPercent": 26.153225836476597
+        },
+        {
+          "fromKm": 2000,
+          "toKm": null,
+          "areaPercent": 3.015054052105276,
+          "rain": 53.72696394407196,
+          "pet": 149.45756067652397,
+          "runoffMm": 0,
+          "desertPercent": 20.75161003179324
+        }
+      ],
+      "rivers": [
+        {
+          "threshold": 0.01,
+          "segments": 1600,
+          "totalKm": 109387.99751402985,
+          "longestKm": 3763.9309235175497,
+          "confluences": 47,
+          "terminals": 343,
+          "maxQ": 1664.5386538427329,
+          "cycles": 0
+        },
+        {
+          "threshold": 20,
+          "segments": 688,
+          "totalKm": 48093.80711360241,
+          "longestKm": 881.8263765438402,
+          "confluences": 24,
+          "terminals": 227,
+          "maxQ": 1664.5386538427329,
+          "cycles": 0
+        },
+        {
+          "threshold": 100,
+          "segments": 283,
+          "totalKm": 19730.48850633404,
+          "longestKm": 578.0891916285897,
+          "confluences": 10,
+          "terminals": 120,
+          "maxQ": 1664.5386538427329,
+          "cycles": 0
+        },
+        {
+          "threshold": 400,
+          "segments": 51,
+          "totalKm": 3529.015484978904,
+          "longestKm": 312.00820657738115,
+          "confluences": 1,
+          "terminals": 30,
+          "maxQ": 1664.5386538427329,
+          "cycles": 0
+        },
+        {
+          "threshold": 1500,
+          "segments": 0,
+          "totalKm": 0,
+          "longestKm": 0,
+          "confluences": 0,
+          "terminals": 0,
+          "maxQ": 1664.5386538427329,
+          "cycles": 0
+        }
+      ]
+    }
+  ],
+  "after": [
+    {
+      "surface": 5,
+      "process": 5,
+      "surfaceCells": 10242,
+      "processCells": 10242,
+      "landAreaPercent": 34.05873729094894,
+      "meanLandHeight": 1598.5202243357182,
+      "landRain": 376.1852187408017,
+      "landPet": 342.8318105627637,
+      "desertPercent": 15.943054583921414,
+      "aridPercent": 17.000681718215418,
+      "runoffAreaPercent": 69.35259805417121,
+      "runoffDepthMm": 87.7269203665218,
+      "runoffTotal": 482928.16372587066,
+      "oceanDischarge": 467983.48238658544,
+      "lakeExchange": 14944.681339285635,
+      "lakes": 30,
+      "closedLakes": 12,
+      "meanWind": 7.162590834101242,
+      "atmosphereDtDays": 0.050574896466964066,
+      "atmosphereResidual": 1.5310326769430647e-12,
+      "bands": [
+        {
+          "fromKm": 0,
+          "toKm": 300,
+          "areaPercent": 38.56911563888868,
+          "rain": 556.5021047686315,
+          "pet": 474.8650242467869,
+          "runoffMm": 160.1885996516542,
+          "desertPercent": 16.99462727499568
+        },
+        {
+          "fromKm": 300,
+          "toKm": 1000,
+          "areaPercent": 38.80790457596167,
+          "rain": 285.7026965375227,
+          "pet": 278.8360595322461,
+          "runoffMm": 38.78736606924191,
+          "desertPercent": 16.153361181577374
+        },
+        {
+          "fromKm": 1000,
+          "toKm": 2000,
+          "areaPercent": 19.877995455537782,
+          "rain": 228.6383833253494,
+          "pet": 224.59034726504595,
+          "runoffMm": 51.112558270729465,
+          "desertPercent": 13.435310489836452
+        },
+        {
+          "fromKm": 2000,
+          "toKm": null,
+          "areaPercent": 2.744984329612113,
+          "rain": 190.286009035892,
+          "pet": 248.67461825477628,
+          "runoffMm": 26.625948160400444,
+          "desertPercent": 16.35440068721979
+        }
+      ],
+      "rivers": [
+        {
+          "threshold": 0.01,
+          "segments": 4399,
+          "totalKm": 605390.8624143542,
+          "longestKm": 4131.53957097634,
+          "confluences": 257,
+          "terminals": 617,
+          "maxQ": 52723.877357468715,
+          "cycles": 0
+        },
+        {
+          "threshold": 20,
+          "segments": 3841,
+          "totalKm": 528954.9711025321,
+          "longestKm": 4131.53957097634,
+          "confluences": 221,
+          "terminals": 588,
+          "maxQ": 52723.877357468715,
+          "cycles": 0
+        },
+        {
+          "threshold": 100,
+          "segments": 2217,
+          "totalKm": 306768.68253662146,
+          "longestKm": 3816.6719691970234,
+          "confluences": 116,
+          "terminals": 438,
+          "maxQ": 52723.877357468715,
+          "cycles": 0
+        },
+        {
+          "threshold": 400,
+          "segments": 752,
+          "totalKm": 104127.54672469417,
+          "longestKm": 3114.7164191789666,
+          "confluences": 26,
+          "terminals": 189,
+          "maxQ": 52723.877357468715,
+          "cycles": 0
+        },
+        {
+          "threshold": 1500,
+          "segments": 189,
+          "totalKm": 25937.402505620383,
+          "longestKm": 1910.1705941655007,
+          "confluences": 12,
+          "terminals": 57,
+          "maxQ": 52723.877357468715,
+          "cycles": 0
+        }
+      ]
+    },
+    {
+      "surface": 7,
+      "process": 5,
+      "surfaceCells": 163842,
+      "processCells": 10242,
+      "landAreaPercent": 34.0398969015142,
+      "meanLandHeight": 1598.0650281018347,
+      "landRain": 370.6045489752887,
+      "landPet": 342.5789078132951,
+      "desertPercent": 16.518371195178016,
+      "aridPercent": 17.157493390033213,
+      "runoffAreaPercent": 68.94160932596725,
+      "runoffDepthMm": 84.76693884223461,
+      "runoffTotal": 466375.6239354601,
+      "oceanDischarge": 450543.725917151,
+      "lakeExchange": 15831.898018305987,
+      "lakes": 399,
+      "closedLakes": 80,
+      "meanWind": 7.16758065716272,
+      "atmosphereDtDays": 0.050574896466964066,
+      "atmosphereResidual": 7.778864472863002e-13,
+      "bands": [
+        {
+          "fromKm": 0,
+          "toKm": 300,
+          "areaPercent": 27.950072926232554,
+          "rain": 586.9765761820707,
+          "pet": 498.4108381349029,
+          "runoffMm": 177.4294864972789,
+          "desertPercent": 17.239831196474814
+        },
+        {
+          "fromKm": 300,
+          "toKm": 1000,
+          "areaPercent": 44.37948970342802,
+          "rain": 328.1649583313524,
+          "pet": 318.12620591408484,
+          "runoffMm": 51.82385600820589,
+          "desertPercent": 17.141661243509226
+        },
+        {
+          "fromKm": 1000,
+          "toKm": 2000,
+          "areaPercent": 24.09189670643083,
+          "rain": 224.92619028422592,
+          "pet": 223.61851108927183,
+          "runoffMm": 46.826408155091954,
+          "desertPercent": 14.621363023012519
+        },
+        {
+          "fromKm": 2000,
+          "toKm": null,
+          "areaPercent": 3.578540663908389,
+          "rain": 187.70915804683034,
+          "pet": 229.59044896632926,
+          "runoffMm": 25.002796740362317,
+          "desertPercent": 15.924936832920114
+        }
+      ],
+      "rivers": [
+        {
+          "threshold": 0.01,
+          "segments": 75538,
+          "totalKm": 2598301.2606655527,
+          "longestKm": 3916.8026922087124,
+          "confluences": 4643,
+          "terminals": 3238,
+          "maxQ": 50366.41947146738,
+          "cycles": 0
+        },
+        {
+          "threshold": 20,
+          "segments": 32839,
+          "totalKm": 1131055.7224061973,
+          "longestKm": 3452.265012513227,
+          "confluences": 1247,
+          "terminals": 1877,
+          "maxQ": 50366.41947146738,
+          "cycles": 0
+        },
+        {
+          "threshold": 100,
+          "segments": 10714,
+          "totalKm": 371002.75567179965,
+          "longestKm": 2461.3767590265447,
+          "confluences": 274,
+          "terminals": 805,
+          "maxQ": 50366.41947146738,
+          "cycles": 0
+        },
+        {
+          "threshold": 400,
+          "segments": 2895,
+          "totalKm": 98920.83946432183,
+          "longestKm": 2439.1306872043474,
+          "confluences": 50,
+          "terminals": 282,
+          "maxQ": 50366.41947146738,
+          "cycles": 0
+        },
+        {
+          "threshold": 1500,
+          "segments": 460,
+          "totalKm": 15502.173672115632,
+          "longestKm": 1599.7435084243118,
+          "confluences": 8,
+          "terminals": 49,
+          "maxQ": 50366.41947146738,
+          "cycles": 0
+        }
+      ]
+    },
+    {
+      "surface": 6,
+      "process": 6,
+      "surfaceCells": 40962,
+      "processCells": 40962,
+      "landAreaPercent": 34.00121310044765,
+      "meanLandHeight": 1644.3461362452226,
+      "landRain": 372.928971299959,
+      "landPet": 345.9720848169251,
+      "desertPercent": 18.293507461907893,
+      "aridPercent": 18.80850418384923,
+      "runoffAreaPercent": 67.38188822512386,
+      "runoffDepthMm": 85.45559189198389,
+      "runoffTotal": 469630.18808727775,
+      "oceanDischarge": 465342.0987253148,
+      "lakeExchange": 4288.089361962716,
+      "lakes": 70,
+      "closedLakes": 13,
+      "meanWind": 7.122744512675797,
+      "atmosphereDtDays": 0.023611943289818693,
+      "atmosphereResidual": 2.1319257816734812e-11,
+      "bands": [
+        {
+          "fromKm": 0,
+          "toKm": 300,
+          "areaPercent": 31.79705073083321,
+          "rain": 585.6836793951377,
+          "pet": 499.89787444007436,
+          "runoffMm": 175.30541847990406,
+          "desertPercent": 19.96058733752874
+        },
+        {
+          "fromKm": 300,
+          "toKm": 1000,
+          "areaPercent": 44.480631175157484,
+          "rain": 319.85711931134136,
+          "pet": 317.80777330368926,
+          "runoffMm": 53.2567256710982,
+          "desertPercent": 18.492223834800427
+        },
+        {
+          "fromKm": 1000,
+          "toKm": 2000,
+          "areaPercent": 20.707264041903965,
+          "rain": 188.96189434179982,
+          "pet": 197.10608706394572,
+          "runoffMm": 26.153039472846867,
+          "desertPercent": 16.646126746580535
+        },
+        {
+          "fromKm": 2000,
+          "toKm": null,
+          "areaPercent": 3.015054052105276,
+          "rain": 175.63634418022747,
+          "pet": 160.5650384703597,
+          "runoffMm": 20.203033615650554,
+          "desertPercent": 9.094831372047311
+        }
+      ],
+      "rivers": [
+        {
+          "threshold": 0.01,
+          "segments": 18065,
+          "totalKm": 1243126.0070805333,
+          "longestKm": 4300.5601060049985,
+          "confluences": 944,
+          "terminals": 1263,
+          "maxQ": 18518.004097722147,
+          "cycles": 0
+        },
+        {
+          "threshold": 20,
+          "segments": 12712,
+          "totalKm": 876435.45075999,
+          "longestKm": 3742.263384999673,
+          "confluences": 628,
+          "terminals": 1070,
+          "maxQ": 18518.004097722147,
+          "cycles": 0
+        },
+        {
+          "threshold": 100,
+          "segments": 5269,
+          "totalKm": 364715.0112265942,
+          "longestKm": 3202.1552145064193,
+          "confluences": 219,
+          "terminals": 629,
+          "maxQ": 18518.004097722147,
+          "cycles": 0
+        },
+        {
+          "threshold": 400,
+          "segments": 1654,
+          "totalKm": 115611.10230187002,
+          "longestKm": 2982.024417731473,
+          "confluences": 50,
+          "terminals": 267,
+          "maxQ": 18518.004097722147,
+          "cycles": 0
+        },
+        {
+          "threshold": 1500,
+          "segments": 254,
+          "totalKm": 17428.47366531071,
+          "longestKm": 2478.0443911504267,
+          "confluences": 4,
+          "terminals": 49,
+          "maxQ": 18518.004097722147,
+          "cycles": 0
+        }
+      ]
+    }
+  ],
+  "finalHighProcessTiming": {
+    "version": "2.1.0",
+    "elapsed": 100829.09617799999,
+    "atmosphereResidual": 2.1319257816734812e-11,
+    "timings": [
+      {
+        "name": "Simulation grid",
+        "ms": 200.42530299999999
+      },
+      {
+        "name": "Surface grid",
+        "ms": 0.047404000000028645
+      },
+      {
+        "name": "Spatial transfer",
+        "ms": 0.827684999999974
+      },
+      {
+        "name": "Plates & tectonics",
+        "ms": 184.52369400000003
+      },
+      {
+        "name": "Terrain & oceans",
+        "ms": 131.245403
+      },
+      {
+        "name": "Seasonal climate",
+        "ms": 50745.064844
+      },
+      {
+        "name": "Land water budget",
+        "ms": 45.277610999997705
+      },
+      {
+        "name": "Rivers & reservoirs",
+        "ms": 50.6131549999991
+      },
+      {
+        "name": "Erosion & sediment",
+        "ms": 9.254402999999002
+      },
+      {
+        "name": "Final climate",
+        "ms": 49221.17981
+      },
+      {
+        "name": "Final water & drainage",
+        "ms": 64.49733999998716
+      },
+      {
+        "name": "Biomes & ecology",
+        "ms": 8.617136999993818
+      },
+      {
+        "name": "Publish world",
+        "ms": 0.9304440000123577
+      }
+    ]
+  }
+}

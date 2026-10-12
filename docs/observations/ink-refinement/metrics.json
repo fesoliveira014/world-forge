@@ -1,0 +1,26 @@
+{
+  "surfaceCells": 10242,
+  "processCells": 642,
+  "before": {
+    "count": 1078,
+    "hills": 354,
+    "mountains": 659,
+    "forest": 65,
+    "mountainWidths": [
+      0.038253566890605724,
+      0.04452606470603496,
+      0.05172556205419823
+    ]
+  },
+  "after": {
+    "count": 205,
+    "hills": 28,
+    "mountains": 130,
+    "forest": 47,
+    "mountainWidths": [
+      0.04390613041824153,
+      0.05804709882759514,
+      0.09577571096648722
+    ]
+  }
+}

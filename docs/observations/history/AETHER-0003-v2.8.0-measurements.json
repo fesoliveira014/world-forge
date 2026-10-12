@@ -1,0 +1,109 @@
+{
+  "summary": {
+    "elapsed": 105863.537434,
+    "bytes": 487585738,
+    "channels": 39363,
+    "coastEnds": 853,
+    "lakeEnds": 520,
+    "dryEnds": 0,
+    "unselectedEnds": 0,
+    "meanError": 5.7646729354995786e-08,
+    "oceanDifference": 2.3283064365386963e-10,
+    "bad": []
+  },
+  "details": {
+    "version": "2.8.0",
+    "timings": [
+      {
+        "name": "Simulation grid",
+        "ms": 202.503667
+      },
+      {
+        "name": "Surface grid",
+        "ms": 2582.720098
+      },
+      {
+        "name": "Spatial transfer",
+        "ms": 41.789894000000004
+      },
+      {
+        "name": "Plates & tectonics",
+        "ms": 148.85687400000006
+      },
+      {
+        "name": "Crust evolution",
+        "ms": 7701.938103
+      },
+      {
+        "name": "Terrain & oceans",
+        "ms": 1985.8421600000001
+      },
+      {
+        "name": "Seasonal climate",
+        "ms": 45768.505380999995
+      },
+      {
+        "name": "Land water budget",
+        "ms": 275.5087300000014
+      },
+      {
+        "name": "Rivers & reservoirs",
+        "ms": 586.9991070000033
+      },
+      {
+        "name": "Landscape erosion & sediment",
+        "ms": 946.812758
+      },
+      {
+        "name": "Final climate",
+        "ms": 43966.53071300001
+      },
+      {
+        "name": "Final water & drainage",
+        "ms": 620.6218579999986
+      },
+      {
+        "name": "Headwaters & channels",
+        "ms": 374.1233860000066
+      },
+      {
+        "name": "Biomes & ecology",
+        "ms": 120.81370999998762
+      },
+      {
+        "name": "Publish world",
+        "ms": 1.7464190000027884
+      }
+    ],
+    "largestPreviouslyHiddenMouth": {
+      "c": 1190620,
+      "to": 1190614,
+      "flow": 11765.550511712856,
+      "wetFraction": 1,
+      "lake": {
+        "id": 1240,
+        "outlet": 1240977,
+        "spill": 257.6632995605469,
+        "capacity": 1849112272709.9429,
+        "storage": 1781515.6875,
+        "level": 256.43768310546875,
+        "area": 1318453824525.8713,
+        "inflow": 27389.44565975553,
+        "outflow": 0,
+        "evaporation": 38920.48042172967,
+        "directRain": 13565.923237595356,
+        "displacedRunoff": 2034.888475621116,
+        "kind": "closed"
+      }
+    },
+    "bankAreaKm2": 1149645.1129898287,
+    "floodAreaKm2": 39789.37037621668,
+    "bankShare": 0.007197233159558682,
+    "habitats": [
+      7200,
+      12740,
+      58781,
+      5
+    ]
+  }
+}

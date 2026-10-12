@@ -1,0 +1,174 @@
+{
+  "scope": "Single-run headless measurements of the uploaded TypeScript core; not browser, native, or optimized-implementation benchmarks",
+  "runs": [
+    {
+      "subdivision": 6,
+      "seedText": "tectonic-regression",
+      "cells": 40962,
+      "timesMs": {
+        "grid": 271.96281400000004,
+        "tectonics": 292.723097,
+        "topography": 178.18429100000003,
+        "climate_preliminary": 3818.8238330000004,
+        "hydrology_preliminary": 108.34986099999969,
+        "erosion": 17.855248000000756,
+        "refresh_oceans": 42.6191859999999,
+        "climate_final": 3661.5228309999993,
+        "hydrology_final": 95.85685399999966,
+        "ecology": 5.852671000000555
+      },
+      "totalGenerationMs": 8502.822827999998,
+      "typedBytes": {
+        "grid": 12656762,
+        "tectonics": 1802706,
+        "topography": 1065012,
+        "climate": 8847792,
+        "hydrology": 1519210,
+        "ecology": 286734
+      },
+      "persistentTypedMiB": 24.965492248535156,
+      "gridDiagnostics": {
+        "rejectedJitterSites": 0,
+        "areaCoefficientOfVariation": 0.11899156342770259,
+        "areaRatioP05": 0.8310059309005737,
+        "areaRatioP95": 1.2251132726669312,
+        "areaSumError": 0.00019158939620998353,
+        "minDegree": 5,
+        "maxDegree": 6
+      },
+      "componentsPerPlate": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "climate": {
+        "meanRainMm": 1020.6728242861354,
+        "meanTempC": 15.504483348605959
+      },
+      "hydrology": {
+        "totalRunoffRaw": 588812.8907579184,
+        "riverSegments": 226,
+        "classifiedLakeCells": 417
+      },
+      "memory": {
+        "rss": 128909312,
+        "heapTotal": 27684864,
+        "heapUsed": 15527952,
+        "external": 38419494,
+        "arrayBuffers": 36638073
+      },
+      "node": "v22.16.0"
+    },
+    {
+      "subdivision": 7,
+      "seedText": "tectonic-regression",
+      "cells": 163842,
+      "timesMs": {
+        "grid": 640.597638,
+        "tectonics": 820.0767239999999,
+        "topography": 631.2293100000002,
+        "climate_preliminary": 12786.605013,
+        "hydrology_preliminary": 372.9408540000004,
+        "erosion": 41.691226999999344,
+        "refresh_oceans": 125.61524099999951,
+        "climate_final": 12640.687183999999,
+        "hydrology_final": 374.5607940000009,
+        "ecology": 11.442681000000448
+      },
+      "totalGenerationMs": 28454.358191,
+      "typedBytes": {
+        "grid": 50626682,
+        "tectonics": 7209426,
+        "topography": 4259892,
+        "climate": 35389872,
+        "hydrology": 6076378,
+        "ecology": 1146894
+      },
+      "persistentTypedMiB": 99.8584213256836,
+      "gridDiagnostics": {
+        "rejectedJitterSites": 0,
+        "areaCoefficientOfVariation": 0.11990390570925098,
+        "areaRatioP05": 0.8308667540550232,
+        "areaRatioP95": 1.2279590368270874,
+        "areaSumError": 0.0002232174892578662,
+        "minDegree": 5,
+        "maxDegree": 6
+      },
+      "componentsPerPlate": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "climate": {
+        "meanRainMm": 944.3209571988706,
+        "meanTempC": 15.418201980125191
+      },
+      "hydrology": {
+        "totalRunoffRaw": 1660752.863388978,
+        "riverSegments": 889,
+        "classifiedLakeCells": 1281
+      },
+      "memory": {
+        "rss": 316604416,
+        "heapTotal": 53755904,
+        "heapUsed": 18801256,
+        "external": 153699220,
+        "arrayBuffers": 151920231
+      },
+      "node": "v22.16.0"
+    }
+  ],
+  "geometry_probes": [
+    {
+      "sub": 6,
+      "cells": 40962,
+      "edges": 122880,
+      "localConvexityViolationsOver1e9": 125,
+      "positiveNearTolerance": 0,
+      "maxSignedDistanceFromAdjacentFaceUnitSphere": 4.9926078778938914e-05
+    },
+    {
+      "sub": 7,
+      "cells": 163842,
+      "edges": 491520,
+      "localConvexityViolationsOver1e9": 562,
+      "positiveNearTolerance": 0,
+      "maxSignedDistanceFromAdjacentFaceUnitSphere": 1.2541539225445258e-05
+    }
+  ],
+  "input_sha256": {
+    "worldbuilding-planet-generator-source.zip": "f73687e4e42dad83d8629ff095d4837937f470c8742b95001cabc76ec8dabff4",
+    "ARCHITECTURE_CHANGES.md": "8eb949727f134e4c9260180297a3d5ccbcb036767c31ba85e8f22b040d4b3ffa",
+    "worldbuilding_planet_generator_architecture.md": "ab853dd0c3a58f5ab9f84c2425146ecf310d82c14ef5145c88308503289a5054"
+  }
+}

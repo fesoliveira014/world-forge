@@ -1,0 +1,85 @@
+{
+  "config": {
+    "seed": "AETHER-0004",
+    "surfaceLevel": 8,
+    "processLevel": 6,
+    "irregularity": 0.65,
+    "plates": 18,
+    "oceanFraction": 0.66,
+    "exposure": 1,
+    "temperature": 15,
+    "obliquity": 23.4,
+    "erosion": 0.35,
+    "radius": 6371000,
+    "continentScale": 1,
+    "reliefScale": 1,
+    "tectonicWidth": 1,
+    "tectonicDuration": 200,
+    "plateSpeed": 3,
+    "volcanicActivity": 1,
+    "hotspotCount": 8,
+    "waveErosion": 1,
+    "windErosion": 1,
+    "lakePersistence": 0.35,
+    "windStrength": 1.8,
+    "circulationScale": 1,
+    "currentStrength": 1,
+    "evaporationScale": 1.5,
+    "moistureLifetime": 18,
+    "moistureMixing": 800000,
+    "orographicStrength": 0.8,
+    "recycling": 0.65,
+    "soilCapacity": 140,
+    "infiltration": 0.85,
+    "riverSourceArea": 8000,
+    "riverSourceFlow": 1,
+    "floodplainExtent": 1,
+    "fluvialDuration": 1,
+    "bankMobility": 1,
+    "depositFrequency": 1,
+    "depositAmount": 1
+  },
+  "surfaceCells": 655362,
+  "processCells": 40962,
+  "counts": {
+    "copper": 29,
+    "tin": 9,
+    "iron": 185,
+    "gold": 11,
+    "corundum": 6
+  },
+  "resourceStage": {
+    "name": "Minerals & fertility",
+    "ms": 189.04711999998835
+  },
+  "fullGenerationMs": 102314.35968499999,
+  "fertilityMiB": 2.5000076293945312,
+  "retainedBufferMiB": 508.8339042663574,
+  "meanLandFertility": 25.3979235602581,
+  "maximumFertility": 88.90859985351562,
+  "riverCorridor": {
+    "cell": 492941,
+    "regional": 17.707315989219826,
+    "corridor": 74.99278076214381,
+    "corridorMean": 54.94286809162041,
+    "coverage": 0.09308479726314545,
+    "cellScore": 21.173379807653074,
+    "gain": 57.28546477292399
+  },
+  "geometry": [
+    {
+      "projection": "globe",
+      "ms": 12.59800900000846,
+      "vertices": 1088
+    },
+    {
+      "projection": "map",
+      "ms": 10.52058899999247,
+      "vertices": 3136
+    }
+  ],
+  "checks": {
+    "fertilityBounded": true,
+    "waterAndIceExcluded": true
+  }
+}

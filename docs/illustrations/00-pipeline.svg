@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="936pt" height="576pt" viewBox="0 0 936 576" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-09-07T10:06:56.273200</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.8, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 576 
+L 936 576 
+L 936 0 
+L 0 0 
+z
+" style="fill: #f6f3e9"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 51.2064 186.012 
+L 297.2736 186.012 
+Q 305.568 186.012 305.568 178.4952 
+L 305.568 96.4368 
+Q 305.568 88.92 297.2736 88.92 
+L 51.2064 88.92 
+Q 42.912 88.92 42.912 96.4368 
+L 42.912 178.4952 
+Q 42.912 186.012 51.2064 186.012 
+z
+" clip-path="url(#pdfdba0ed82)" style="fill: #e0eee7; stroke: #14899a; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 344.9664 186.012 
+L 591.0336 186.012 
+Q 599.328 186.012 599.328 178.4952 
+L 599.328 96.4368 
+Q 599.328 88.92 591.0336 88.92 
+L 344.9664 88.92 
+Q 336.672 88.92 336.672 96.4368 
+L 336.672 178.4952 
+Q 336.672 186.012 344.9664 186.012 
+z
+" clip-path="url(#pdfdba0ed82)" style="fill: #e0eee7; stroke: #14899a; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 638.7264 186.012 
+L 884.7936 186.012 
+Q 893.088 186.012 893.088 178.4952 
+L 893.088 96.4368 
+Q 893.088 88.92 884.7936 88.92 
+L 638.7264 88.92 
+Q 630.432 88.92 630.432 96.4368 
+L 630.432 178.4952 
+Q 630.432 186.012 638.7264 186.012 
+z
+" clip-path="url(#pdfdba0ed82)" style="fill: #e0eee7; stroke: #14899a; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 638.7264 342.612 
+L 884.7936 342.612 
+Q 893.088 342.612 893.088 335.0952 
+L 893.088 253.0368 
+Q 893.088 245.52 884.7936 245.52 
+L 638.7264 245.52 
+Q 630.432 245.52 630.432 253.0368 
+L 630.432 335.0952 
+Q 630.432 342.612 638.7264 342.612 
+z
+" clip-path="url(#pdfdba0ed82)" style="fill: #eae6d6; stroke: #bb8736; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 344.9664 342.612 
+L 591.0336 342.612 
+Q 599.328 342.612 599.328 335.0952 
+L 599.328 253.0368 
+Q 599.328 245.52 591.0336 245.52 
+L 344.9664 245.52 
+Q 336.672 245.52 336.672 253.0368 
+L 336.672 335.0952 
+Q 336.672 342.612 344.9664 342.612 
+z
+" clip-path="url(#pdfdba0ed82)" style="fill: #eae6d6; stroke: #bb8736; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 51.2064 342.612 
+L 297.2736 342.612 
+Q 305.568 342.612 305.568 335.0952 
+L 305.568 253.0368 
+Q 305.568 245.52 297.2736 245.52 
+L 51.2064 245.52 
+Q 42.912 245.52 42.912 253.0368 
+L 42.912 335.0952 
+Q 42.912 342.612 51.2064 342.612 
+z
+" clip-path="url(#pdfdba0ed82)" style="fill: #eae6d6; stroke: #bb8736; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 51.2064 499.212 
+L 297.2736 499.212 
+Q 305.568 499.212 305.568 491.6952 
+L 305.568 409.6368 
+Q 305.568 402.12 297.2736 402.12 
+L 51.2064 402.12 
+Q 42.912 402.12 42.912 409.6368 
+L 42.912 491.6952 
+Q 42.912 499.212 51.2064 499.212 
+z
+" clip-path="url(#pdfdba0ed82)" style="fill: #e0eee7; stroke: #14899a; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 344.9664 499.212 
+L 591.0336 499.212 
+Q 599.328 499.212 599.328 491.6952 
+L 599.328 409.6368 
+Q 599.328 402.12 591.0336 402.12 
+L 344.9664 402.12 
+Q 336.672 402.12 336.672 409.6368 
+L 336.672 491.6952 
+Q 336.672 499.212 344.9664 499.212 
+z
+" clip-path="url(#pdfdba0ed82)" style="fill: #e0eee7; stroke: #14899a; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 638.7264 499.212 
+L 884.7936 499.212 
+Q 893.088 499.212 893.088 491.6952 
+L 893.088 409.6368 
+Q 893.088 402.12 884.7936 402.12 
+L 638.7264 402.12 
+Q 630.432 402.12 630.432 409.6368 
+L 630.432 491.6952 
+Q 630.432 499.212 638.7264 499.212 
+z
+" clip-path="url(#pdfdba0ed82)" style="fill: #e0eee7; stroke: #14899a; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 310.333922 137.466 
+Q 321.120596 137.466 330.342022 137.466 
+" clip-path="url(#pdfdba0ed82)" style="fill: none; stroke: #203e47; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 325.142022 134.866 
+L 330.342022 137.466 
+L 325.142022 140.066 
+z
+" clip-path="url(#pdfdba0ed82)" style="fill: #203e47; stroke: #203e47; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 604.093922 137.466 
+Q 614.880596 137.466 624.102022 137.466 
+" clip-path="url(#pdfdba0ed82)" style="fill: none; stroke: #203e47; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 618.902022 134.866 
+L 624.102022 137.466 
+L 618.902022 140.066 
+z
+" clip-path="url(#pdfdba0ed82)" style="fill: #203e47; stroke: #203e47; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 761.76 189.888576 
+Q 761.76 215.765692 761.76 240.07756 
+" clip-path="url(#pdfdba0ed82)" style="fill: none; stroke: #203e47; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 764.36 234.87756 
+L 761.76 240.07756 
+L 759.16 234.87756 
+z
+" clip-path="url(#pdfdba0ed82)" style="fill: #203e47; stroke: #203e47; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 625.666078 294.066 
+Q 614.879404 294.066 605.657978 294.066 
+" clip-path="url(#pdfdba0ed82)" style="fill: none; stroke: #203e47; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 610.857978 296.666 
+L 605.657978 294.066 
+L 610.857978 291.466 
+z
+" clip-path="url(#pdfdba0ed82)" style="fill: #203e47; stroke: #203e47; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 331.906078 294.066 
+Q 321.119404 294.066 311.897978 294.066 
+" clip-path="url(#pdfdba0ed82)" style="fill: none; stroke: #203e47; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 317.097978 296.666 
+L 311.897978 294.066 
+L 317.097978 291.466 
+z
+" clip-path="url(#pdfdba0ed82)" style="fill: #203e47; stroke: #203e47; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 174.24 346.488576 
+Q 174.24 372.365692 174.24 396.67756 
+" clip-path="url(#pdfdba0ed82)" style="fill: none; stroke: #203e47; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 176.84 391.47756 
+L 174.24 396.67756 
+L 171.64 391.47756 
+z
+" clip-path="url(#pdfdba0ed82)" style="fill: #203e47; stroke: #203e47; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_17">
+    <path d="M 310.333922 450.666 
+Q 321.120596 450.666 330.342022 450.666 
+" clip-path="url(#pdfdba0ed82)" style="fill: none; stroke: #203e47; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 325.142022 448.066 
+L 330.342022 450.666 
+L 325.142022 453.266 
+z
+" clip-path="url(#pdfdba0ed82)" style="fill: #203e47; stroke: #203e47; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="patch_18">
+    <path d="M 604.093922 450.666 
+Q 614.880596 450.666 624.102022 450.666 
+" clip-path="url(#pdfdba0ed82)" style="fill: none; stroke: #203e47; stroke-width: 1.4; stroke-linecap: round"/>
+    <path d="M 618.902022 448.066 
+L 624.102022 450.666 
+L 618.902022 453.266 
+z
+" clip-path="url(#pdfdba0ed82)" style="fill: #203e47; stroke: #203e47; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203e47" x="58.8096" y="118.890512" transform="rotate(-0 58.8096 118.890512)">01–03  Spatial foundation</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #203e47" transform="translate(58.8096 140.310381)">Process + surface grids</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #203e47" transform="translate(58.8096 154.547569)">Transfer and physical metrics</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203e47" x="352.5696" y="118.847544" transform="rotate(-0 352.5696 118.847544)">04–06  Geological world</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #203e47" transform="translate(352.5696 140.310381)">Plates, crust motion, volcanism</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #203e47" transform="translate(352.5696 154.547569)">Terrain and connected ocean</text>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203e47" x="646.3296" y="118.890512" transform="rotate(-0 646.3296 118.890512)">07–08  Provisional climate</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #203e47" transform="translate(646.3296 140.310381)">Four seasonal climates</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #203e47" transform="translate(646.3296 154.547569)">Soil, snow, runoff, AET</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203e47" x="646.3296" y="275.490512" transform="rotate(-0 646.3296 275.490512)">09–10  Mature terrain</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #203e47" transform="translate(646.3296 296.910381)">Regional weathering + sediment</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #203e47" transform="translate(646.3296 311.147569)">Then rivers and reservoirs</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203e47" x="352.5696" y="275.447544" transform="rotate(-0 352.5696 275.447544)">11  Recent river shaping</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #203e47" transform="translate(352.5696 296.910381)">Cutoff remnants + incision</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #203e47" transform="translate(352.5696 311.147569)">Sediment and mouth fans</text>
+   </g>
+   <g id="text_11">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203e47" x="58.8096" y="275.490512" transform="rotate(-0 58.8096 275.490512)">12  Final climate</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #203e47" transform="translate(58.8096 296.910381)">Changed terrain and coasts</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #203e47" transform="translate(58.8096 311.147569)">Bounded moisture recycling</text>
+   </g>
+   <g id="text_13">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203e47" x="58.8096" y="432.090512" transform="rotate(-0 58.8096 432.090512)">13–14  Final water</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #203e47" transform="translate(58.8096 453.510381)">Pool / soil / snow budgets</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #203e47" transform="translate(58.8096 467.747569)">Routing, channels, source mixes</text>
+   </g>
+   <g id="text_15">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203e47" x="352.5696" y="432.090512" transform="rotate(-0 352.5696 432.090512)">15  River landforms</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #203e47" transform="translate(352.5696 453.510381)">Shared curved courses</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #203e47" transform="translate(352.5696 467.747569)">Terminal delta partitions</text>
+   </g>
+   <g id="text_17">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203e47" x="646.3296" y="432.047544" transform="rotate(-0 646.3296 432.047544)">16–17  Ecology + snapshot</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #203e47" transform="translate(646.3296 453.510381)">Biomes, riverbanks, wetlands</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #203e47" transform="translate(646.3296 467.747569)">Transfer final world to views</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #697975" x="46.368" y="528.6528" transform="rotate(-0 46.368 528.6528)">Default: 17 reported stages. Gold cards contain optional work; disabled stages are skipped.</text>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #697975" x="46.368" y="550.5768" transform="rotate(-0 46.368 550.5768)">At most one final climate / water / drainage refresh. Recent river shaping uses at most twelve internal steps.</text>
+   </g>
+  </g>
+  <g id="text_21">
+   <text style="font-weight: 700; font-size: 20px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #203e47" x="46.8" y="32.476875" transform="rotate(-0 46.8 32.476875)">One bounded generation pipeline</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pdfdba0ed82">
+   <rect x="18.72" y="57.6" width="898.56" height="501.12"/>
+  </clipPath>
+ </defs>
+</svg>

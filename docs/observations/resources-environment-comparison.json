@@ -1,0 +1,12 @@
+{
+  "seed": "AETHER-0003",
+  "surfaceCells": 10242,
+  "baselineHash": "50f9f1bae189781757bf2fd4745cee458771c7d5ad623f4255eacb0a2639e601",
+  "revisedHash": "50f9f1bae189781757bf2fd4745cee458771c7d5ad623f4255eacb0a2639e601",
+  "environmentIdentical": true,
+  "deposits": 337,
+  "stage": {
+    "name": "Minerals & fertility",
+    "ms": 16.118533999999272
+  }
+}

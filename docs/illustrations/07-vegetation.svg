@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="490" viewBox="0 0 1200 490" role="img"><title>Alluvial habitat, seasonal inundation, and local vegetation</title><style>text{font-family:system-ui,sans-serif;fill:#20394b} .title{font-size:26px;font-weight:700}.sub{font-size:14px;fill:#5d7280}.label{font-size:17px;font-weight:650}.small{font-size:13px} .panel{fill:#f3f7f7;stroke:#d9e2e6} .axis{stroke:#7f969f;stroke-width:1.5}</style>
+<rect width="1200" height="490" fill="white"/><text x="28" y="40" class="title">River corridors: water supply, valley shape, local habitat</text>
+<text x="28" y="66" class="sub">Teaching schematic · widths and flood thresholds are uncalibrated worldbuilding estimates</text>
+<rect x="28" y="91" width="352" height="320" rx="12" class="panel"/><rect x="400" y="91" width="372" height="320" rx="12" class="panel"/><rect x="792" y="91" width="380" height="320" rx="12" class="panel"/>
+<text x="49" y="123" class="label">1. Seasonal discharge</text>
+<path d="M65 323H348M65 159V323" class="axis" fill="none"/>
+<rect x="95" y="267" width="38" height="56" fill="#78a9b2"/><rect x="155" y="244" width="38" height="79" fill="#78a9b2"/><rect x="215" y="169" width="38" height="154" fill="#36a7be"/><rect x="275" y="285" width="38" height="38" fill="#78a9b2"/>
+<path d="M65 230H348" stroke="#b68a41" stroke-width="2" stroke-dasharray="5 4"/><text x="77" y="221" class="small">Estimated bankfull</text>
+<text x="99" y="345" class="small">S1</text><text x="159" y="345" class="small">S2</text><text x="219" y="345" class="small">S3</text><text x="279" y="345" class="small">S4</text>
+<text x="49" y="377" class="small">Rain + snowmelt + soil drainage</text><text x="49" y="396" class="small">Lakes buffer the seasonal release</text>
+<text x="421" y="123" class="label">2. Accessible valley floor</text>
+<path d="M422 236L463 250L510 278L563 285L581 305L600 305L615 285L646 272L670 177L750 159V345H422Z" fill="#c8b588"/>
+<path d="M510 278H644L615 285L600 305H581L563 285Z" fill="#a0d3d2"/>
+<path d="M578 299H604L600 305H581Z" fill="#2794b5"/>
+<path d="M466 252L510 278L563 285M615 285L646 272" stroke="#4c8a58" stroke-width="7" fill="none"/>
+<text x="437" y="185" class="small">Broad low bank</text><path d="M500 192L529 270" stroke="#829798" fill="none"/>
+<text x="659" y="144" class="small">High terrace</text>
+<text x="421" y="377" class="small">Slow drainage widens seasonal inundation</text><text x="421" y="396" class="small">Lowland alluvium supports a persistent belt</text>
+<text x="813" y="123" class="label">3. Vegetation fades outward</text>
+<path d="M833 323H1143M833 159V323" class="axis" fill="none"/>
+<path d="M842 172H931C1005 172 1035 305 1138 305L1138 323H842Z" fill="#bed5ac"/>
+<path d="M842 172H931C1005 172 1035 305 1138 305" stroke="#367755" stroke-width="4" fill="none"/>
+<path d="M833 305H1143" stroke="#b68a41" stroke-dasharray="5 4"/>
+<text x="849" y="158" class="small">Persistent productive core</text><text x="982" y="294" class="small">Regional background</text>
+<text x="834" y="345" class="small">Channel</text><text x="1076" y="345" class="small">Upland</text>
+<text x="813" y="377" class="small">Meadow · woodland · floodplain wetland</text><text x="813" y="396" class="small">The surrounding desert stays desert</text>
+<text x="28" y="452" class="sub">Physical coverage is area-weighted. Display strips are widened for visibility; flood indices are potential, not probability.</text>
+</svg>

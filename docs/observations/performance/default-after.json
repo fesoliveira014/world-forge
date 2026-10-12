@@ -1,0 +1,119 @@
+{
+  "name": "after",
+  "config": {
+    "seed": "AETHER-2408",
+    "surfaceLevel": 5,
+    "processLevel": 5,
+    "irregularity": 0.65,
+    "plates": 18,
+    "oceanFraction": 0.66,
+    "exposure": 1,
+    "temperature": 15,
+    "obliquity": 23.4,
+    "erosion": 0.35,
+    "radius": 6371000,
+    "continentScale": 1,
+    "reliefScale": 1,
+    "tectonicWidth": 1,
+    "tectonicDuration": 200,
+    "plateSpeed": 3,
+    "volcanicActivity": 1,
+    "hotspotCount": 8,
+    "waveErosion": 1,
+    "windErosion": 1,
+    "lakePersistence": 0.35,
+    "windStrength": 1.8,
+    "circulationScale": 1,
+    "currentStrength": 1,
+    "evaporationScale": 1.5,
+    "moistureLifetime": 18,
+    "moistureMixing": 800000,
+    "orographicStrength": 0.8,
+    "recycling": 0.65,
+    "soilCapacity": 140,
+    "infiltration": 0.85,
+    "riverSourceArea": 8000,
+    "riverSourceFlow": 1,
+    "floodplainExtent": 1,
+    "fluvialDuration": 1,
+    "bankMobility": 1,
+    "depositFrequency": 1,
+    "depositAmount": 1
+  },
+  "elapsed": 12809.622945,
+  "stages": [
+    {
+      "name": "Simulation grid",
+      "ms": 261.3296260000002
+    },
+    {
+      "name": "Surface grid",
+      "ms": 0.12782700000002478
+    },
+    {
+      "name": "Spatial transfer",
+      "ms": 1.0545759999999973
+    },
+    {
+      "name": "Plates & tectonics",
+      "ms": 200.90286700000001
+    },
+    {
+      "name": "Crust evolution",
+      "ms": 3520.584905
+    },
+    {
+      "name": "Terrain & oceans",
+      "ms": 136.95910300000014
+    },
+    {
+      "name": "Seasonal climate",
+      "ms": 3820.9966890000005
+    },
+    {
+      "name": "Land water budget",
+      "ms": 147.10440600000038
+    },
+    {
+      "name": "Landscape weathering & sediment",
+      "ms": 200.8144400000001
+    },
+    {
+      "name": "Rivers & reservoirs",
+      "ms": 100.65016199999991
+    },
+    {
+      "name": "River landscape evolution",
+      "ms": 92.896827999999
+    },
+    {
+      "name": "Final climate",
+      "ms": 3699.0816510000004
+    },
+    {
+      "name": "Final water & drainage",
+      "ms": 154.82136099999843
+    },
+    {
+      "name": "Headwaters & channels",
+      "ms": 43.96042099999977
+    },
+    {
+      "name": "River courses & deltas",
+      "ms": 107.41508799999974
+    },
+    {
+      "name": "Biomes & ecology",
+      "ms": 118.53466600000138
+    },
+    {
+      "name": "Minerals & fertility",
+      "ms": 75.9846149999994
+    },
+    {
+      "name": "Publish world",
+      "ms": 2.539792999999918
+    }
+  ],
+  "bytes": 11412830
+}

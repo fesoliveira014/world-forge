@@ -1,0 +1,8 @@
+{
+  "scope": "Level 7 grid and 30 conservative CFL transport steps, including a shortened final step; not a full world generation at process level 7",
+  "cells": 163842,
+  "areaError": 3.907985046680551e-14,
+  "timeStepSeconds": 366.4271348869436,
+  "relativeInventoryResidual": 4.78646599449312e-15,
+  "elapsed": 3007.843825
+}
