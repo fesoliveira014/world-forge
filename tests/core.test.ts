@@ -268,7 +268,8 @@ test('outlet incision creates a descending escape channel while resistant basins
   // Ocean -> sill -> lake floor -> upland. Triples isolate each corner's terrain sample.
   const grid = {
     count: 4,
-    corners: new Float64Array(12),
+    positions: Float64Array.from({ length: 12 }, (_, index) => +(index % 3 === 0)),
+    corners: Float64Array.from({ length: 12 }, (_, index) => +(index % 3 === 0)),
     triangles: new Uint32Array([0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3]),
     cornerNeighbors: new Uint32Array([0, 1, 0, 0, 2, 1, 1, 3, 2, 2, 3, 3]),
     cornerEdges: new Uint32Array(12),
@@ -509,6 +510,8 @@ test('supported headwaters merge, cross a dry valley and spilling lake, and feed
 
   const grid = {
     count: 9,
+    positions: Float64Array.from({ length: 27 }, (_, index) => +(index % 3 === 0)),
+    corners: Float64Array.from({ length: 27 }, (_, index) => +(index % 3 === 0)),
     offsets: Uint32Array.from({ length: 10 }, (_, i) => i),
     cellCorners: Uint32Array.from({ length: 9 }, (_, i) => i),
     areas: Float64Array.from(
@@ -865,6 +868,10 @@ test('a perched pond spills into a closed lower lake without losing its channel'
 test('an unresolved flat lake has an area-preserving shore and exposed flats drain into it', () => {
   const grid = {
     count: 5,
+    positions: Float64Array.from({ length: 15 }, (_, index) => +(index % 3 === 0)),
+    corners: Float64Array.from({ length: 15 }, (_, index) => +(index % 3 === 0)),
+    triangles: Uint32Array.from({ length: 15 }, (_, index) => Math.floor(index / 3)),
+    areas: new Float64Array(5).fill(1),
     offsets: new Uint32Array([0, 1, 2, 3, 4, 5]),
     cellCorners: new Uint32Array([0, 1, 2, 3, 4]),
     cornerNeighbors: new Uint32Array([0, 0, 0, 1, 2, 1, 1, 3, 2, 2, 4, 3, 3, 4, 4]),

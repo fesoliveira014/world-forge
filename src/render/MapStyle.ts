@@ -1,8 +1,10 @@
+import { denseSurfaceShader } from './DenseSurface';
 import * as THREE from 'three';
 import { createSeededRandom } from '../core/math';
 import { BANK_SHADER } from './RiverbankTexture';
+import { FANTASY_PALETTES, isFantasyMapStyle, type FantasyMapStyle } from './FantasyStyle';
 
-export type MapStyle = 'natural' | 'relief' | 'illustrated';
+export type MapStyle = 'natural' | 'relief' | 'heightmap' | 'illustrated' | FantasyMapStyle;
 
 export const MAP_STYLES: { id: MapStyle; name: string; description: string; stops?: string[] }[] = [
   { id: 'natural', name: 'Natural', description: 'Seasonal terrain, water, and vegetation.' },
@@ -13,10 +15,34 @@ export const MAP_STYLES: { id: MapStyle; name: string; description: string; stop
     description: 'Sculpted terrain, shaded slopes, and blue waterways.',
   },
   {
+    id: 'heightmap',
+    name: 'Heightmap',
+    stops: ['#000000', '#ffffff'],
+    description: 'Black is lowest, white is highest. Includes ocean floors and lakebeds.',
+  },
+  {
     id: 'illustrated',
     name: 'Ink atlas',
     stops: ['#b7c5bf', '#efe8cc', '#d6d9b6', '#393b31', '#f5f5e9'],
     description: 'Paper, inked shores, and terrain and forest symbols.',
+  },
+  {
+    id: 'parchment',
+    name: 'Classic parchment',
+    stops: ['#b9c4bc', '#a7ad81', '#d8d0a5', '#ecdcb4', '#f6edcf'],
+    description: 'Warm parchment, sepia mountain ranges, and woodland illustrations.',
+  },
+  {
+    id: 'engraved',
+    name: 'Engraved explorer',
+    stops: ['#c5d3d3', '#c0cabb', '#e4e4d1', '#f0eadb', '#faf7ec'],
+    description: 'Fine engraved ridges, delicate hatching, and restrained color washes.',
+  },
+  {
+    id: 'painted',
+    name: 'Painted fantasy atlas',
+    stops: ['#326785', '#557d58', '#aebc78', '#dbcb98', '#f1f1df'],
+    description: 'Watercolor landscapes, painted mountain ranges, and deep blue seas.',
   },
 ];
 
@@ -25,32 +51,41 @@ export function mapReliefScale(style: MapStyle) {
   return style === 'relief' ? 4 : 0;
 }
 
-/** Both art styles use the natural view's land, lake, snow, and habitat fields. */
+/** Art styles use the natural view's saved land, lake, snow, and habitat fields. */
 export function createArtMaterial(
   seed: string,
   style: Exclude<MapStyle, 'natural'>,
   flat: boolean,
   bankTexture: THREE.Texture,
+  paged = false,
+  dense = false,
 ) {
   const random = createSeededRandom(`${seed}:map-ink`);
-  const illustrated = style === 'illustrated';
+  const fantasy = isFantasyMapStyle(style) ? FANTASY_PALETTES[style] : null;
+  const illustrated = style === 'illustrated' || fantasy !== null;
+  const fantasyKind =
+    style === 'parchment' ? 1 : style === 'engraved' ? 2 : style === 'painted' ? 3 : 0;
   const color = (hex: string) => ({ value: new THREE.Color(hex) });
   return new THREE.ShaderMaterial({
     uniforms: {
       illustrated: { value: illustrated },
+      fantasyKind: { value: fantasyKind },
       seedOffset: { value: new THREE.Vector3(random() * 30, random() * 30, random() * 30) },
-      paperColor: color('#efe8cc'),
-      inkColor: color('#393b31'),
-      oceanColor: color(illustrated ? '#b7c5bf' : '#467e95'),
-      shoreColor: color(illustrated ? '#d0d6c5' : '#9dc6c7'),
-      meadowColor: color(illustrated ? '#d6d9b6' : '#a9ba78'),
-      forestColor: color(illustrated ? '#c0c7a0' : '#648d61'),
-      rockColor: color(illustrated ? '#ded5b7' : '#c7b794'),
-      snowColor: color('#f5f5e9'),
+      paperColor: color(fantasy?.paper ?? '#efe8cc'),
+      inkColor: color(fantasy?.ink ?? '#393b31'),
+      oceanColor: color(fantasy?.ocean ?? (illustrated ? '#b7c5bf' : '#467e95')),
+      shoreColor: color(fantasy?.shore ?? (illustrated ? '#d0d6c5' : '#9dc6c7')),
+      meadowColor: color(fantasy?.meadow ?? (illustrated ? '#d6d9b6' : '#a9ba78')),
+      forestColor: color(fantasy?.forest ?? (illustrated ? '#c0c7a0' : '#648d61')),
+      rockColor: color(fantasy?.rock ?? (illustrated ? '#ded5b7' : '#c7b794')),
+      snowColor: color(fantasy?.snow ?? '#f5f5e9'),
       riverbankMap: { value: bankTexture },
+      surfaceCoastColor: color(fantasy?.ink ?? (illustrated ? '#383c31' : '#aecbd0')),
     },
     vertexShader: /* glsl */ `
-      ${flat ? 'attribute vec3 spherePosition;' : ''}
+      ${flat || paged ? 'attribute vec3 spherePosition;' : ''}
+      ${dense ? 'varying vec2 vMaterialUv;' : ''}
+      ${paged ? 'attribute vec4 surfaceBank; varying vec4 bankTint;' : ''}
       attribute vec4 surfaceTerrain;
       attribute vec4 surfaceClimate;
       attribute vec3 surfaceHabitat;
@@ -66,12 +101,14 @@ export function createArtMaterial(
       varying vec3 viewUp;
 
       void main() {
+        ${dense ? 'vMaterialUv = uv;' : ''}
+        ${paged ? 'bankTint = surfaceBank;' : ''}
         terrain = surfaceTerrain;
         climate = surfaceClimate;
         habitat = surfaceHabitat;
         delta = surfaceDelta;
         waterCoverage = surfaceWater;
-        sphereDirection = normalize(${flat ? 'spherePosition' : 'position'});
+        sphereDirection = normalize(${flat || paged ? 'spherePosition' : 'position'});
         viewUp = normalize(normalMatrix * ${flat ? 'vec3(0.0, 0.0, 1.0)' : 'sphereDirection'});
         vec4 point = modelViewMatrix * vec4(position, 1.0);
         viewPosition = point.xyz;
@@ -80,7 +117,10 @@ export function createArtMaterial(
     `,
     fragmentShader: /* glsl */ `
       ${BANK_SHADER}
+      ${paged && !dense ? 'varying vec4 bankTint;' : ''}
+      ${dense ? denseSurfaceShader(flat) : ''}
       uniform bool illustrated;
+      uniform int fantasyKind;
       uniform vec3 seedOffset;
       uniform vec3 paperColor;
       uniform vec3 inkColor;
@@ -90,11 +130,16 @@ export function createArtMaterial(
       uniform vec3 forestColor;
       uniform vec3 rockColor;
       uniform vec3 snowColor;
-      varying vec4 terrain;
+      ${
+        dense
+          ? ''
+          : `      varying vec4 terrain;
       varying vec4 climate;
       varying vec4 delta;
       varying vec2 waterCoverage;
       varying vec3 habitat;
+`
+      }
       varying vec3 sphereDirection;
       varying vec3 viewPosition;
       varying vec3 viewUp;
@@ -131,6 +176,14 @@ export function createArtMaterial(
 
       void main() {
         vec3 direction = normalize(sphereDirection);
+        ${
+          dense
+            ? `DenseFields sampled = sampleDenseSurface(direction);
+        vec4 terrain = sampled.terrain; vec4 climate = sampled.climate;
+        vec3 habitat = sampled.habitat; vec4 delta = sampled.delta;
+        vec2 waterCoverage = sampled.water; vec4 bankTint = sampled.bank;`
+            : ''
+        }
         float wash = pigment(direction, 65.0);
         float grain = pigment(direction, 1700.0);
         float elevation = max(0.0, terrain.x);
@@ -139,8 +192,19 @@ export function createArtMaterial(
         vec3 land = mix(paperColor, meadowColor, clamp(terrain.z, 0.0, 1.0));
         land = mix(land, forestColor, canopy * 0.8);
         land = mix(land, rockColor, mountains * (illustrated ? 0.3 : 0.9));
+        if (fantasyKind == 1) {
+          land = mix(paperColor, land, 0.55);
+        } else if (fantasyKind == 2) {
+          land = mix(paperColor, land, 0.38);
+        } else if (fantasyKind == 3) {
+          // Broad pigment variation follows geography and is independent of
+          // the camera, physical cell density and packet boundaries.
+          float pooling = pigment(direction, 260.0);
+          land = mix(land, mix(meadowColor, forestColor, canopy), (pooling - 0.3) * 0.18);
+          land = mix(land, rockColor, mountains * 0.3);
+        }
         land *= 0.95 + wash * 0.08 + grain * 0.025;
-        vec4 bank = riverbankSample(direction);
+        vec4 bank = ${paged ? 'bankTint' : 'riverbankSample(direction)'};
         // The existing local footprint controls the watercolor wash too.
         vec3 bankPigment = illustrated ? meadowColor * 0.94 : bank.rgb / max(bank.a, 0.001);
         land = mix(land, bankPigment, bank.a * (illustrated ? 0.5 : 0.7));
@@ -152,6 +216,16 @@ export function createArtMaterial(
         float shallow = exp(-max(0.0, -terrain.x) / 850.0);
         vec3 water = mix(oceanColor, shoreColor, shallow * (illustrated ? 0.25 : 0.55));
         water *= 0.975 + wash * 0.045 + grain * 0.018;
+        if (fantasyKind == 3) {
+          water *= 0.93 + pigment(direction, 180.0) * 0.14;
+        } else if (fantasyKind == 2) {
+          // Fine geographic latitude strokes evoke engraved water without
+          // stretching at the seam. Filter them away before they alias.
+          float lineCoordinate = asin(clamp(direction.y, -1.0, 1.0)) * 260.0;
+          float footprint = fwidth(lineCoordinate);
+          float inkLine = 1.0 - smoothstep(0.055, 0.055 + max(footprint, 0.015), abs(fract(lineCoordinate) - 0.5));
+          water = mix(water, inkColor, inkLine * (1.0 - smoothstep(0.2, 0.65, footprint)) * 0.12);
+        }
         water = mix(water, snowColor, smoothstep(0.12, 0.9, climate.z));
 
         float boundaryWidth = max(fwidth(terrain.y), 0.0001);
@@ -159,8 +233,10 @@ export function createArtMaterial(
         float oceanMask = smoothstep(0.5 - oceanEdge * 0.6, 0.5 + oceanEdge * 0.6, waterCoverage.x);
         float landMask = (1.0 - oceanMask) * (1.0 - clamp(waterCoverage.y, 0.0, 1.0));
         vec3 albedo = mix(water, land, landMask);
-        vec3 faceNormal = normalize(cross(dFdx(viewPosition), dFdy(viewPosition)));
         vec3 up = normalize(viewUp);
+        vec3 faceCross = cross(dFdx(viewPosition), dFdy(viewPosition));
+        vec3 faceNormal = ${dense ? 'denseSurfaceNormal(direction, terrain.x, 0.0)' : 'dot(faceCross, faceCross) > 1e-24 ? normalize(faceCross) : up'};
+        ${dense ? 'faceNormal = normalize(mix(up, faceNormal, landMask));' : ''}
         // Unwrapping the sphere reverses triangle winding on the map. Orient
         // lighting toward the geographic surface, regardless of that winding.
         faceNormal *= dot(faceNormal, up) < 0.0 ? -1.0 : 1.0;
@@ -171,6 +247,7 @@ export function createArtMaterial(
         float slopeLight = dot(slopeNormal, light);
         float daylight = smoothstep(-0.3, 0.85, slopeLight);
         float illumination = illustrated ? 0.98 + daylight * 0.04 : 0.62 + daylight * 0.46;
+        if (fantasyKind > 0) illumination = 1.0;
         albedo *= mix(1.0, illumination, landMask * (illustrated ? 0.35 : 1.0));
 
         if (illustrated) {
@@ -183,17 +260,24 @@ export function createArtMaterial(
           float landRim = shoreStroke(shoreDistance, 1.2, 0.15) * (1.0 - waterSide);
           albedo = mix(albedo, paperColor, landRim * 0.24);
           float penVariation = 0.86 + wash * 0.14;
-          float outline = shoreStroke(shoreDistance, 0.0, 0.3) * 0.84;
+          float outline = shoreStroke(shoreDistance, 0.0, fantasyKind == 2 ? 0.12 : 0.3) * (fantasyKind == 3 ? 0.52 : 0.84);
           // Two quiet water-side contours replace the broad, broken zigzag band.
           float waterLines = shoreStroke(shoreDistance, -4.0, 0.12) * 0.23
                            + shoreStroke(shoreDistance, -8.0, 0.08) * 0.12;
-          albedo = mix(albedo, inkColor, (outline + waterLines * waterSide) * penVariation);
+          albedo = mix(albedo, inkColor, (outline + waterLines * waterSide * (fantasyKind == 3 ? 0.2 : 1.0)) * penVariation);
         } else {
           float shoreDistance = (terrain.y - 0.5) / boundaryWidth;
           float inkEdge = 1.0 - smoothstep(0.45, 1.0, abs(shoreDistance));
           albedo = mix(albedo, inkColor * 1.3, inkEdge * 0.3);
           float folds = smoothstep(0.15, 0.5, length(faceNormal - up));
           albedo = mix(albedo, albedo * vec3(0.73, 0.79, 0.81), folds * (1.0 - daylight) * mountains * landMask);
+        }
+        ${
+          dense
+            ? `float coastDistance = abs(waterCoverage.x - .5) / max(fwidth(waterCoverage.x), .0001);
+        float coastCoverage = (1.0 - smoothstep(.45, 1.25, coastDistance)) * surfaceCoastlines;
+        albedo = mix(albedo, surfaceCoastColor, coastCoverage * .82);`
+            : ''
         }
         gl_FragColor = vec4(albedo, 1.0);
         #include <colorspace_fragment>

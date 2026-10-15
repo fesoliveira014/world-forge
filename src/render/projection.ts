@@ -24,13 +24,70 @@ export function spherePoint(longitude: number, latitude: number, target: THREE.V
   );
 }
 
-type MapVertex = { sources: number[]; weights: number[]; x: number; y: number };
+type MapVertex = {
+  sources: number[];
+  weights: number[];
+  x: number;
+  y: number;
+  /** Original face's final vertex owns any flat-shaded categorical fields. */
+  flatSource?: number;
+};
 
 type MapCopies = { first: number; vertices: MapVertex[] };
+
+/** First components of high/low uint16 pairs in normalized Uint8 attributes.
+ * Attach as geometry.userData.mapPackedPairs before projecting compact fields. */
+export type MapPackedPairs = Readonly<Record<string, readonly number[]>>;
+
+function interpolateOctNormal(
+  attribute: THREE.BufferAttribute,
+  vertex: MapVertex,
+  destination: number,
+) {
+  let x = 0;
+  let y = 0;
+  let z = 0;
+  for (let sourceIndex = 0; sourceIndex < vertex.sources.length; sourceIndex++) {
+    const source = vertex.sources[sourceIndex];
+    let nx = attribute.getX(source);
+    let ny = attribute.getY(source);
+    const nz = 1 - Math.abs(nx) - Math.abs(ny);
+    if (nz < 0) {
+      const previousX = nx;
+      nx = (1 - Math.abs(ny)) * (nx < 0 ? -1 : 1);
+      ny = (1 - Math.abs(previousX)) * (ny < 0 ? -1 : 1);
+    }
+    const weight = vertex.weights[sourceIndex] / Math.hypot(nx, ny, nz);
+    x += nx * weight;
+    y += ny * weight;
+    z += nz * weight;
+  }
+  const length = Math.abs(x) + Math.abs(y) + Math.abs(z);
+  if (length < 1e-30) {
+    // Opposing normals have no interpolated direction; retain a finite source.
+    attribute.setXY(
+      destination,
+      attribute.getX(vertex.sources[0]),
+      attribute.getY(vertex.sources[0]),
+    );
+    return;
+  }
+  x /= length;
+  y /= length;
+  if (z < 0) {
+    const previousX = x;
+    x = (1 - Math.abs(y)) * (x < 0 ? -1 : 1);
+    y = (1 - Math.abs(previousX)) * (y < 0 ? -1 : 1);
+  }
+  attribute.setXY(destination, x, y);
+}
 
 /** Refresh only seam/pole duplicates after a seasonal field or palette changes. */
 export function updateMapAttributes(geometry: THREE.BufferGeometry, names: string[]) {
   const copies = geometry.userData.mapCopies as MapCopies | undefined;
+  const packedPairs = geometry.userData.mapPackedPairs as MapPackedPairs | undefined;
+  const flatAttributes = geometry.userData.mapFlatAttributes as readonly string[] | undefined;
+  const octNormals = geometry.userData.mapOctNormalAttributes as readonly string[] | undefined;
 
   if (!copies) {
     return;
@@ -41,17 +98,54 @@ export function updateMapAttributes(geometry: THREE.BufferGeometry, names: strin
 
     for (let vertexIndex = 0; vertexIndex < copies.vertices.length; vertexIndex++) {
       const createMapVertex = copies.vertices[vertexIndex];
+      const flatSource = flatAttributes?.includes(name) ? createMapVertex.flatSource : undefined;
+      if (
+        flatSource === undefined &&
+        octNormals?.includes(name) &&
+        createMapVertex.sources.length > 1
+      ) {
+        // Octahedral coordinates are nonlinear across their fold. Interpolate
+        // physical unit normals so an undeformed sphere stays radial at a pole.
+        interpolateOctNormal(attribute, createMapVertex, copies.first + vertexIndex);
+        continue;
+      }
 
       for (let componentIndex = 0; componentIndex < attribute.itemSize; componentIndex++) {
+        if (flatSource !== undefined) {
+          attribute.setComponent(
+            copies.first + vertexIndex,
+            componentIndex,
+            attribute.getComponent(flatSource, componentIndex),
+          );
+          continue;
+        }
+        const packedPair = packedPairs?.[name]?.includes(componentIndex);
         let value = 0;
 
         for (let sourceIndex = 0; sourceIndex < createMapVertex.sources.length; sourceIndex++) {
-          value +=
-            attribute.getComponent(createMapVertex.sources[sourceIndex], componentIndex) *
-            createMapVertex.weights[sourceIndex];
+          const source = createMapVertex.sources[sourceIndex];
+          let component = attribute.getComponent(source, componentIndex);
+          if (packedPair) {
+            component =
+              (component * 256 + attribute.getComponent(source, componentIndex + 1)) * 255;
+          }
+          value += component * createMapVertex.weights[sourceIndex];
         }
 
-        attribute.setComponent(copies.first + vertexIndex, componentIndex, value);
+        if (packedPair) {
+          // Rounding the two channels independently loses up to half a high
+          // byte at an interpolated pole. Round the decoded scalar only once.
+          const encoded = Math.max(0, Math.min(65535, Math.round(value)));
+          attribute.setComponent(copies.first + vertexIndex, componentIndex, (encoded >> 8) / 255);
+          attribute.setComponent(
+            copies.first + vertexIndex,
+            componentIndex + 1,
+            (encoded & 255) / 255,
+          );
+          componentIndex++;
+        } else {
+          attribute.setComponent(copies.first + vertexIndex, componentIndex, value);
+        }
       }
     }
 
@@ -64,7 +158,12 @@ export function updateMapAttributes(geometry: THREE.BufferGeometry, names: strin
  * Seam copies extend past the frame and are clipped by the material, not stretched
  * across the map. A pole is a whole top/bottom edge, so its incident sector is a quad.
  */
-export function projectMesh(geometry: THREE.BufferGeometry, depth = 0, heightScale = 0) {
+export function projectMesh(
+  geometry: THREE.BufferGeometry,
+  depth = 0,
+  heightScale = 0,
+  options: { computeNormals?: boolean } = {},
+) {
   const position = geometry.getAttribute('position') as THREE.BufferAttribute;
   const index = geometry.getIndex()!;
   const count = position.count;
@@ -98,7 +197,10 @@ export function projectMesh(geometry: THREE.BufferGeometry, depth = 0, heightSca
 
   const extra: MapVertex[] = [];
   const appended: number[] = [];
-  const indices = new Uint32Array(index.array);
+  // Most fixed spatial batches cross neither the seam nor a pole. Keep their
+  // immutable topology until a face actually needs projection-specific copies.
+  let indices = index.array;
+  let faceOwner = -1;
 
   const createMapVertex = (
     vertexIndex: number,
@@ -112,7 +214,7 @@ export function projectMesh(geometry: THREE.BufferGeometry, depth = 0, heightSca
   });
 
   const appendMapVertex = (mapVertex: MapVertex, shift = 0) => {
-    extra.push({ ...mapVertex, x: mapVertex.x + shift });
+    extra.push({ ...mapVertex, x: mapVertex.x + shift, flatSource: faceOwner });
 
     return count + extra.length - 1;
   };
@@ -176,6 +278,10 @@ export function projectMesh(geometry: THREE.BufferGeometry, depth = 0, heightSca
     }
 
     // Replace this one face with locally unwrapped faces. Degenerate original is invisible.
+    faceOwner = thirdIndex;
+    if (indices === index.array) {
+      indices = new Uint32Array(index.array);
+    }
     indices[triangleOffset + 1] = indices[triangleOffset + 2] = indices[triangleOffset];
     const unwrapped = triangleLongitudes.map((longitude) =>
       unwrapLongitude(longitude, triangleLongitudes[0]),
@@ -240,9 +346,32 @@ export function projectMesh(geometry: THREE.BufferGeometry, depth = 0, heightSca
   }
 
   for (const [name, attribute] of Object.entries(geometry.attributes)) {
-    const expanded = new Float32Array((count + extra.length) * attribute.itemSize);
+    // Positions change in every map, but ordinary batches can share their
+    // immutable physical fields with the source packet and globe representation.
+    // A preexisting normal also needs a copy if the caller asks us to rewrite it.
+    const rewritesNormal = name === 'normal' && heightScale > 0 && options.computeNormals !== false;
+    if (!extra.length && name !== 'position' && !rewritesNormal) {
+      continue;
+    }
+    // Packed material bytes and signed octahedral normals must retain their
+    // normalization. Converting their raw storage to Float32 changes their
+    // shader values by 255 or 32767 and unnecessarily expands every batch.
+    const ArrayType = attribute.array.constructor as {
+      new (length: number): THREE.TypedArray;
+    };
+    const expanded = new ArrayType((count + extra.length) * attribute.itemSize);
     expanded.set(attribute.array);
-    geometry.setAttribute(name, new THREE.BufferAttribute(expanded, attribute.itemSize));
+    const mappedAttribute = new THREE.BufferAttribute(
+      expanded,
+      attribute.itemSize,
+      attribute.normalized,
+    );
+    if (attribute instanceof THREE.BufferAttribute) {
+      mappedAttribute.name = attribute.name;
+      mappedAttribute.setUsage(attribute.usage);
+      mappedAttribute.gpuType = attribute.gpuType;
+    }
+    geometry.setAttribute(name, mappedAttribute);
   }
 
   geometry.userData.mapCopies = { first: count, vertices: extra } satisfies MapCopies;
@@ -272,11 +401,17 @@ export function projectMesh(geometry: THREE.BufferGeometry, depth = 0, heightSca
     geometry.deleteAttribute('mapHeight');
   }
 
-  const combined = new Uint32Array(indices.length + appended.length);
-  combined.set(indices);
-  combined.set(appended, indices.length);
-  geometry.setIndex(new THREE.BufferAttribute(combined, 1));
-  if (heightScale > 0) {
+  // WebGL reserves the maximum element value for primitive restart, so a
+  // Uint16 batch may reference vertices 0..65534. Seam/pole expansion can push
+  // an otherwise compact physical batch beyond that limit.
+  const IndexArray = mapped.count <= 65535 ? Uint16Array : Uint32Array;
+  if (indices !== index.array || appended.length || !(index.array instanceof IndexArray)) {
+    const combined = new IndexArray(indices.length + appended.length);
+    combined.set(indices);
+    combined.set(appended, indices.length);
+    geometry.setIndex(new THREE.BufferAttribute(combined, 1));
+  }
+  if (heightScale > 0 && options.computeNormals !== false) {
     geometry.computeVertexNormals();
   }
   geometry.computeBoundingSphere();

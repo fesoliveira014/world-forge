@@ -3,6 +3,8 @@ import type { World } from '../core/model';
 import { clamp } from '../core/math';
 import { lakeAnchor } from './WaterSurface';
 import { curveRiverPath } from './RiverCurve';
+import { rebaseSavedRiverCourse } from '../core/generation/river-course-anchors';
+import { readVector } from '../core/math';
 
 export const riverHalfWidth = (discharge: number, scale: number) =>
   scale * clamp(0.00017 * Math.sqrt(discharge / 20), 0.000035, 0.003);
@@ -49,7 +51,7 @@ export class RiverGeometry {
     } = this.world;
     const courseIndex = this.courseAt[cornerIndex];
     const receiverCorner = drainage.receiver[cornerIndex];
-    const points =
+    let points: Float32Array =
       courseIndex < 0
         ? Float32Array.from([
             ...grid.corners.subarray(cornerIndex * 3, cornerIndex * 3 + 3),
@@ -59,6 +61,11 @@ export class RiverGeometry {
             courses.offsets[courseIndex] * 3,
             courses.offsets[courseIndex + 1] * 3,
           );
+    points = rebaseSavedRiverCourse(
+      points,
+      readVector(grid.corners, cornerIndex),
+      readVector(grid.corners, receiverCorner),
+    );
     lakeAnchor(this.world, cornerIndex, this.firstPosition).toArray(points, 0);
     lakeAnchor(this.world, receiverCorner, this.firstPosition).toArray(points, points.length - 3);
     let mouth = drainage.lakeFraction[cornerIndex] > 0 || drainage.lakeFraction[receiverCorner] > 0;

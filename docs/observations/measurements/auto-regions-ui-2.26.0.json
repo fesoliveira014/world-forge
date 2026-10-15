@@ -1,0 +1,198 @@
+{
+  "errors": [],
+  "checks": [
+    {
+      "name": "Six regional controls are available",
+      "passed": true
+    },
+    {
+      "name": "Legacy world keeps all new adaptation disabled",
+      "passed": true
+    },
+    {
+      "name": "Distances display kilometres and height tolerance metres",
+      "passed": true
+    },
+    {
+      "name": "Balanced enables one pass, district60%, quiet-land10%",
+      "passed": true
+    },
+    {
+      "name": "Balanced uses 40,962 base terrain cells",
+      "passed": true
+    },
+    {
+      "name": "Balanced uses 40,962 simulation cells",
+      "passed": true
+    },
+    {
+      "name": "District radius responds without generating",
+      "passed": true
+    },
+    {
+      "name": "Edited settings are marked pending",
+      "passed": true
+    },
+    {
+      "name": "Lake district detail responds to keyboard",
+      "passed": true
+    },
+    {
+      "name": "District shore evidence responds to keyboard",
+      "passed": true
+    },
+    {
+      "name": "Quiet-land reduction budget responds to keyboard",
+      "passed": true
+    },
+    {
+      "name": "Quiet-land maximum spacing responds to keyboard",
+      "passed": true
+    },
+    {
+      "name": "Quiet-land height tolerance responds to keyboard",
+      "passed": true
+    },
+    {
+      "name": "Quick disables final regional adaptation",
+      "passed": true
+    },
+    {
+      "name": "Editing settings does not change or save existing worlds",
+      "passed": true
+    },
+    {
+      "name": "No generation was triggered by controls",
+      "passed": true
+    },
+    {
+      "name": "Existing saved status stays visible",
+      "passed": true
+    },
+    {
+      "name": "No browser errors",
+      "passed": true
+    }
+  ],
+  "snapshotsBefore": [
+    {
+      "id": "qa-lake-densitybalanced-original",
+      "saved": true,
+      "updatedAt": 1791952895639,
+      "cells": 251559
+    },
+    {
+      "id": "qa-lake-density-original",
+      "saved": true,
+      "updatedAt": 1791952571259,
+      "cells": 40962
+    }
+  ],
+  "legacyControls": [
+    {
+      "label": "Final detail passes",
+      "value": "0",
+      "display": "Off"
+    },
+    {
+      "label": "Lake district detail",
+      "value": "0",
+      "display": "0 %"
+    },
+    {
+      "label": "District search radius",
+      "value": "300000",
+      "display": "300 km"
+    },
+    {
+      "label": "District shore evidence",
+      "value": "5",
+      "display": "5 %"
+    },
+    {
+      "label": "Quiet-land reduction budget",
+      "value": "0",
+      "display": "0 %"
+    },
+    {
+      "label": "Quiet-land maximum spacing",
+      "value": "250000",
+      "display": "250 km"
+    },
+    {
+      "label": "Quiet-land height tolerance",
+      "value": "25",
+      "display": "25 m"
+    }
+  ],
+  "balancedControls": [
+    {
+      "label": "Final detail passes",
+      "value": "1",
+      "display": "1 pass"
+    },
+    {
+      "label": "Lake district detail",
+      "value": "60",
+      "display": "60 %"
+    },
+    {
+      "label": "District search radius",
+      "value": "300000",
+      "display": "300 km"
+    },
+    {
+      "label": "District shore evidence",
+      "value": "5",
+      "display": "5 %"
+    },
+    {
+      "label": "Quiet-land reduction budget",
+      "value": "10",
+      "display": "10 %"
+    },
+    {
+      "label": "Quiet-land maximum spacing",
+      "value": "250000",
+      "display": "250 km"
+    },
+    {
+      "label": "Quiet-land height tolerance",
+      "value": "25",
+      "display": "25 m"
+    }
+  ],
+  "quickControls": [
+    {
+      "label": "Final detail passes",
+      "value": "0",
+      "display": "Off"
+    },
+    {
+      "label": "Lake district detail",
+      "value": "0",
+      "display": "0 %"
+    },
+    {
+      "label": "Quiet-land reduction budget",
+      "value": "0",
+      "display": "0 %"
+    }
+  ],
+  "snapshotsAfter": [
+    {
+      "id": "qa-lake-densitybalanced-original",
+      "saved": true,
+      "updatedAt": 1791952895639,
+      "cells": 251559
+    },
+    {
+      "id": "qa-lake-density-original",
+      "saved": true,
+      "updatedAt": 1791952571259,
+      "cells": 40962
+    }
+  ],
+  "generationRequests": [],
+  "completed": true
+}

@@ -1,0 +1,76 @@
+{
+  "renderingDisabled": true,
+  "anchorSelection": "Renderer callback injected because WebGL is disabled",
+  "checkpoints": [
+    {
+      "name": "generatedAndCommitted",
+      "value": {
+        "snapshotId": "b6f51ee7-7ad6-4d30-9c5d-865f3137dd33",
+        "cells": 10242,
+        "noFullWorldMessage": true
+      }
+    },
+    {
+      "name": "renamedSavedSnapshot",
+      "value": true
+    },
+    {
+      "name": "coldReloadWithoutGeneration",
+      "value": [
+        {
+          "url": "http://127.0.0.1:5175/src/app/reader.worker.ts?worker_file&type=module",
+          "terminated": false,
+          "sent": [],
+          "received": []
+        }
+      ]
+    },
+    {
+      "name": "exportedRecipeFromReader",
+      "value": true
+    },
+    {
+      "name": "refinedThroughControls",
+      "value": {
+        "before": 10242,
+        "after": 10346,
+        "snapshotId": "7076b3f9-19ea-4d6b-a491-58cf4f9d14ee"
+      }
+    },
+    {
+      "name": "exportIncludesResolvedRegionalHistory",
+      "value": true
+    },
+    {
+      "name": "cancelPreservesCommittedPreviewAndTerminatesCompute",
+      "value": true
+    },
+    {
+      "name": "importReplaysRefinedRecipeOffMainThread",
+      "value": {
+        "cells": 10346,
+        "minMaxHeightsMatch": true
+      }
+    },
+    {
+      "name": "openRestoresExactPhysicalInspection",
+      "value": true
+    },
+    {
+      "name": "deleteActiveWorldClosesReaderAndRemovesSnapshot",
+      "value": true
+    },
+    {
+      "name": "allChecksPassed",
+      "value": true
+    }
+  ],
+  "errors": [],
+  "consoleErrors": [
+    "THREE.WebGLRenderer: THREE.WebGLRenderer: Error creating WebGL context.",
+    "THREE.WebGLRenderer: THREE.WebGLRenderer: Error creating WebGL context.",
+    "THREE.WebGLRenderer: THREE.WebGLRenderer: Error creating WebGL context.",
+    "THREE.WebGLRenderer: THREE.WebGLRenderer: Error creating WebGL context.",
+    "THREE.WebGLRenderer: THREE.WebGLRenderer: Error creating WebGL context."
+  ]
+}

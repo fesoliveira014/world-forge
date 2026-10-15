@@ -12,6 +12,7 @@ import { floodCorners } from './drainage-topology';
 import { balanceLake } from './reservoir';
 import { resolveNestedLakes } from './nested-lakes';
 import { resolveLakeSurfaces } from './lake-surfaces';
+import { computeCornerSupport } from '../operators/corner-fields';
 
 /** The corner graph is the only drainage authority. No cell receiver forest exists. */
 export function routeWater(
@@ -28,6 +29,7 @@ export function routeWater(
   const rainVolume = new Float64Array(cornerCount);
   const evapVolume = new Float64Array(cornerCount);
   const seasonalDischarge = Array.from({ length: 4 }, () => new Float64Array(cornerCount));
+  const support = computeCornerSupport(grid);
 
   const seasonalFlux = (corner: number, season: number): [number, number, number] => {
     let rain = 0;
@@ -35,30 +37,31 @@ export function routeWater(
     let runoff = 0;
     for (let incident = 0; incident < 3; incident++) {
       const cell = grid.triangles[corner * 3 + incident];
-      const degree = grid.offsets[cell + 1] - grid.offsets[cell];
-      const volumePerMillimetre = (grid.areas[cell] * config.radius ** 2 * 0.001) / degree / SEASON;
+      const supportArea = support.cornerCellArea[corner * 3 + incident];
+      const fraction = supportArea / grid.areas[cell];
+      const volumePerMillimetre = (supportArea * config.radius ** 2 * 0.001) / SEASON;
       rain += water.seasonalLiquid[season][cell] * volumePerMillimetre;
       evaporation += water.seasonalPet[season][cell] * volumePerMillimetre;
-      runoff += water.seasonalRunoff[season][cell] / degree;
+      runoff += water.seasonalRunoff[season][cell] * fraction;
     }
     return [rain, evaporation, runoff];
   };
 
   for (let cellIndex = 0; cellIndex < grid.count; cellIndex++) {
-    const degree = grid.offsets[cellIndex + 1] - grid.offsets[cellIndex];
-    const area = (grid.areas[cellIndex] * config.radius ** 2) / degree;
-
     for (
       let neighborOffset = grid.offsets[cellIndex];
       neighborOffset < grid.offsets[cellIndex + 1];
       neighborOffset++
     ) {
       const cornerIndex = grid.cellCorners[neighborOffset];
-      input[cornerIndex] += water.runoff[cellIndex] / degree;
+      const fraction = support.cellCornerFraction[neighborOffset];
+      const area = support.cellCornerArea[neighborOffset] * config.radius ** 2;
+      input[cornerIndex] += water.runoff[cellIndex] * fraction;
       cornerArea[cornerIndex] += area;
       for (let season = 0; season < 4; season++) {
         rainVolume[cornerIndex] += (water.seasonalLiquid[season][cellIndex] * 0.001 * area) / YEAR;
-        seasonalDischarge[season][cornerIndex] += water.seasonalRunoff[season][cellIndex] / degree;
+        seasonalDischarge[season][cornerIndex] +=
+          water.seasonalRunoff[season][cellIndex] * fraction;
       }
       evapVolume[cornerIndex] += (water.pet[cellIndex] * 0.001 * area) / YEAR;
     }
@@ -341,12 +344,24 @@ export function routeWater(
   }
 
   lakes.sort((firstLake, secondLake) => firstLake.id - secondLake.id);
+  // Retain one peak field for floodplain sediment access; the four temporary
+  // seasonal routing arrays can be released after this solve.
+  const seasonalPeak = new Float32Array(cornerCount);
+  for (let corner = 0; corner < cornerCount; corner++) {
+    seasonalPeak[corner] = Math.max(
+      seasonalDischarge[0][corner],
+      seasonalDischarge[1][corner],
+      seasonalDischarge[2][corner],
+      seasonalDischarge[3][corner],
+    );
+  }
   const result: Drainage = {
     height,
     filled,
     receiver,
     order,
     discharge,
+    seasonalPeak,
     basin,
     lakeId,
     lakeDepth,

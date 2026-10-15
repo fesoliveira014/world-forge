@@ -128,6 +128,94 @@ input:focus-visible {
   grid-template-rows: auto minmax(0, 1fr) auto;
   overflow: hidden;
 }
+.region-controls {
+  padding: 18px;
+  border-top: 1px solid var(--border);
+}
+.region-controls .panel-note {
+  margin: 8px 0 0;
+}
+.region-controls h3 {
+  margin: 0 0 10px;
+  font-size: 15px;
+}
+.region-inputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
+  margin: 14px 0;
+}
+.region-inputs label,
+.snapshot-name label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+.region-error {
+  color: var(--destructive);
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 10px 0;
+}
+.world-library {
+  max-width: min(620px, calc(100vw - 28px));
+}
+.snapshot-name > div,
+.snapshot-actions,
+.deposit-pagination {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.snapshot-name > div {
+  margin-top: 6px;
+}
+.snapshot-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 48vh;
+  overflow-y: auto;
+}
+.snapshot-list li {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.snapshot-list strong {
+  overflow-wrap: anywhere;
+  font-size: 14px;
+}
+.snapshot-list p,
+.snapshot-actions span,
+.deposit-pagination span {
+  color: var(--muted-foreground);
+  font-size: 11px;
+  line-height: 1.6;
+}
+.snapshot-list p {
+  margin: 4px 0 8px;
+}
+.snapshot-actions {
+  flex-wrap: wrap;
+}
+.save-world-actions {
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+.save-world-dialog .snapshot-name > input {
+  margin-top: 6px;
+}
+.world-save-status {
+  white-space: nowrap;
+}
+.world-save-status.unsaved {
+  color: var(--primary);
+}
+.deposit-pagination {
+  justify-content: space-between;
+  margin: 12px 0;
+}
 .app-header {
   display: flex;
   align-items: center;
@@ -418,6 +506,22 @@ input:focus-visible {
   font-size: 13px;
   line-height: 1.6;
 }
+.fantasy-map .layer-readout,
+.heightmap-view .layer-readout {
+  padding: 12px 15px;
+  border: 1px solid #35413a;
+  border-radius: 7px;
+  background: #0d191deb;
+  text-shadow: none;
+}
+.fantasy-map .viewport-hint > span:last-child,
+.heightmap-view .viewport-hint > span:last-child {
+  align-self: flex-start;
+  padding: 5px 8px;
+  border-radius: 4px;
+  background: #0d191deb;
+  color: #bdcbc2;
+}
 .viewport-toolbar {
   position: absolute;
   right: 18px;
@@ -432,12 +536,23 @@ input:focus-visible {
   z-index: 3;
 }
 .viewport-hint {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   position: absolute;
   bottom: 18px;
   left: 22px;
   color: #7f958d;
   font-size: 12px;
   pointer-events: none;
+}
+.grid-zoom-cue {
+  align-self: flex-start;
+  padding: 4px 7px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: #0b151ddd;
+  color: var(--primary);
 }
 .legend-card {
   position: absolute;
@@ -568,6 +683,12 @@ input:focus-visible {
 .parameters > .panel-note {
   margin-top: 0;
   margin-bottom: 12px;
+}
+.quality-preset {
+  margin: 0 18px 8px;
+}
+.quality-preset [data-slot='select-trigger'] {
+  width: 100%;
 }
 .parameter-group {
   border-top: 1px solid #22332e;
@@ -1110,4 +1231,20 @@ input:focus-visible {
   .spin-slow {
     animation: none;
   }
+}
+
+.physical-load-status {
+  position: absolute;
+  bottom: 72px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: min(520px, calc(100% - 32px));
+  padding: 10px 16px;
+  border: 1px solid #ffffff18;
+  border-radius: 8px;
+  background: #101b27ee;
+  color: #cad7df;
+  font-size: 12px;
+  pointer-events: none;
+  z-index: 4;
 }

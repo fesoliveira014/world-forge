@@ -1,0 +1,62 @@
+{
+  "version": "2.16.2",
+  "environment": {
+    "cpuQuota": 4,
+    "renderer": "Chromium with SwiftShader",
+    "viewport": [
+      2048,
+      1140
+    ],
+    "devicePixelRatio": 1
+  },
+  "world": {
+    "id": "8e9bd04e-2510-494f-a8cd-5dec9d87f5be",
+    "cells": 2621442,
+    "version": "2.16.1",
+    "bytes": 3427513728
+  },
+  "sameSavedWorldBeforeAndAfter": true,
+  "regeneratedForAfter": false,
+  "baseline": {
+    "version": "2.16.1",
+    "screenshot": "atlas-highres-before-terrain-map.png",
+    "notes": "Overlay responses suppressed to isolate terrain: the old shared reader queued them before terrain and did not paint within five minutes. Baseline database open version raised to 3 for fixture compatibility; terrain data and shaders unchanged."
+  },
+  "after": {
+    "name": "atlas-highres-after-map.png",
+    "ms": 353677,
+    "canvas": {
+      "engine": "three.js r185",
+      "gridStatus": "",
+      "coastStatus": "",
+      "activeTiles": "64",
+      "activeTileKeys": "3/0/0,3/1/0,3/0/1,3/1/1,3/2/0,3/3/0,3/2/1,3/3/1,3/0/2,3/1/2,3/0/3,3/1/3,3/2/2,3/3/2,3/2/3,3/3/3,3/4/0,3/5/0,3/4/1,3/5/1,3/6/0,3/7/0,3/6/1,3/7/1,3/4/2,3/5/2,3/4/3,3/5/3,3/6/2,3/7/2,3/6/3,3/7/3,3/0/4,3/1/4,3/0/5,3/1/5,3/2/4,3/3/4,3/2/5,3/3/5,3/0/6,3/1/6,3/0/7,3/1/7,3/2/6,3/3/6,3/2/7,3/3/7,3/4/4,3/5/4,3/4/5,3/5/5,3/6/4,3/7/4,3/6/5,3/7/5,3/4/6,3/5/6,3/4/7,3/5/7,3/6/6,3/7/6,3/6/7,3/7/7",
+      "visibleCoarsenings": "0",
+      "residentTiles": "84",
+      "tileBytes": "51952800",
+      "tileByteLimit": "201326592",
+      "materialSamples": "536640",
+      "shapeSamples": "18496",
+      "materialGrids": "129x65",
+      "pendingTiles": "0",
+      "sharedTextureBytes": "0",
+      "overlayBytes": "3074688",
+      "displayBytes": "55027488",
+      "transitioningTiles": "0",
+      "renderFrames": "106",
+      "overlayTruncated": "true",
+      "gridSegments": "0",
+      "coastSegments": "0"
+    }
+  },
+  "initialFullMapCoverageMs": 39965,
+  "firstRiverOverlayMs": 207104,
+  "errors": [],
+  "limits": {
+    "activeTiles": 64,
+    "residentTiles": 128,
+    "tileBytes": 201326592,
+    "pendingTiles": 4
+  },
+  "qualification": "Cold rendering includes initial globe queries before switching to flat map. Full high-resolution material detail and the global river packet still take minutes in this software-rendered cloud browser; these are loading measurements, not steady-state frame-rate measurements."
+}

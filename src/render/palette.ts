@@ -127,7 +127,7 @@ export const LAYERS: LayerInfo[] = [
     id: 'tectonics',
     name: 'Tectonic plates',
     group: 'Geology',
-    description: 'Present crust ownership. Boundaries show convergence, divergence, and shear.',
+    description: 'Present crust ownership on a smooth surface, without terrain relief.',
     unit: 'Plate regions',
     stops: ['#ecaa74', '#95b6dd', '#c290be', '#82bbae'],
     labels: ['Convergent', 'Divergent', 'Transform'],

@@ -1,0 +1,226 @@
+{
+  "renderer": "system Chromium SwiftShader",
+  "cases": [
+    {
+      "name": "Front river · camera +Z",
+      "map": false,
+      "visible": true,
+      "seam": false,
+      "counts": {
+        "river": 176,
+        "outside": 0,
+        "left": 0,
+        "right": 0,
+        "center": 0
+      },
+      "readbackMs": 76.29999999888241,
+      "glError": 0,
+      "depthTest": false
+    },
+    {
+      "name": "Back river · camera +Z",
+      "map": false,
+      "visible": false,
+      "seam": false,
+      "counts": {
+        "river": 0,
+        "outside": 0,
+        "left": 0,
+        "right": 0,
+        "center": 0
+      },
+      "readbackMs": 68,
+      "glError": 0,
+      "depthTest": false
+    },
+    {
+      "name": "Same front river · camera −Z",
+      "map": false,
+      "visible": false,
+      "seam": false,
+      "counts": {
+        "river": 0,
+        "outside": 0,
+        "left": 0,
+        "right": 0,
+        "center": 0
+      },
+      "readbackMs": 55.29999999888241,
+      "glError": 0,
+      "depthTest": false
+    },
+    {
+      "name": "Same back river · camera −Z",
+      "map": false,
+      "visible": true,
+      "seam": false,
+      "counts": {
+        "river": 176,
+        "outside": 0,
+        "left": 0,
+        "right": 0,
+        "center": 0
+      },
+      "readbackMs": 70.30000000074506,
+      "glError": 0,
+      "depthTest": false
+    },
+    {
+      "name": "Close camera · front river",
+      "map": false,
+      "visible": true,
+      "seam": false,
+      "counts": {
+        "river": 14480,
+        "outside": 0,
+        "left": 0,
+        "right": 0,
+        "center": 0
+      },
+      "readbackMs": 61.29999999888241,
+      "glError": 0,
+      "depthTest": false
+    },
+    {
+      "name": "Close camera · back river",
+      "map": false,
+      "visible": false,
+      "seam": false,
+      "counts": {
+        "river": 0,
+        "outside": 0,
+        "left": 0,
+        "right": 0,
+        "center": 0
+      },
+      "readbackMs": 39.59999999962747,
+      "glError": 0,
+      "depthTest": false
+    },
+    {
+      "name": "Horizon crossing · partial river",
+      "map": false,
+      "visible": true,
+      "seam": false,
+      "counts": {
+        "river": 4,
+        "outside": 0,
+        "left": 0,
+        "right": 0,
+        "center": 0
+      },
+      "readbackMs": 56.19999999925494,
+      "glError": 0,
+      "depthTest": false
+    },
+    {
+      "name": "Beyond tangent · hidden river",
+      "map": false,
+      "visible": false,
+      "seam": false,
+      "counts": {
+        "river": 0,
+        "outside": 0,
+        "left": 0,
+        "right": 0,
+        "center": 0
+      },
+      "readbackMs": 50.399999998509884,
+      "glError": 0,
+      "depthTest": false
+    },
+    {
+      "name": "Close view beyond tangent",
+      "map": false,
+      "visible": false,
+      "seam": false,
+      "counts": {
+        "river": 0,
+        "outside": 0,
+        "left": 0,
+        "right": 0,
+        "center": 0
+      },
+      "readbackMs": 48.29999999888241,
+      "glError": 0,
+      "depthTest": false
+    },
+    {
+      "name": "Dateline crossing · two edge pieces",
+      "map": true,
+      "seam": true,
+      "counts": {
+        "river": 366,
+        "outside": 0,
+        "left": 183,
+        "right": 183,
+        "center": 0
+      },
+      "readbackMs": 68.90000000037253,
+      "glError": 0,
+      "depthTest": false
+    },
+    {
+      "name": "East edge · thick ribbon clipped",
+      "map": true,
+      "seam": false,
+      "counts": {
+        "river": 360,
+        "outside": 0,
+        "left": 0,
+        "right": 360,
+        "center": 0
+      },
+      "readbackMs": 71.09999999962747,
+      "glError": 0,
+      "depthTest": false
+    },
+    {
+      "name": "West edge · thick ribbon clipped",
+      "map": true,
+      "seam": false,
+      "counts": {
+        "river": 360,
+        "outside": 0,
+        "left": 360,
+        "right": 0,
+        "center": 0
+      },
+      "readbackMs": 40.5,
+      "glError": 0,
+      "depthTest": false
+    },
+    {
+      "name": "North edge · thick ribbon clipped",
+      "map": true,
+      "seam": false,
+      "counts": {
+        "river": 480,
+        "outside": 0,
+        "left": 0,
+        "right": 0,
+        "center": 480
+      },
+      "readbackMs": 97.80000000074506,
+      "glError": 0,
+      "depthTest": false
+    },
+    {
+      "name": "South edge · thick ribbon clipped",
+      "map": true,
+      "seam": false,
+      "counts": {
+        "river": 480,
+        "outside": 0,
+        "left": 0,
+        "right": 0,
+        "center": 480
+      },
+      "readbackMs": 74.59999999962747,
+      "glError": 0,
+      "depthTest": false
+    }
+  ],
+  "errors": [],
+  "passed": true
+}

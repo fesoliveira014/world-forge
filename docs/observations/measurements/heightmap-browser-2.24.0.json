@@ -1,0 +1,535 @@
+{
+  "revision": "2.24.0",
+  "capturedAtUtc": "2026-10-14T05:24:20.877743+00:00",
+  "environment": {
+    "browser": "Chromium",
+    "graphics": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "viewport": [1720, 1120],
+    "note": "Software renderer validation. These are correctness checks, not hardware performance estimates."
+  },
+  "fixture": {
+    "snapshotId": "qa-lake-densitybalanced-original",
+    "seed": "AETHER-2408",
+    "surfaceCells": 251559,
+    "physicalTriangles": 503114,
+    "summaryHeightMetres": [-7440.66748046875, 12564.3056640625],
+    "encodingRangeMetres": [-12000, 12564.3056640625],
+    "decodedSourceField": {
+      "encodingRange": [-12000, 12564.3056640625],
+      "min": -7440.600990346285,
+      "max": 12564.3056640625,
+      "lakeBedVertices": 5618,
+      "deepestLake": 1257.1675967964402,
+      "oceanVertices": 166772
+    },
+    "sourceNote": "Previously saved world reused without regeneration. Lake/ocean vertex counts include duplicates at packet borders."
+  },
+  "checks": [
+    {
+      "name": "Map is grayscale with all overlay preferences enabled",
+      "passed": true
+    },
+    {
+      "name": "Map geometry flat",
+      "passed": true
+    },
+    {
+      "name": "Ocean floors and lake beds available in scalar field",
+      "passed": true
+    },
+    {
+      "name": "Actual range in shader",
+      "passed": true
+    },
+    {
+      "name": "Heightmap unchanged by relief",
+      "passed": true
+    },
+    {
+      "name": "Heightmap unchanged by overlay preferences",
+      "passed": true
+    },
+    {
+      "name": "Heightmap unchanged by season",
+      "passed": true
+    },
+    {
+      "name": "Heightmap unchanged by style roundtrip",
+      "passed": true
+    },
+    {
+      "name": "Heightmap stable on camera roundtrip",
+      "passed": true
+    },
+    {
+      "name": "Globe is grayscale",
+      "passed": true
+    },
+    {
+      "name": "Globe has no displacement",
+      "passed": true
+    },
+    {
+      "name": "Globe stable under season and relief",
+      "passed": true
+    },
+    {
+      "name": "Pole remains grayscale",
+      "passed": true
+    },
+    {
+      "name": "Dateline remains grayscale",
+      "passed": true
+    },
+    {
+      "name": "No browser or GL errors",
+      "passed": true
+    },
+    {
+      "name": "Native menu activates Heightmap",
+      "passed": true
+    },
+    {
+      "name": "Legend shows actual extrema",
+      "passed": true
+    },
+    {
+      "name": "Legend has black to white ramp",
+      "passed": true
+    },
+    {
+      "name": "Original overlay preferences restored",
+      "passed": true
+    },
+    {
+      "name": "No browser errors",
+      "passed": true
+    },
+    {
+      "name": "Actual GPU scalar endpoints, midpoint and constant-height behavior",
+      "passed": true
+    },
+    {
+      "name": "Heightmap ready without waiting for hidden river packets",
+      "passed": true
+    }
+  ],
+  "views": [
+    {
+      "name": "map",
+      "pixels": {
+        "opaque": 1926400,
+        "colored": 0,
+        "min": 0,
+        "max": 254,
+        "grayLevels": 254
+      },
+      "rgbaSha256": "ee58284c0107e848a06eb25bbaf24c5dbd08c5a246e70ea168b83e29c24a14c9",
+      "geometry": {
+        "positionMin": 0,
+        "positionMax": 0
+      },
+      "renderer": {
+        "surfaceMaterialCount": "1",
+        "surfaceBytes": "36565024",
+        "terrainBatchGpuBytes": "17367384",
+        "terrainDrawCalls": "7",
+        "overlayBytes": "0",
+        "fantasySymbolCount": "0",
+        "effectiveRelief": "0",
+        "zoomDetailState": "off",
+        "gridState": "off"
+      },
+      "cumulativeSourceRequests": {
+        "physicalManifest": 1,
+        "riverRender": 58,
+        "physicalBatch": 123,
+        "overlays": 2
+      }
+    },
+    {
+      "name": "map-relief-80",
+      "pixels": {
+        "opaque": 1926400,
+        "colored": 0,
+        "min": 0,
+        "max": 254,
+        "grayLevels": 254
+      },
+      "rgbaSha256": "ee58284c0107e848a06eb25bbaf24c5dbd08c5a246e70ea168b83e29c24a14c9",
+      "geometry": {
+        "positionMin": 0,
+        "positionMax": 0
+      },
+      "renderer": {
+        "surfaceMaterialCount": "1",
+        "surfaceBytes": "36565024",
+        "terrainBatchGpuBytes": "17367384",
+        "terrainDrawCalls": "7",
+        "overlayBytes": "0",
+        "fantasySymbolCount": "0",
+        "effectiveRelief": "0",
+        "zoomDetailState": "off",
+        "gridState": "off"
+      },
+      "cumulativeSourceRequests": {
+        "physicalManifest": 1,
+        "riverRender": 58,
+        "physicalBatch": 123,
+        "overlays": 2,
+        "releaseRiverRender": 1
+      }
+    },
+    {
+      "name": "map-preferences-off",
+      "pixels": {
+        "opaque": 1926400,
+        "colored": 0,
+        "min": 0,
+        "max": 254,
+        "grayLevels": 254
+      },
+      "rgbaSha256": "ee58284c0107e848a06eb25bbaf24c5dbd08c5a246e70ea168b83e29c24a14c9",
+      "geometry": {
+        "positionMin": 0,
+        "positionMax": 0
+      },
+      "renderer": {
+        "surfaceMaterialCount": "1",
+        "surfaceBytes": "36565024",
+        "terrainBatchGpuBytes": "17367384",
+        "terrainDrawCalls": "7",
+        "overlayBytes": "0",
+        "fantasySymbolCount": "0",
+        "effectiveRelief": "0",
+        "zoomDetailState": "off",
+        "gridState": "off"
+      },
+      "cumulativeSourceRequests": {
+        "physicalManifest": 1,
+        "riverRender": 58,
+        "physicalBatch": 123,
+        "overlays": 2,
+        "releaseRiverRender": 1
+      }
+    },
+    {
+      "name": "map-season-0",
+      "pixels": {
+        "opaque": 1926400,
+        "colored": 0,
+        "min": 0,
+        "max": 254,
+        "grayLevels": 254
+      },
+      "rgbaSha256": "ee58284c0107e848a06eb25bbaf24c5dbd08c5a246e70ea168b83e29c24a14c9",
+      "geometry": {
+        "positionMin": 0,
+        "positionMax": 0
+      },
+      "renderer": {
+        "surfaceMaterialCount": "1",
+        "surfaceBytes": "36565024",
+        "terrainBatchGpuBytes": "17367384",
+        "terrainDrawCalls": "7",
+        "overlayBytes": "0",
+        "fantasySymbolCount": "0",
+        "effectiveRelief": "0",
+        "zoomDetailState": "off",
+        "gridState": "off"
+      },
+      "cumulativeSourceRequests": {
+        "physicalManifest": 2,
+        "riverRender": 116,
+        "physicalBatch": 246,
+        "overlays": 3,
+        "releaseRiverRender": 1
+      }
+    },
+    {
+      "name": "map-style-roundtrip",
+      "pixels": {
+        "opaque": 1926400,
+        "colored": 0,
+        "min": 0,
+        "max": 254,
+        "grayLevels": 254
+      },
+      "rgbaSha256": "ee58284c0107e848a06eb25bbaf24c5dbd08c5a246e70ea168b83e29c24a14c9",
+      "geometry": {
+        "positionMin": 0,
+        "positionMax": 0
+      },
+      "renderer": {
+        "surfaceMaterialCount": "1",
+        "surfaceBytes": "36565024",
+        "terrainBatchGpuBytes": "17367384",
+        "terrainDrawCalls": "7",
+        "overlayBytes": "0",
+        "fantasySymbolCount": "0",
+        "effectiveRelief": "0",
+        "zoomDetailState": "off",
+        "gridState": "off"
+      },
+      "cumulativeSourceRequests": {
+        "physicalManifest": 2,
+        "riverRender": 116,
+        "physicalBatch": 246,
+        "overlays": 5,
+        "releaseRiverRender": 1
+      }
+    },
+    {
+      "name": "map-camera-roundtrip",
+      "pixels": {
+        "opaque": 1926400,
+        "colored": 0,
+        "min": 0,
+        "max": 254,
+        "grayLevels": 254
+      },
+      "rgbaSha256": "ee58284c0107e848a06eb25bbaf24c5dbd08c5a246e70ea168b83e29c24a14c9",
+      "geometry": {
+        "positionMin": 0,
+        "positionMax": 0
+      },
+      "renderer": {
+        "surfaceMaterialCount": "1",
+        "surfaceBytes": "36565024",
+        "terrainBatchGpuBytes": "17367384",
+        "terrainDrawCalls": "7",
+        "overlayBytes": "0",
+        "fantasySymbolCount": "0",
+        "effectiveRelief": "0",
+        "zoomDetailState": "off",
+        "gridState": "off"
+      },
+      "cumulativeSourceRequests": {
+        "physicalManifest": 2,
+        "riverRender": 116,
+        "physicalBatch": 246,
+        "overlays": 7,
+        "releaseRiverRender": 2
+      }
+    },
+    {
+      "name": "globe",
+      "pixels": {
+        "opaque": 1403604,
+        "colored": 0,
+        "min": 0,
+        "max": 253,
+        "grayLevels": 251
+      },
+      "rgbaSha256": "4fa4abe510ab866e688559ed545b23950a48203671abb0acf7dcf76cc4c0697d",
+      "geometry": {
+        "positionMin": 0.9999999509562022,
+        "positionMax": 1.0000000477937288
+      },
+      "renderer": {
+        "surfaceMaterialCount": "1",
+        "surfaceBytes": "34113016",
+        "terrainBatchGpuBytes": "17043708",
+        "terrainDrawCalls": "8",
+        "overlayBytes": "0",
+        "fantasySymbolCount": "0",
+        "effectiveRelief": "0",
+        "zoomDetailState": "off",
+        "gridState": "off"
+      },
+      "cumulativeSourceRequests": {
+        "physicalManifest": 2,
+        "riverRender": 116,
+        "physicalBatch": 246,
+        "overlays": 9,
+        "releaseRiverRender": 2
+      }
+    },
+    {
+      "name": "globe-season-3",
+      "pixels": {
+        "opaque": 1403604,
+        "colored": 0,
+        "min": 0,
+        "max": 253,
+        "grayLevels": 251
+      },
+      "rgbaSha256": "4fa4abe510ab866e688559ed545b23950a48203671abb0acf7dcf76cc4c0697d",
+      "geometry": {
+        "positionMin": 0.9999999509562022,
+        "positionMax": 1.0000000477937288
+      },
+      "renderer": {
+        "surfaceMaterialCount": "1",
+        "surfaceBytes": "34113016",
+        "terrainBatchGpuBytes": "17043708",
+        "terrainDrawCalls": "8",
+        "overlayBytes": "0",
+        "fantasySymbolCount": "0",
+        "effectiveRelief": "0",
+        "zoomDetailState": "off",
+        "gridState": "off"
+      },
+      "cumulativeSourceRequests": {
+        "physicalManifest": 3,
+        "riverRender": 174,
+        "physicalBatch": 369,
+        "overlays": 10,
+        "releaseRiverRender": 2
+      }
+    },
+    {
+      "name": "globe-pole",
+      "pixels": {
+        "opaque": 1926400,
+        "colored": 0,
+        "min": 55,
+        "max": 120,
+        "grayLevels": 66
+      },
+      "rgbaSha256": "9c978267ac5c8f761d76d50643d62f3ce394562f16fc53ee6ed6d0c9720c73ad",
+      "geometry": {
+        "positionMin": 0.9999999509562022,
+        "positionMax": 1.0000000477937288
+      },
+      "renderer": {
+        "surfaceMaterialCount": "1",
+        "surfaceBytes": "34113016",
+        "terrainBatchGpuBytes": "17043708",
+        "terrainDrawCalls": "8",
+        "overlayBytes": "0",
+        "fantasySymbolCount": "0",
+        "effectiveRelief": "0",
+        "zoomDetailState": "off",
+        "gridState": "off"
+      },
+      "cumulativeSourceRequests": {
+        "physicalManifest": 3,
+        "riverRender": 174,
+        "physicalBatch": 369,
+        "overlays": 11,
+        "releaseRiverRender": 2
+      }
+    },
+    {
+      "name": "map-dateline",
+      "pixels": {
+        "opaque": 963200,
+        "colored": 0,
+        "min": 31,
+        "max": 174,
+        "grayLevels": 139
+      },
+      "rgbaSha256": "55310f3534ed40b0d33cd48e1f9ec51d6dfaf8745e30aa7db8c43cb6e099a535",
+      "geometry": {
+        "positionMin": 0,
+        "positionMax": 0
+      },
+      "renderer": {
+        "surfaceMaterialCount": "1",
+        "surfaceBytes": "36565024",
+        "terrainBatchGpuBytes": "17367384",
+        "terrainDrawCalls": "4",
+        "overlayBytes": "0",
+        "fantasySymbolCount": "0",
+        "effectiveRelief": "0",
+        "zoomDetailState": "off",
+        "gridState": "off"
+      },
+      "cumulativeSourceRequests": {
+        "physicalManifest": 3,
+        "riverRender": 174,
+        "physicalBatch": 369,
+        "overlays": 13,
+        "releaseRiverRender": 3
+      }
+    }
+  ],
+  "gpuScalarChecks": {
+    "actualHeightRangeMetres": [-100, 1000],
+    "encodingRangeMetres": [-12000, 9000],
+    "sampledHeightsMetres": [-100, 450, 1000],
+    "rendererToneMapping": "ACESFilmic",
+    "rendererExposure": 3,
+    "extraLight": "Red directional, intensity 50",
+    "cases": [
+      {
+        "flat": false,
+        "constant": false,
+        "samples": [
+          [0, 0, 0, 255],
+          [128, 128, 128, 255],
+          [255, 255, 255, 255]
+        ],
+        "error": 0
+      },
+      {
+        "flat": false,
+        "constant": true,
+        "samples": [
+          [128, 128, 128, 255],
+          [128, 128, 128, 255],
+          [128, 128, 128, 255]
+        ],
+        "error": 0
+      },
+      {
+        "flat": true,
+        "constant": false,
+        "samples": [
+          [0, 0, 0, 255],
+          [128, 128, 128, 255],
+          [255, 255, 255, 255]
+        ],
+        "error": 0
+      },
+      {
+        "flat": true,
+        "constant": true,
+        "samples": [
+          [128, 128, 128, 255],
+          [128, 128, 128, 255],
+          [128, 128, 128, 255]
+        ],
+        "error": 0
+      }
+    ]
+  },
+  "nativeUi": {
+    "legend": "Heightmap\nElevation\n-7,441 m\n12,564 m\n\nEquirectangular \u00b7 polar areas are stretched\n\nLowest \u2192 highest \u00b7 unshaded terrain elevation",
+    "legendRamp": "background: linear-gradient(90deg, rgb(0, 0, 0), rgb(255, 255, 255));",
+    "screenshots": [
+      "outputs/atlas-heightmap-studio-map.png",
+      "outputs/atlas-heightmap-studio-globe.png"
+    ],
+    "overlayPreferencesRestored": true
+  },
+  "riverReadiness": {
+    "method": "Held the first river packet after its normal source fetch while allowing terrain packets to arrive. No production code was modified for this check.",
+    "dataset": {
+      "surfaceReady": "true",
+      "riverReady": "false",
+      "effectiveMapStyle": "heightmap",
+      "gpuPending": "false"
+    },
+    "riverPacketsTemporarilyHeld": 1,
+    "banners": [],
+    "errors": [],
+    "passed": true
+  },
+  "cacheNotes": [
+    "Style, relief, overlay preferences, projection and camera changes issued no additional physical terrain reads.",
+    "Season changes use the existing world packet invalidation path; heightmap pixels remain identical.",
+    "The existing shared river asset can prepare in the background, but contributes no colored pixels and does not delay Heightmap readiness."
+  ],
+  "sourceSha256": {
+    "src/render/HeightmapMaterial.ts": "5c0d27c94b4e2ad1356f60564893184cc0051f13ac772ae540c3fca2e5af4ad9",
+    "src/render/FixedSurface.ts": "bb6e0e8378edb43306f8c3daf575778aa5b610d623b77025a1537ab44b1b1c9a",
+    "src/render/MapStyle.ts": "f8bb27ffc877107d780f7e0d9f058cfcd479215edce6a11a60f6b27a67f679ab",
+    "src/render/PagedWorldView.tsx": "7da28ea11f14489cda6d440514571209d892e95d9bee738d50ecabee33dd8c47",
+    "src/app/WorldStudio.tsx": "36e31b683d446b208647fe8ca75840b054af1a05db837c6a8bb9604ece067466",
+    "app/globals.css": "3365880c64c51b2ea02b63f6b02c3cd4a2101223af9c1a1dd141823a0806fd24"
+  },
+  "errors": [],
+  "passed": true
+}

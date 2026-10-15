@@ -99,16 +99,31 @@ export function Toggle({
   label,
   checked,
   onChange,
+  description,
 }: {
   label: string;
   checked: boolean;
   onChange: (checked: boolean) => void;
+  description?: string;
 }) {
-  return (
-    <label className="view-toggle">
-      <Switch checked={checked} onCheckedChange={onChange} aria-label={label} />
+  const control = (
+    <label className="view-toggle" title={description}>
+      <Switch
+        checked={checked}
+        onCheckedChange={onChange}
+        aria-label={label}
+        aria-description={description}
+      />
       <span>{label}</span>
     </label>
+  );
+  return description ? (
+    <Tooltip>
+      <TooltipTrigger asChild>{control}</TooltipTrigger>
+      <TooltipContent>{description}</TooltipContent>
+    </Tooltip>
+  ) : (
+    control
   );
 }
 

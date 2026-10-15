@@ -1,0 +1,415 @@
+{
+  "results": [
+    {
+      "label": "globe initial settled",
+      "values": {
+        "engine": "three.js r185",
+        "activeTiles": "64",
+        "residentTiles": "84",
+        "tileBytes": "7314048",
+        "pendingTiles": "0",
+        "sharedTextureBytes": "0",
+        "overlayBytes": "3072000",
+        "displayBytes": "10386048",
+        "renderFrames": "26",
+        "overlayTruncated": "true"
+      },
+      "peaks": {
+        "resident": 84,
+        "bytes": 7314048,
+        "pending": 4,
+        "active": 64
+      }
+    },
+    {
+      "label": "globe zoom 1",
+      "values": {
+        "engine": "three.js r185",
+        "activeTiles": "64",
+        "residentTiles": "88",
+        "tileBytes": "7662336",
+        "pendingTiles": "0",
+        "sharedTextureBytes": "0",
+        "overlayBytes": "3072000",
+        "displayBytes": "10734336",
+        "renderFrames": "29",
+        "overlayTruncated": "true"
+      },
+      "peaks": {
+        "resident": 88,
+        "bytes": 7662336,
+        "pending": 4,
+        "active": 64
+      }
+    },
+    {
+      "label": "globe zoom 2",
+      "values": {
+        "engine": "three.js r185",
+        "activeTiles": "64",
+        "residentTiles": "96",
+        "tileBytes": "8358912",
+        "pendingTiles": "0",
+        "sharedTextureBytes": "0",
+        "overlayBytes": "2753280",
+        "displayBytes": "11112192",
+        "renderFrames": "35",
+        "overlayTruncated": "false"
+      },
+      "peaks": {
+        "resident": 96,
+        "bytes": 8358912,
+        "pending": 4,
+        "active": 64
+      }
+    },
+    {
+      "label": "globe zoom 3",
+      "values": {
+        "engine": "three.js r185",
+        "activeTiles": "64",
+        "residentTiles": "100",
+        "tileBytes": "8707200",
+        "pendingTiles": "0",
+        "sharedTextureBytes": "0",
+        "overlayBytes": "868992",
+        "displayBytes": "9576192",
+        "renderFrames": "39",
+        "overlayTruncated": "false"
+      },
+      "peaks": {
+        "resident": 100,
+        "bytes": 8707200,
+        "pending": 4,
+        "active": 64
+      }
+    },
+    {
+      "label": "globe zoom 4",
+      "values": {
+        "engine": "three.js r185",
+        "activeTiles": "64",
+        "residentTiles": "104",
+        "tileBytes": "9055488",
+        "pendingTiles": "0",
+        "sharedTextureBytes": "0",
+        "overlayBytes": "294528",
+        "displayBytes": "9350016",
+        "renderFrames": "43",
+        "overlayTruncated": "false"
+      },
+      "peaks": {
+        "resident": 104,
+        "bytes": 9055488,
+        "pending": 4,
+        "active": 64
+      }
+    },
+    {
+      "label": "globe zoom 5",
+      "values": {
+        "engine": "three.js r185",
+        "activeTiles": "64",
+        "residentTiles": "116",
+        "tileBytes": "10100352",
+        "pendingTiles": "0",
+        "sharedTextureBytes": "0",
+        "overlayBytes": "79488",
+        "displayBytes": "10179840",
+        "renderFrames": "51",
+        "overlayTruncated": "false"
+      },
+      "peaks": {
+        "resident": 116,
+        "bytes": 10100352,
+        "pending": 4,
+        "active": 64
+      }
+    },
+    {
+      "label": "globe orbit after zoom",
+      "values": {
+        "engine": "three.js r185",
+        "activeTiles": "64",
+        "residentTiles": "128",
+        "tileBytes": "11145216",
+        "pendingTiles": "0",
+        "sharedTextureBytes": "0",
+        "overlayBytes": "633600",
+        "displayBytes": "11778816",
+        "renderFrames": "205",
+        "overlayTruncated": "false"
+      },
+      "peaks": {
+        "resident": 128,
+        "bytes": 11145216,
+        "pending": 4,
+        "active": 64
+      }
+    },
+    {
+      "label": "flat map initial settled",
+      "values": {
+        "engine": "three.js r185",
+        "activeTiles": "64",
+        "residentTiles": "84",
+        "tileBytes": "7314048",
+        "pendingTiles": "0",
+        "sharedTextureBytes": "0",
+        "overlayBytes": "6144000",
+        "displayBytes": "13458048",
+        "renderFrames": "33",
+        "overlayTruncated": "true"
+      },
+      "peaks": {
+        "resident": 128,
+        "bytes": 11145216,
+        "pending": 4,
+        "active": 64
+      }
+    },
+    {
+      "label": "map zoom 1",
+      "values": {
+        "engine": "three.js r185",
+        "activeTiles": "64",
+        "residentTiles": "84",
+        "tileBytes": "7314048",
+        "pendingTiles": "0",
+        "sharedTextureBytes": "0",
+        "overlayBytes": "6144000",
+        "displayBytes": "13458048",
+        "renderFrames": "36",
+        "overlayTruncated": "true"
+      },
+      "peaks": {
+        "resident": 128,
+        "bytes": 11145216,
+        "pending": 4,
+        "active": 64
+      }
+    },
+    {
+      "label": "map zoom 2",
+      "values": {
+        "engine": "three.js r185",
+        "activeTiles": "64",
+        "residentTiles": "108",
+        "tileBytes": "9403776",
+        "pendingTiles": "0",
+        "sharedTextureBytes": "0",
+        "overlayBytes": "6144000",
+        "displayBytes": "15547776",
+        "renderFrames": "44",
+        "overlayTruncated": "true"
+      },
+      "peaks": {
+        "resident": 128,
+        "bytes": 11145216,
+        "pending": 4,
+        "active": 64
+      }
+    },
+    {
+      "label": "map zoom 3",
+      "values": {
+        "engine": "three.js r185",
+        "activeTiles": "64",
+        "residentTiles": "128",
+        "tileBytes": "11145216",
+        "pendingTiles": "0",
+        "sharedTextureBytes": "0",
+        "overlayBytes": "4607232",
+        "displayBytes": "15752448",
+        "renderFrames": "52",
+        "overlayTruncated": "false"
+      },
+      "peaks": {
+        "resident": 128,
+        "bytes": 11145216,
+        "pending": 4,
+        "active": 64
+      }
+    },
+    {
+      "label": "map zoom 4",
+      "values": {
+        "engine": "three.js r185",
+        "activeTiles": "64",
+        "residentTiles": "128",
+        "tileBytes": "11145216",
+        "pendingTiles": "0",
+        "sharedTextureBytes": "0",
+        "overlayBytes": "828672",
+        "displayBytes": "11973888",
+        "renderFrames": "55",
+        "overlayTruncated": "false"
+      },
+      "peaks": {
+        "resident": 128,
+        "bytes": 11145216,
+        "pending": 4,
+        "active": 64
+      }
+    },
+    {
+      "label": "map zoom 5",
+      "values": {
+        "engine": "three.js r185",
+        "activeTiles": "64",
+        "residentTiles": "128",
+        "tileBytes": "11145216",
+        "pendingTiles": "0",
+        "sharedTextureBytes": "0",
+        "overlayBytes": "185088",
+        "displayBytes": "11330304",
+        "renderFrames": "61",
+        "overlayTruncated": "false"
+      },
+      "peaks": {
+        "resident": 128,
+        "bytes": 11145216,
+        "pending": 4,
+        "active": 64
+      }
+    },
+    {
+      "label": "map pan after zoom",
+      "values": {
+        "engine": "three.js r185",
+        "activeTiles": "64",
+        "residentTiles": "128",
+        "tileBytes": "11145216",
+        "pendingTiles": "0",
+        "sharedTextureBytes": "0",
+        "overlayBytes": "293376",
+        "displayBytes": "11438592",
+        "renderFrames": "205",
+        "overlayTruncated": "false"
+      },
+      "peaks": {
+        "resident": 128,
+        "bytes": 11145216,
+        "pending": 4,
+        "active": 64
+      }
+    },
+    {
+      "label": "June natural map",
+      "values": {
+        "engine": "three.js r185",
+        "activeTiles": "64",
+        "residentTiles": "84",
+        "tileBytes": "7314048",
+        "pendingTiles": "0",
+        "sharedTextureBytes": "0",
+        "overlayBytes": "6144000",
+        "displayBytes": "13458048",
+        "renderFrames": "247",
+        "overlayTruncated": "true"
+      },
+      "peaks": {
+        "resident": 128,
+        "bytes": 11145216,
+        "pending": 4,
+        "active": 64
+      }
+    },
+    {
+      "label": "December natural map",
+      "values": {
+        "engine": "three.js r185",
+        "activeTiles": "64",
+        "residentTiles": "84",
+        "tileBytes": "7314048",
+        "pendingTiles": "0",
+        "sharedTextureBytes": "0",
+        "overlayBytes": "6144000",
+        "displayBytes": "13458048",
+        "renderFrames": "283",
+        "overlayTruncated": "true"
+      },
+      "peaks": {
+        "resident": 128,
+        "bytes": 11145216,
+        "pending": 4,
+        "active": 64
+      }
+    },
+    {
+      "label": "shaded relief map",
+      "values": {
+        "engine": "three.js r185",
+        "activeTiles": "64",
+        "residentTiles": "84",
+        "tileBytes": "7314048",
+        "pendingTiles": "0",
+        "sharedTextureBytes": "0",
+        "overlayBytes": "6144000",
+        "displayBytes": "13458048",
+        "renderFrames": "350",
+        "overlayTruncated": "true"
+      },
+      "peaks": {
+        "resident": 128,
+        "bytes": 11145216,
+        "pending": 4,
+        "active": 64
+      }
+    },
+    {
+      "label": "ink atlas map",
+      "values": {
+        "engine": "three.js r185",
+        "activeTiles": "64",
+        "residentTiles": "84",
+        "tileBytes": "7321792",
+        "pendingTiles": "0",
+        "sharedTextureBytes": "18882456",
+        "overlayBytes": "6144000",
+        "displayBytes": "32348248",
+        "renderFrames": "392",
+        "overlayTruncated": "true"
+      },
+      "peaks": {
+        "resident": 128,
+        "bytes": 11145216,
+        "pending": 4,
+        "active": 64
+      }
+    },
+    {
+      "label": "actual selected region preview",
+      "values": {
+        "engine": "three.js r185",
+        "activeTiles": "64",
+        "residentTiles": "111",
+        "tileBytes": "9664992",
+        "pendingTiles": "0",
+        "sharedTextureBytes": "18882456",
+        "overlayBytes": "6144000",
+        "displayBytes": "34691448",
+        "renderFrames": "444",
+        "overlayTruncated": "true"
+      },
+      "peaks": {
+        "resident": 128,
+        "bytes": 11145216,
+        "pending": 4,
+        "active": 64
+      }
+    }
+  ],
+  "errors": [],
+  "screenshots": [
+    "atlas-216-globe.png",
+    "atlas-216-map.png",
+    "atlas-216-relief.png",
+    "atlas-216-illustrated.png",
+    "atlas-216-region-controls.png",
+    "atlas-216-library.png"
+  ],
+  "idleNaturalStopsDrawing": true,
+  "actualCellPickingAndRegionControls": true,
+  "passed": true
+}

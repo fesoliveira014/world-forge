@@ -1,4 +1,12 @@
 import type { Drainage, Grid, Terrain, WorldConfig } from '../model';
+import {
+  computeCornerSupport,
+  distributeCellInventory,
+  reconstructCornerField,
+} from '../operators/corner-fields';
+import { depositRiverMouth, depositRiverSediment, riverSettlingFraction } from './river-sediment';
+import { evolveRiverBanks } from './river-migration';
+import { floodplainWidths } from './floodplains';
 
 /** Recent fluvial evolution on a fixed provisional water graph. An implicit,
  * downstream-first update lets lowering propagate up a valley without tiny time
@@ -23,7 +31,8 @@ export function erodeRiverLandscape(
   const height = new Float32Array(cornerCount);
   const incisionDepth = new Float32Array(cornerCount);
   const request = new Float64Array(grid.count);
-  const removed = new Float64Array(grid.count);
+  const removed = evolveRiverBanks(grid, terrain, drainage, config);
+  const support = computeCornerSupport(grid);
 
   for (let cornerIndex = 0; cornerIndex < cornerCount; cornerIndex++) {
     const receiverCorner = drainage.receiver[cornerIndex];
@@ -68,20 +77,14 @@ export function erodeRiverLandscape(
 
   for (let step = 0; step < steps; step++) {
     request.fill(0);
+    reconstructCornerField(grid, terrain.height, height);
 
     for (let cornerIndex = 0; cornerIndex < cornerCount; cornerIndex++) {
-      let meanHeight = 0;
-
-      for (let incidentIndex = 0; incidentIndex < 3; incidentIndex++) {
-        meanHeight += terrain.height[grid.triangles[cornerIndex * 3 + incidentIndex]] / 3;
-      }
-
-      height[cornerIndex] = meanHeight;
       const lake = drainage.lakeId[cornerIndex];
       incisionDepth[cornerIndex] =
         lake >= 0 && drainage.lakeFraction[cornerIndex] > 0
-          ? Math.max(meanHeight, drainage.lakes[lake].level)
-          : meanHeight;
+          ? Math.max(height[cornerIndex], drainage.lakes[lake].level)
+          : height[cornerIndex];
     }
 
     for (let orderIndex = cornerCount - 1; orderIndex >= 0; orderIndex--) {
@@ -111,7 +114,9 @@ export function erodeRiverLandscape(
         const cellIndex = grid.triangles[cornerIndex * 3 + incidentIndex];
 
         if (!terrain.ocean[cellIndex] && drainage.lakeDepth[cellIndex] <= 0) {
-          request[cellIndex] += lowering / (grid.offsets[cellIndex + 1] - grid.offsets[cellIndex]);
+          request[cellIndex] +=
+            (lowering * support.cornerCellArea[cornerIndex * 3 + incidentIndex]) /
+            grid.areas[cellIndex];
         }
       }
     }
@@ -134,100 +139,7 @@ export function erodeRiverLandscape(
     }
   }
 
-  const flux = new Float64Array(cornerCount);
-
-  for (let cellIndex = 0; cellIndex < grid.count; cellIndex++) {
-    const share = removed[cellIndex] / (grid.offsets[cellIndex + 1] - grid.offsets[cellIndex]);
-
-    for (
-      let neighborOffset = grid.offsets[cellIndex];
-      neighborOffset < grid.offsets[cellIndex + 1];
-      neighborOffset++
-    ) {
-      flux[grid.cellCorners[neighborOffset]] += share;
-    }
-  }
-
-  const depositSediment = (cellIndex: number, volume: number, delta = false) => {
-    const heightBeforeDeposit = terrain.height[cellIndex];
-    terrain.sediment[cellIndex] += volume / (grid.areas[cellIndex] * radius2);
-    terrain.height[cellIndex] = terrain.bedrock[cellIndex] + terrain.sediment[cellIndex];
-    const depth = Math.max(0, terrain.height[cellIndex] - heightBeforeDeposit);
-
-    if (delta) {
-      terrain.deltaSediment[cellIndex] += depth;
-    }
-
-    return depth * grid.areas[cellIndex] * radius2;
-  };
-
-  // One local fan per receiving corner; never a global search per river mouth.
-  const depositAtMouth = (cornerIndex: number, volume: number, lake: number) => {
-    const level = lake < 0 ? 0 : drainage.lakes[lake].level;
-    const candidates = new Set<number>();
-
-    for (let incidentIndex = 0; incidentIndex < 3; incidentIndex++) {
-      const cellIndex = grid.triangles[cornerIndex * 3 + incidentIndex];
-      candidates.add(cellIndex);
-
-      for (
-        let neighborOffset = grid.offsets[cellIndex];
-        neighborOffset < grid.offsets[cellIndex + 1];
-        neighborOffset++
-      ) {
-        candidates.add(grid.neighbors[neighborOffset]);
-      }
-    }
-
-    const cells: number[] = [];
-    const weights: number[] = [];
-    let weight = 0;
-
-    for (const cellIndex of candidates) {
-      if (terrain.height[cellIndex] > level + 3 || terrain.height[cellIndex] < level - 350) {
-        continue;
-      }
-
-      if (lake < 0 && drainage.lakeCoverage[cellIndex] > 0) {
-        continue;
-      }
-
-      if (lake >= 0 && terrain.ocean[cellIndex]) {
-        continue;
-      }
-
-      if (
-        lake >= 0 &&
-        drainage.lakeCoverage[cellIndex] > 0 &&
-        !Array.from(
-          grid.cellCorners.subarray(grid.offsets[cellIndex], grid.offsets[cellIndex + 1]),
-        ).some((adjacentCorner) => drainage.lakeId[adjacentCorner] === lake)
-      ) {
-        continue;
-      }
-
-      const depositionWeight = 1 / (20 + Math.max(0, level - terrain.height[cellIndex]));
-      cells.push(cellIndex);
-      weights.push(depositionWeight);
-      weight += depositionWeight;
-    }
-
-    const retained = volume * (lake < 0 ? 0.7 / (1 + config.waveErosion * 0.5) : 0.85);
-    let deposited = 0;
-
-    for (let candidateIndex = 0; candidateIndex < cells.length; candidateIndex++) {
-      const cellIndex = cells[candidateIndex];
-      const depositCapacity =
-        (level + 3 - terrain.height[cellIndex]) * grid.areas[cellIndex] * radius2;
-      deposited += depositSediment(
-        cellIndex,
-        Math.min(depositCapacity, (retained * weights[candidateIndex]) / weight),
-        true,
-      );
-    }
-
-    return Math.max(0, volume - deposited);
-  };
+  const flux = distributeCellInventory(grid, removed);
 
   let exported = 0;
 
@@ -241,10 +153,14 @@ export function erodeRiverLandscape(
     }
 
     if (receiverCorner < 0 || drainage.lakeFraction[cornerIndex] > 0) {
-      volume = depositAtMouth(
+      volume = depositRiverMouth(
+        grid,
+        terrain,
+        drainage,
         cornerIndex,
         volume,
         drainage.lakeFraction[cornerIndex] > 0 ? drainage.lakeId[cornerIndex] : -1,
+        config,
       );
       // Fine sediment not resolved in the mouth fan enters the receiving water.
       exported += volume;
@@ -253,13 +169,49 @@ export function erodeRiverLandscape(
 
     const slope =
       Math.max(0, height[cornerIndex] - height[receiverCorner]) / Math.max(1, lengths[cornerIndex]);
-    const settle = (volume * 0.035) / (1 + (slope / 0.001) ** 2);
+    const mean = drainage.discharge[cornerIndex];
+    const peak = drainage.seasonalPeak?.[cornerIndex] ?? mean;
+    const excess = Math.max(0, peak - mean * 1.2);
+    const overbankShare = excess / Math.max(1, peak);
+    const settling = riverSettlingFraction(lengths[cornerIndex], slope);
+    // Overflow exposes additional suspended load to slow floodplain water.
+    // Both channel settling and overbank trapping draw from this same load.
+    const settle = volume * (settling + (1 - settling) * overbankShare * settling);
 
     for (let incidentIndex = 0; incidentIndex < 3; incidentIndex++) {
       const cellIndex = grid.triangles[cornerIndex * 3 + incidentIndex];
 
       if (!terrain.ocean[cellIndex]) {
-        volume -= depositSediment(cellIndex, settle / 3);
+        const fraction =
+          support.cornerCellArea[cornerIndex * 3 + incidentIndex] / support.cornerArea[cornerIndex];
+        const length = Math.max(1, lengths[cornerIndex]);
+        const distance = Math.max(1, (grid.areas[cellIndex] * radius2) / (2 * length));
+        const riverLevel = (height[cornerIndex] + height[receiverCorner]) * 0.5;
+        const widths = floodplainWidths({
+          supply: drainage.discharge[cornerIndex] * 0.6,
+          peak: excess,
+          length,
+          riverSlope: slope,
+          bankSlope: Math.max(0, terrain.height[cellIndex] - riverLevel) / distance,
+          availableWidth: distance * 0.8,
+          sediment: terrain.sediment[cellIndex],
+          extent: config.floodplainExtent,
+        });
+        const channelWidth = Math.min(distance * 0.8, 4 * Math.sqrt(mean));
+        const width = Math.min(widths.bank, channelWidth + widths.flood);
+        const stage = Math.max(2, Math.min(6, 0.5 + 0.06 * Math.sqrt(excess)));
+        // Alluvial deposition is limited to the accessible bank footprint and
+        // low terrace accommodation. Incoming load is the only material source.
+        const capacity =
+          Math.max(0, riverLevel + stage - terrain.height[cellIndex]) *
+          Math.min(grid.areas[cellIndex] * radius2 * fraction, length * width);
+        volume -= depositRiverSediment(
+          grid,
+          terrain,
+          cellIndex,
+          Math.min(capacity, settle * fraction, volume),
+          config.radius,
+        );
       }
     }
 

@@ -4,14 +4,20 @@ import { computeDistances } from '../operators/spatial';
 import { createTerrainSampler, sampleUplift } from './geology';
 import { shapeContinentalBasins } from './continental-basins';
 import { referencePoint } from './crust-evolution';
+import { createScalarStencilSampler, sampleScalarStencil } from '../operators/scalar-sampling';
+import { buildVolcanicDetail } from './volcanic-detail';
 
-export function createTerrain(
-  grid: Grid,
-  processGrid: Grid,
-  surfaceToProcess: Uint32Array,
-  geology: Geology,
-  config: WorldConfig,
-): Terrain {
+export interface TerrainSamplingOptions {
+  continuous?: boolean;
+  volcanicDetail?: boolean;
+}
+
+/** The datum is determined by the process history, never by the surface mesh. */
+function terrainSeaThreshold(processGrid: Grid, geology: Geology, config: WorldConfig): number {
+  if (geology.crust) {
+    return geology.crust.seaThreshold;
+  }
+
   const sample = createTerrainSampler(config);
   const coarse = new Float32Array(processGrid.count);
 
@@ -23,21 +29,113 @@ export function createTerrain(
   const order = Uint32Array.from({ length: processGrid.count }, (_, cellIndex) => cellIndex);
   order.sort((firstCell, secondCell) => coarse[firstCell] - coarse[secondCell]);
   let total = 0;
-  let seaThreshold = 0;
 
-  // Fixed reference quantile preserves the datum when only surface detail changes.
   for (const cellIndex of order) {
     total += processGrid.areas[cellIndex];
 
     if (total >= config.oceanFraction * 4 * Math.PI) {
-      seaThreshold = coarse[cellIndex];
-      break;
+      return coarse[cellIndex];
     }
   }
 
-  if (geology.crust) {
-    seaThreshold = geology.crust.seaThreshold;
+  return 0;
+}
+
+/** Continuous terrain reconstruction of one fixed process-grid geological history.
+ * Material-frame detail blends on shared Delaunay faces. Its residual vanishes at
+ * retained coarse samples, and newly opened crust contributes no inherited residual.
+ */
+export function createTerrainHeightSampler(
+  processGrid: Grid,
+  geology: Geology,
+  config: WorldConfig,
+) {
+  const sample = createTerrainSampler(config);
+  const locate = createScalarStencilSampler(processGrid);
+  const seaThreshold = terrainSeaThreshold(processGrid, geology, config);
+  const crust = geology.crust;
+  const recentVolcanics = new Float32Array(processGrid.count);
+
+  if (crust) {
+    for (let cellIndex = 0; cellIndex < processGrid.count; cellIndex++) {
+      recentVolcanics[cellIndex] =
+        crust.volcanic[cellIndex] > 500 ? Math.exp(-crust.volcanicAge[cellIndex] / 20) : 0;
+    }
   }
+
+  const heightAt = (
+    x: number,
+    y: number,
+    z: number,
+    startCell?: number,
+    volcanicHeight?: number,
+  ): number => {
+    const stencil = locate(x, y, z, startCell);
+    const uplift = sampleScalarStencil(stencil, geology.uplift);
+    let baseElevation = 0;
+    let lowlandRelief = 0;
+    let mountainTexture = 0;
+
+    if (crust) {
+      let residual = 0;
+
+      for (let vertex = 0; vertex < 3; vertex++) {
+        const processCell = stencil.cells[vertex];
+        const weight = stencil.weights[vertex];
+        const origin = referencePoint(crust.inverse, geology.plate[processCell], x, y, z);
+        const terrainSample = sample(...origin);
+        residual +=
+          weight *
+          crust.material[processCell] *
+          (terrainSample.base - seaThreshold - crust.materialBase[processCell]);
+        lowlandRelief += weight * terrainSample.lowlandRelief;
+        mountainTexture += weight * terrainSample.mountainTexture;
+      }
+
+      baseElevation = sampleScalarStencil(stencil, crust.base) + clamp(residual, -900, 900);
+    } else {
+      const terrainSample = sample(x, y, z);
+      baseElevation = terrainSample.base - seaThreshold;
+      lowlandRelief = terrainSample.lowlandRelief;
+      mountainTexture = terrainSample.mountainTexture;
+    }
+
+    const young = Math.max(
+      clamp(uplift / 3500),
+      sampleScalarStencil(stencil, recentVolcanics),
+      clamp((Math.abs(y) - 0.72) / 0.2),
+    );
+    const maturity = config.tectonicDuration * config.erosion * (1 - young * 0.85);
+    const inheritedRelief = 0.2 + 0.8 * Math.exp(-maturity / 65);
+    const plains = 950 * -Math.expm1(-Math.max(0, baseElevation) / 5500);
+    const valleys = Math.min(140, plains * 0.65) * lowlandRelief * inheritedRelief;
+    const basement = baseElevation > 0 ? plains + valleys : baseElevation * 0.55;
+    const volcanic = volcanicHeight ?? (crust ? sampleScalarStencil(stencil, crust.volcanic) : 0);
+    const relief = Math.max(0, uplift) * mountainTexture + Math.min(0, uplift) + volcanic;
+    const elevation = basement + relief;
+
+    return elevation > 0 ? elevation * config.reliefScale : elevation;
+  };
+
+  return { heightAt, seaThreshold };
+}
+
+export function createTerrain(
+  grid: Grid,
+  processGrid: Grid,
+  surfaceToProcess: Uint32Array,
+  geology: Geology,
+  config: WorldConfig,
+  options: TerrainSamplingOptions = {},
+): Terrain {
+  const sample = createTerrainSampler(config);
+  const seaThreshold = terrainSeaThreshold(processGrid, geology, config);
+  const continuous = options.continuous
+    ? createTerrainHeightSampler(processGrid, geology, config)
+    : undefined;
+  const volcanicDetail = options.volcanicDetail
+    ? buildVolcanicDetail(grid, processGrid, geology, config)
+    : undefined;
 
   const bedrock = new Float32Array(grid.count);
   const sediment = new Float32Array(grid.count);
@@ -45,6 +143,18 @@ export function createTerrain(
 
   for (let cellIndex = 0; cellIndex < grid.count; cellIndex++) {
     const [x, y, z] = readVector(grid.positions, cellIndex);
+
+    if (continuous) {
+      height[cellIndex] = bedrock[cellIndex] = continuous.heightAt(
+        x,
+        y,
+        z,
+        surfaceToProcess[cellIndex],
+        volcanicDetail?.height[cellIndex],
+      );
+      continue;
+    }
+
     const crust = geology.crust;
     const processCell = surfaceToProcess[cellIndex];
     const origin = crust
@@ -97,7 +207,9 @@ export function createTerrain(
     const plains = 950 * -Math.expm1(-Math.max(0, baseElevation) / 5500);
     const valleys = Math.min(140, plains * 0.65) * terrainSample.lowlandRelief * inheritedRelief;
     const basement = baseElevation > 0 ? plains + valleys : baseElevation * 0.55;
-    const volcanic = crust ? sampleUplift(processGrid, crust.volcanic, x, y, z, processCell) : 0;
+    const volcanic =
+      volcanicDetail?.height[cellIndex] ??
+      (crust ? sampleUplift(processGrid, crust.volcanic, x, y, z, processCell) : 0);
     const relief =
       Math.max(0, uplift) * terrainSample.mountainTexture + Math.min(0, uplift) + volcanic;
     const elevation = basement + relief;

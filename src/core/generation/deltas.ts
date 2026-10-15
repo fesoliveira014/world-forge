@@ -12,6 +12,7 @@ export function buildDeltas(
   drainage: Drainage,
   rivers: Rivers,
   config: WorldConfig,
+  options: { physicalNeighborhood?: boolean } = {},
 ): Delta[] {
   const deltas: Delta[] = [];
 
@@ -55,12 +56,45 @@ export function buildDeltas(
         const cellIndex = grid.triangles[corner * 3 + incidentIndex];
         cells.add(cellIndex);
 
+        if (options.physicalNeighborhood) {
+          continue;
+        }
+
         for (
           let neighborOffset = grid.offsets[cellIndex];
           neighborOffset < grid.offsets[cellIndex + 1];
           neighborOffset++
         ) {
           cells.add(grid.neighbors[neighborOffset]);
+        }
+      }
+    }
+
+    if (options.physicalNeighborhood) {
+      // A fixed ring shrinks wherever the adaptive mesh adds sites. Extend the
+      // mouth's incident cells by physical distance, using the same 60 km reach
+      // as the receiving-water search below.
+      const nearby = [...cells];
+
+      for (let head = 0; head < nearby.length; head++) {
+        const cellIndex = nearby[head];
+
+        for (
+          let neighborOffset = grid.offsets[cellIndex];
+          neighborOffset < grid.offsets[cellIndex + 1];
+          neighborOffset++
+        ) {
+          const neighbor = grid.neighbors[neighborOffset];
+
+          if (
+            cells.has(neighbor) ||
+            angle(finish, readVector(grid.positions, neighbor)) * config.radius > 60000
+          ) {
+            continue;
+          }
+
+          cells.add(neighbor);
+          nearby.push(neighbor);
         }
       }
     }
@@ -86,7 +120,7 @@ export function buildDeltas(
     const seen = new Set([receiverCorner]);
     const queue = [receiverCorner];
 
-    for (let step = 0; step < queue.length && step < 24; step++) {
+    for (let step = 0; step < queue.length && (options.physicalNeighborhood || step < 24); step++) {
       const corner = queue[step];
 
       for (let neighborSlot = 0; neighborSlot < 3; neighborSlot++) {

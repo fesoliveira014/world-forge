@@ -1,28 +1,70 @@
 import { X } from 'lucide-react';
-import type { World } from '../core/model';
-import { nearestCell } from '../core/grid/build';
+import { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import type {
+  DepositInspection,
+  DepositPage,
+  WorldSummary,
+  WorldViewSource,
+} from '../core/view/types';
 import { RESOURCE_PRESETS, FORMATION_NAMES, resourcePreset } from '../core/resource-presets';
-import { evaluateFertilityCell } from '../core/generation/fertility';
-import { isLakeCell } from '../render/SurfaceHabitats';
+import type { FertilityEvaluation } from '../core/generation/fertility';
 import type { ResourceFilter } from '../render/ResourceMarkers';
 import { Choice, formatNumber } from './controls';
 
 export function ResourceControls({
-  world,
+  source,
+  summary,
   filter,
   selected,
   onFilter,
   onSelect,
 }: {
-  world: World;
+  source: WorldViewSource;
+  summary: WorldSummary;
   filter: ResourceFilter;
   selected: string | null;
   onFilter: (filter: ResourceFilter) => void;
   onSelect: (id: string | null) => void;
 }) {
-  const deposits = world.resources.deposits.filter(
-    (deposit) => filter === 'all' || deposit.resourceType === filter,
-  );
+  const [cursor, setCursor] = useState(0);
+  const [result, setResult] = useState<{
+    source: WorldViewSource;
+    filter: ResourceFilter;
+    cursor: number;
+    page: DepositPage;
+  } | null>(null);
+  const [failure, setFailure] = useState<{ key: string; message: string } | null>(null);
+  useEffect(() => {
+    let active = true;
+    void source
+      .listDeposits(filter, cursor, 100)
+      .then((page) => {
+        if (active) {
+          setResult({ source, filter, cursor, page });
+          setFailure(null);
+        }
+      })
+      .catch((caughtError) => {
+        if (active) {
+          setFailure({
+            key: `${filter}:${cursor}`,
+            message:
+              caughtError instanceof Error ? caughtError.message : 'Could not load deposits.',
+          });
+        }
+      });
+    return () => {
+      active = false;
+    };
+  }, [source, filter, cursor]);
+  const page =
+    result?.source === source && result.filter === filter && result.cursor === cursor
+      ? result.page
+      : null;
+  const error = failure?.key === `${filter}:${cursor}` ? failure.message : '';
+  const deposits = page?.items ?? [];
+  const total = filter === 'all' ? summary.depositCount : summary.resourceTotals[filter].count;
   return (
     <section className="resource-controls">
       <div className="panel-heading">
@@ -38,9 +80,8 @@ export function ResourceControls({
         ]}
       />
       <p className="panel-note">
-        {formatNumber(deposits.length)} deposits
-        {filter !== 'all' &&
-          ` · ${formatNumber(deposits.reduce((sum, deposit) => sum + deposit.amount, 0))} units`}
+        {formatNumber(total)} deposits
+        {filter !== 'all' && ` · ${formatNumber(summary.resourceTotals[filter].amount)} units`}
       </p>
       {deposits.length > 0 ? (
         <Choice
@@ -49,6 +90,9 @@ export function ResourceControls({
           onChange={(id) => onSelect(id === 'none' ? null : id)}
           items={[
             ['none', 'Select a marker or deposit'],
+            ...(selected && !deposits.some((deposit) => deposit.id === selected)
+              ? [[selected, 'Selected map deposit']]
+              : []),
             ...deposits.map((deposit) => [
               deposit.id,
               `${resourcePreset(deposit.resourceType).name} · ${deposit.id.split(':').slice(1).join('.')} · ${formatNumber(deposit.amount)} units`,
@@ -57,9 +101,40 @@ export function ResourceControls({
         />
       ) : (
         <p className="panel-note">
-          No deposits of this resource in this world. Frequency and geological settings control
-          their occurrence.
+          {!page
+            ? 'Loading deposits…'
+            : 'No deposits of this resource in this world. Frequency and geological settings control their occurrence.'}
         </p>
+      )}
+      {error && (
+        <p className="panel-note" role="alert">
+          {error}
+        </p>
+      )}
+      {total > 100 && (
+        <div className="deposit-pagination">
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={cursor === 0 || !page}
+            onClick={() => setCursor(Math.max(0, cursor - 100))}
+          >
+            Previous
+          </Button>
+          <span>
+            {page
+              ? `${cursor + 1}–${cursor + deposits.length} of ${formatNumber(total)}`
+              : 'Loading…'}
+          </span>
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={page?.nextCursor == null}
+            onClick={() => setCursor(page!.nextCursor!)}
+          >
+            Next
+          </Button>
+        </div>
       )}
       <p className="panel-note">Initial quantities. Units are comparable within each resource.</p>
     </section>
@@ -67,27 +142,63 @@ export function ResourceControls({
 }
 
 export function DepositInspector({
-  world,
+  source,
   id,
   onClose,
 }: {
-  world: World;
+  source: WorldViewSource;
   id: string;
   onClose: () => void;
 }) {
-  const deposit = world.resources.deposits.find((item) => item.id === id);
-  if (!deposit) {
-    return null;
+  const [result, setResult] = useState<{
+    source: WorldViewSource;
+    id: string;
+    inspection: DepositInspection | null;
+  } | null>(null);
+  const [failure, setFailure] = useState<{
+    source: WorldViewSource;
+    id: string;
+    message: string;
+  } | null>(null);
+  useEffect(() => {
+    let active = true;
+    void source
+      .inspectDeposit(id)
+      .then((inspection) => {
+        if (active) {
+          setResult({ source, id, inspection });
+          setFailure(null);
+        }
+      })
+      .catch((caughtError) => {
+        if (active) {
+          setFailure({
+            source,
+            id,
+            message:
+              caughtError instanceof Error
+                ? caughtError.message
+                : 'Could not inspect this deposit.',
+          });
+        }
+      });
+    return () => {
+      active = false;
+    };
+  }, [source, id]);
+  const error = failure?.source === source && failure.id === id ? failure.message : '';
+  const ready = result?.source === source && result.id === id;
+  const inspection = ready ? result.inspection : null;
+  if (!inspection) {
+    return (
+      <p className="panel-note" role="status">
+        {error || (ready ? 'Deposit not found in this saved world.' : 'Loading deposit…')}{' '}
+        <button onClick={onClose}>Close</button>
+      </p>
+    );
   }
+  const { deposit, surface, latitude, longitude } = inspection;
   const preset = resourcePreset(deposit.resourceType);
-  const cell = nearestCell(world.grid, ...deposit.anchor);
-  const surface = world.terrain.ocean[cell]
-    ? 'Beneath ocean'
-    : isLakeCell(world, cell)
-      ? 'Beneath inland water'
-      : 'Land';
-  const latitude = (Math.asin(deposit.anchor[1]) * 180) / Math.PI;
-  const longitude = (Math.atan2(deposit.anchor[2], deposit.anchor[0]) * 180) / Math.PI;
   return (
     <aside className="cell-inspector deposit-inspector">
       <div className="inspector-heading">
@@ -133,15 +244,22 @@ export function DepositInspector({
   );
 }
 
-export function FertilityDetails({ world, cell }: { world: World; cell: number }) {
-  const fertility = evaluateFertilityCell(world, cell);
+export function FertilityDetails({
+  fertility,
+  storedScore,
+  salinityModeled = false,
+}: {
+  fertility: FertilityEvaluation;
+  storedScore: number;
+  salinityModeled?: boolean;
+}) {
   return (
     <section className="fertility-details">
       <h4>Fertility · general land potential</h4>
       <dl>
         <div>
           <dt>Cell mean</dt>
-          <dd>{world.resources.fertility[cell].toFixed(1)} / 100</dd>
+          <dd>{storedScore.toFixed(1)} / 100</dd>
         </div>
         <div>
           <dt>Surrounding land</dt>
@@ -169,6 +287,22 @@ export function FertilityDetails({ world, cell }: { world: World; cell: number }
             </div>
           </>
         )}
+        {salinityModeled && fertility.salineFraction > 0 && fertility.salinityLimit < 1 && (
+          <>
+            <div>
+              <dt>Salt-affected soil</dt>
+              <dd>{formatNumber(fertility.salineFraction * 100, 1)}% of cell</dd>
+            </div>
+            <div>
+              <dt>Local soil salinity</dt>
+              <dd>{formatNumber(fertility.soilSalinity, 2)} g/L</dd>
+            </div>
+            <div>
+              <dt>Salt suitability</dt>
+              <dd>{formatNumber(fertility.salinityLimit * 100, 1)}% of exposed-land potential</dd>
+            </div>
+          </>
+        )}
         {(
           [
             ['Sediment benefit', fertility.sediment],
@@ -192,8 +326,10 @@ export function FertilityDetails({ world, cell }: { world: World; cell: number }
         <p className="panel-note">Limited by: {fertility.limitations.join(', ').toLowerCase()}.</p>
       )}
       <p className="panel-note">
-        Annual potential, not crop yield. Exposed land and local corridor coverage weight the score.
-        Lake freshwater suitability uses throughflow; salinity is not simulated.
+        Annual potential, not crop yield. Exposed land and local corridor coverage weight the score.{' '}
+        {salinityModeled
+          ? 'Lake and river salinity limit freshwater benefits; salt-affected soil reduces local potential without changing the climatic biome.'
+          : 'This saved world has no modeled salinity. Lake freshwater suitability uses throughflow as a proxy.'}
       </p>
     </section>
   );

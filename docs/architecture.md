@@ -1,32 +1,35 @@
 # Current architecture
 
 World Forge is a browser application with a deterministic CPU generator and a
-Three.js viewer. React manages the editor; a Web Worker executes one generation
-job at a time. The static Vite shell has no server simulation or database.
-
-Application **2.13.2** uses generator **2.13.0**. The standalone cleanup changes
-packaging and maintenance structure while retaining the numerical model.
+Three.js viewer. React manages the editor; generation and snapshot queries run in
+Web Workers. The static Vite shell has no server simulation or application API.
+Application and generator versions are **2.28.0**.
 
 ## Runtime boundaries
 
 ```mermaid
 flowchart TD
-  Controls["React editor"] -->|"Validated recipe"| Worker["Generation worker"]
-  Worker -->|"Progress"| Controls
-  Worker -->|"World and transferred buffers"| Snapshot["Main-thread snapshot"]
-  Snapshot --> Inspector["Cell and resource inspector"]
-  Snapshot --> Viewer["Three.js viewer"]
-  Controls -->|"Layer, season and style"| Viewer
+  Controls[React editor] -->|Validated recipe or regional edit| Compute[Compute worker]
+  Compute -->|Independent seasons| Seasons[Up to four climate workers]
+  Seasons -->|Ordered results| Compute
+  Compute -->|Physical snapshot and display index| Storage[(Browser-local IndexedDB)]
+  Compute -->|Progress and small world handle| Controls
+  Controls -->|Explicit Save world| Storage
+  Storage -->|Bounded pages| Readers[Snapshot reader workers]
+  Readers -->|Physical mesh packets and river assets| Viewer[Three.js viewer]
+  Readers -->|Selected cell records| Inspector[Inspector]
+  Controls -->|Layer, season, style and camera| Viewer
 ```
 
-`src/core` owns geometry, world data and generation. It imports neither React
-nor Three.js and can run in Node. `src/app` owns editor state, project files and
-worker lifecycle. `src/render` presents the same generated fields in both layouts.
-Display settings do not mutate the generated world.
+`src/core` owns geometry, generation, storage contracts and data queries. It imports
+neither React nor Three.js and can run in Node. `src/app` owns editor state,
+recipes, library interactions and worker lifetime. `src/render` presents the same
+physical world in both layouts. Display settings do not mutate simulation fields.
 
-`src/main.tsx` mounts the editor. Vite bundles `src/app/generator.worker.ts` as a
-separate module worker. Only the eight used UI primitives remain in
-`src/components/ui/`.
+`src/main.tsx` mounts the editor. Vite bundles generation, seasonal climate and
+snapshot-reader module workers. Seasonal concurrency is a runtime choice outside
+the recipe; ordered assembly preserves serial/parallel results. Cancellation
+terminates owned workers and stale job IDs cannot replace a newer world.
 
 ## Spatial model and units
 
@@ -35,90 +38,151 @@ icosphere. Cells, corners and shared edges use distinct index spaces. Coordinate
 are packed typed arrays; cell adjacency uses offsets. Positions lie on the unit
 sphere and areas are solid angles. Physical metrics incorporate planet radius.
 
-| Grid    | Main responsibilities                                              |
-| ------- | ------------------------------------------------------------------ |
-| Process | Plates, crust evolution, circulation, climate and primary deposits |
-| Surface | Terrain, soil water, drainage, ecology, fertility and rendering    |
+| Grid    | Main responsibilities                                                    |
+| ------- | ------------------------------------------------------------------------ |
+| Process | Plates, crust evolution, circulation, climate and primary deposits       |
+| Surface | Adaptive terrain, soil water, drainage, ecology, fertility and rendering |
 
-`world.transfer[surfaceCell]` identifies its process cell. Restriction uses area
-weights; interpolation distinguishes extensive quantities from intensive fields.
-Matching resolutions can share grid buffers.
+`world.transfer[surfaceCell]` identifies its process cell. Conservative operators
+use geometric overlap areas when transferring extensive quantities. Smooth scalar
+reconstruction and categorical ownership have different contracts. Matching grid
+resolutions may share buffers.
 
-Heights are metres, temperatures are degrees Celsius, and river discharge is
-cubic metres per second. The model documents annual versus seasonal water fields.
-Keep units and support locations explicit when adding data.
+Heights are metres, temperature is degrees Celsius, water flow is cubic metres per
+second, and salt inventory is kilograms. Lake and river concentration is reported
+in g/L, numerically equivalent to kg/m³. Annual and seasonal water fields remain
+explicitly distinct.
 
-## Generation order
+## Generation and physical refinement
 
-`generateWorld` in `src/core/pipeline.ts` owns the sequence:
+`generateWorld` in `src/core/pipeline.ts` owns the bounded sequence:
 
-1. Validate the recipe; construct the grids and transfer map.
-2. Build plates and geology; evolve crust for the geological interval.
-3. Construct terrain and oceans, retaining a process-grid ocean reference.
-4. Solve provisional seasonal climate, then soil water and snow.
-5. When enabled, weather the landscape and move sediment; update water fields.
-6. Route water through corners and reservoirs. When enabled, seed cutoff remnants
-   and erode the river landscape.
-7. If erosion or recycling requires feedback, recompute climate, land water and
-   drainage once using changed terrain and bounded recycled evaporation.
-8. Select connected channels and construct courses and delta data.
-9. Classify ecology; generate mineral deposits and fertility.
-10. Record diagnostics and collect unique buffers for publication.
+1. Validate configuration and resolved plans; build process and initial surface grids.
+2. Evolve prescribed crust history and construct terrain, oceans and volcanic sources.
+3. When adaptive detail is enabled, use pilot water/features to resolve the initial
+   mesh and sample that retained geological history.
+4. Solve seasonal climate, land water and drainage. Evolve the recent landscape in
+   requested time batches, moving river, hillslope, wind and coastal material.
+5. Optionally remesh evolved terrain between batches, conserving loose sediment
+   and transferring existing histories. Refresh drainage as terrain changes.
+6. Complete bounded climate/water feedback, then run requested final feature passes.
+   Local features and lake districts can request smaller cells; protected quiet-land
+   interiors can relinquish cells within independent deletion and error budgets.
+7. Rebuild final channels, courses and deltas. Solve lake salts once for the explicit
+   salt accumulation interval and evaluate local saline-water exposure.
+8. Classify ecology, generate deposits and fertility, and record conservation,
+   timing, mesh and memory diagnostics.
 
-The coupled passes are bounded. Weather is not rerun at each geological step,
-and all systems are not iterated to joint convergence.
+`src/core/regional-refinement.ts` refines an existing complete physical snapshot
+under retained climate forcing. It rebuilds water routing and derived fields but
+does not repeat geological, erosion or salt time. Existing terrain floors, river
+courses, sediment and geographic salt inventories survive remapping. The new mesh
+can resolve different water-body ownership, so a refinement can redistribute one
+retained salt inventory across lakes or exposed ground without duplicating mass.
 
-## Water and resources
+The final feature interface is extensible through `grid/feature-refinement.ts`.
+Regional lake scoring uses physical neighborhoods; coarsening protects waterways,
+coasts, wetlands and important terrain. Resolved insertion/deletion plans record
+mesh and configuration signatures and support deterministic recipe replay. Manual
+regional edits do not trigger another automatic global refinement pass.
 
-The corner receiver graph and reservoir state are authoritative for drainage.
-Rainfall runoff, snowmelt, slow soil release and lake outflow feed source mixtures
-and seasonal discharge. Reservoirs retain seasonal storage, coverage and outflow,
-with storage change included in their ledgers.
+## Water, salt and resources
 
-Shared lake-state functions supply fractional coverage and freshwater suitability
-to rendering, ecology and fertility. River geometry follows selected connected
-reaches; its smoothed curves and display width represent the routed network.
-Floodplains and wetlands can occupy fractions of a cell and differ from its
-regional biome. Delta branches divide the existing flow in the model; the current
-surface view represents delta cells with seasonal shading.
+The corner receiver graph and lake nodes are authoritative for drainage. Rainfall
+runoff, snowmelt, slow soil release and lake release feed connected channels and
+seasonal discharge. Reservoir ledgers distinguish inflow, direct rain, evaporation,
+outflow and changing storage. Fractional coverage supplies common water masks to
+rendering, ecology and fertility.
 
-Mineral and gemstone deposits use geological associations on the process grid.
-Stable identity and independent frequency/amount controls keep surface-only
-refinement from rerolling primary deposits. Fertility combines existing sediment,
-water, climate, volcanic and ecological signals. Cell-average fertility and local
-river-corridor potential remain distinct.
+`generation/salinity.ts` integrates a representative annual well-mixed lake budget.
+Catchment runoff supplies dissolved salt; direct precipitation is fresh. Outflow
+exports salt downstream and evaporation removes only water. Salt above the generic
+solubility cap remains on the bed, survives drying and can dissolve on refilling.
+The salt clock advances once after final generation topology, independently of
+reservoir initialization loops and refinement passes. Optional inherited marine
+salts are an explicit scenario, not an inference from oceanic crust or a simulated
+marine history.
 
-## Ownership and rendering
+Sparse geographic parcels retain resolved salt inventory through later mesh
+changes. Soil salinity is a local porewater-contact estimate on shores, exposed
+beds and saline river/flood footprints, not a separate groundwater chemistry
+solver. It reduces affected land's fertility and ordinary vegetation. Fresh
+inflowing channels keep their own water quality; climatic biome and rain/PET
+aridity remain separate from salt stress.
 
-The worker owns a mutable generation job and transfers each distinct buffer once
-on completion. Cancellation or regeneration terminates the worker; job IDs reject
-stale completed results. No persistent simulation worker remains after publication.
+Mineral/gem deposits use geological associations on the process grid. Stable
+identity and independent frequency/amount controls keep surface-only refinement
+from rerolling primary deposits. Fertility combines sediment, water quality,
+climate, volcanism, habitat and salinity; cell-average and river-corridor potential
+remain distinct.
 
-The main thread owns the snapshot and GPU resources. `WorldView.tsx` manages
-interaction, camera and scene lifecycle; `WorldMeshes.ts` assembles surfaces and
-overlays. Specialized modules handle waterways, coasts, resources, particles and
-map styles. Natural, relief and ink views share geography and seasonal fields.
+## Snapshot ownership and manual saving
 
-Dispose of GPU resources and event handlers when replacing a view. Reuse scratch
-vectors and arrays in frame loops; keep display-only changes out of generation.
+`src/core/storage` serializes a complete graph with exact typed-array bits, shared
+buffers and object aliases into immutable paged browser snapshots. Manifest
+publication follows successful data and index writes. Generation initially writes
+an unlisted draft; **Save world** promotes it to the library without copying or
+restoring every physical field. Failed/cancelled edits do not replace the previous
+visible world. Draft cleanup does not remove a concurrently promoted save.
+
+The page holds a small world handle, reader client, display buffers and selected
+inspection data. Compute workers restore the full state only for generation or
+physical operations. Viewing uses bounded reader caches and prepared indexes;
+this does not make the global physical solver out of core.
+
+`WorldDataClient` separates terrain/inspection, overlays and river preparation.
+Obsolete requests are rejected or their worker lane is terminated. Recipe JSON
+contains configuration and resolved edit plans; a saved snapshot retains the
+computed physical state. The local library is origin-specific browser storage,
+subject to browser quota and retention, not a cross-device backup.
+
+## Fixed rendering and bounded extra detail
+
+`PagedWorldView.tsx` is the active viewer. Despite the name, terrain rendering uses
+the fixed saved physical mesh. Paging describes data access, not camera-dependent
+replacement of the simulation mesh. `FixedSurface` reuses unchanged immutable
+attributes and indices between representations and shares materials. Visibility
+checks discard hidden globe batches. `TerrainBatchRenderer` uses multi-draw when
+available and ordinary draw calls otherwise.
+
+Scalar fields interpolate on saved triangles. Categorical layers simplify only
+redundant interiors while preserving category/water boundaries. Tectonic plates
+use a smooth globe or flat map; river basins, sources, biomes and wetlands retain
+terrain relief and protect slopes. Geometry remains stable across camera motion.
+
+A retained river asset owns connected courses and the bank atlas across scene
+changes, releasing consumed bank payloads. Grid edges remain available at all
+zooms, use darker/thicker land strokes, and retain geographic culling and relief.
+Wind/current paths use physical distance along sampled vector fields; moving
+faded pulses and retained phase support pause, speed and layer changes.
+
+Optional visual zoom detail reconstructs bounded interior terrain shape from
+saved heights and slopes while leaving parent edges, water and river corridors
+fixed. It adds no physical cells, climate detail or simulation history. Zooming
+out releases the extra geometry.
+
+Fantasy styles use a smooth globe or flat map with geographic mountain ranges and
+forest canopy. Heightmap displays unshaded elevation across the world's minimum
+and maximum, including ocean floors and lakebeds. The original elevations remain
+available for inspection in every style.
 
 ## Identity, performance and limits
 
-Project JSON contains a seed, validated settings and generator/resource recipe
-metadata. `src/core/project.ts` supplies explicit defaults for legacy recipes.
-Exact reproduction requires compatible generator identity, seeded streams and
-iteration/arithmetic order. Timings describe the run and are not deterministic data.
+`src/core/project.ts` validates recipes and supplies explicit defaults for older
+versions. Snapshot compatibility preserves legacy fields; missing salinity remains
+unknown until regeneration. Exact replay requires compatible generator identity,
+seed streams, resolved plans and arithmetic order. Timings are observations,
+not deterministic world data.
 
-Prepared transport coefficients, shared spatial fields, typed arrays and bounded
-climate feedback reduce CPU work. Subdivision roughly quadruples cell counts;
-climate detail also affects the stable transport time step. Defaults remain 5/5,
-with optional terrain level 9 and process level 7.
+Generation and fixed physical display costs grow with surface count. Climate
+resolution also controls the stable transport time step. Quality presets and
+measurement scripts expose those costs; no fixed full-world graphics-memory
+bound is claimed. `world.bytes` counts retained unique buffers, excluding temporary
+arrays, JavaScript objects, renderer copies and driver allocations.
 
-`world.bytes` counts retained unique buffers, excluding temporary arrays,
-JavaScript objects and GPU copies. WebGL renders the result; it does not run
-the physical generation passes.
-
-Plate motion is prescribed. Slow soil release is a spring proxy. Glacier flow,
-exact channel hydraulics, full mineral chemistry, ecological succession and
-civilizations remain outside the model. The [illustrated reference](algorithms.md)
-and [history](history/README.md) record assumptions and measured limitations.
+Plate motion is prescribed; slow soil release is a spring proxy. Salinity uses
+annual averages and generic solubility, not seasonal ion chemistry or groundwater
+transport. Glacier flow, ecological succession and civilizations remain outside
+the model. The [illustrated reference](algorithms.md) and
+[revision archive](history/README.md) distinguish historical algorithms and
+measurements from current contracts.

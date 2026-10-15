@@ -2,12 +2,14 @@ import type { Grid, Terrain, LandWater, Drainage, Rivers, Ecology, WorldConfig }
 import { clamp } from '../math';
 import { YEAR } from '../model';
 import { exposedLandFraction, lakeCoverageAt } from './lake-state';
+import { salinityFreshwaterSuitability } from './salinity';
 
 export const WETLANDS = ['None', 'Marsh', 'Swamp', 'Fen', 'Bog'];
 
 /** Habitat fractions from saturation and water access, not a replacement climate biome.
  * Bogs are rain-fed, relatively isolated peatland potential; river-fed wet ground
- * is a marsh, swamp or fen. Chemistry and accumulated peat are not simulated.
+ * is a marsh, swamp or fen. Salt-stressed ground retains a wet footprint without
+ * acquiring freshwater woodland/peatland potential; accumulated peat is not simulated.
  */
 export function classifyWetlands(
   grid: Grid,
@@ -102,6 +104,14 @@ export function classifyWetlands(
       kind = 2;
     }
 
+    // The wet footprint is physical water access, not evidence of a freshwater
+    // peatland or swamp. Keep mixed saline margins under the broad marsh class.
+    if (
+      (drainage.soilSalinity?.[cellIndex] ?? 0) > 5 &&
+      (drainage.soilSalinityFraction?.[cellIndex] ?? 0) >= Math.min(landFraction, fraction) * 0.5
+    ) {
+      kind = 1;
+    }
     ecology.wetland[cellIndex] = kind;
     ecology.wetlandFraction[cellIndex] = Math.min(landFraction, clamp(fraction, 0, 0.85));
   }
@@ -125,7 +135,12 @@ export function classifyWetlands(
       }
     }
 
-    const access = (rivers.supportFlow[delta.corner] * YEAR * 0.02) / Math.max(1, cells.size);
+    const access =
+      (rivers.supportFlow[delta.corner] *
+        YEAR *
+        0.02 *
+        salinityFreshwaterSuitability(drainage.riverSalinity?.[delta.corner] ?? 0)) /
+      Math.max(1, cells.size);
 
     for (const cellIndex of cells) {
       const fraction = clamp(

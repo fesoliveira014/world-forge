@@ -1,0 +1,51 @@
+{
+  "scope": "Controlled lake fixture and generated AETHER-6389 regional-refinement fixture; exact user million-cell snapshot was unavailable. No maximum-resolution world was regenerated.",
+  "baseline": "1fed876ae40901d4595b95a37cfe7e1fe73a7eff",
+  "lake": {
+    "physicsReport": "atlas-lake-controlled-physics-qa.json",
+    "browserReport": "atlas-lake0-controlled-browser-qa.json",
+    "before": "atlas-lake0-controlled-before-world.png",
+    "after": "atlas-lake0-controlled-after-world.png",
+    "cells": 5567,
+    "dryInteriorCellsBefore": 367,
+    "dryInteriorCellsAfter": 0,
+    "interiorCells": 573,
+    "genuineIslandPreserved": true,
+    "wetComponentsBefore": 7,
+    "wetComponentsAfter": 1,
+    "errors": []
+  },
+  "river": {
+    "fixtureCellsBefore": 10242,
+    "fixtureCellsAfter": 15049,
+    "unchangedSavedSnapshotRepair": true,
+    "newCourseGenerationProof": "atlas-refined-river-rebased-proof-browser-qa.json",
+    "finalGuideReport": "atlas-refined-river-guides-final-browser-qa.json",
+    "finalProductionSmoke": "atlas-refined-river-release-smoke-browser-qa.json",
+    "beforeGlobe": "atlas-refined-river-final-baseline-after-globe.png",
+    "afterGlobe": "atlas-refined-river-release-smoke-after-world.png",
+    "beforeMap": "atlas-refined-river-final-baseline-after-map.png",
+    "afterMap": "atlas-refined-river-guides-final-current-after-map.png",
+    "coarseOriginalChangedPixels": {
+      "globe": 0,
+      "map": 0
+    },
+    "finalRendererSmokeChangedPixels": 0,
+    "physicalVertices": 15049,
+    "physicalTriangles": 30094,
+    "riverPathsBeforeAndAfter": 1061,
+    "errors": [],
+    "cameraProjectionAddedTerrainOrRiverOrSampleRequests": false,
+    "animationTimeAdvanced": true,
+    "geometryReport": "atlas-refined-river-geometry-qa.json",
+    "limits": "Residual width differences at real junctions remain; the measured connections have identical endpoint positions, heights, and phase. The regression fixed malformed reach curves, artificial short-reach guide curvature, and reversed concave-quad triangles."
+  },
+  "passed": true,
+  "cleanup": {
+    "qaBrowserClosed": true,
+    "qa5176Stopped": true,
+    "root5175Preserved": true,
+    "highResolutionProfilePreserved": true,
+    "dedicatedLakeProfilePreserved": true
+  }
+}

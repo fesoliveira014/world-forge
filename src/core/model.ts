@@ -1,5 +1,5 @@
 /** Canonical units: metres, seconds, steradians; seasonal rain/PET are mm. */
-export const VERSION = '2.13.0';
+export const VERSION = '2.28.0';
 
 export const YEAR = 365.25 * 86400;
 
@@ -9,6 +9,20 @@ export interface WorldConfig {
   seed: string;
   surfaceLevel: number;
   processLevel: number;
+  refinementMinSpacing: number; // metres; target site spacing in selected surface regions
+  refinementStrength: number; // 0 disables refinement; 1 resolves all selected features
+  evolutionRefinements: number; // topology changes during the assigned recent landscape interval
+  featureRefinementPasses: number; // bounded detail passes after final terrain and hydrology
+  featureRefinementSpacing: number; // metres; target spacing around under-resolved final features
+  featureRefinementBudget: number; // percent of cells before final feature passes, shared across passes
+  featureDistrictStrength: number; // percent influence of broad lake-district refinement; 0 disables
+  featureDistrictRadius: number; // metres; geographic neighborhood used to identify lake districts
+  featureDistrictThreshold: number; // percent area-weighted shore evidence required for a district
+  featureCoarseningBudget: number; // maximum percent of pre-final cells removable across final passes
+  featureCoarseningSpacing: number; // metres; maximum spacing permitted in quiet land
+  featureCoarseningTolerance: number; // metres; maximum height reconstruction error on removed sites
+  landscapeBatches: number; // full drainage refreshes across the recent interval
+  hillslopeStrength: number; // multiplier on fine loose-sediment creep
   irregularity: number;
   plates: number;
   oceanFraction: number;
@@ -27,6 +41,9 @@ export interface WorldConfig {
   waveErosion: number;
   windErosion: number;
   lakePersistence: number; // resistance of depressions to outlet erosion
+  salinityYears: number; // explicit representative hydrologic years; independent of solver iterations
+  weatheringSalinity: number; // dissolved catchment salts in runoff, kg/m³ (= g/L)
+  inheritedMarineSalinity: number; // explicit initial lake salt scenario, kg/m³; never inferred from crust
   windStrength: number;
   circulationScale: number;
   currentStrength: number;
@@ -50,6 +67,20 @@ export const DEFAULT_CONFIG: WorldConfig = {
   seed: 'AETHER-2408',
   surfaceLevel: 5,
   processLevel: 5,
+  refinementMinSpacing: 100000,
+  refinementStrength: 0,
+  evolutionRefinements: 0,
+  featureRefinementPasses: 0,
+  featureRefinementSpacing: 10000,
+  featureRefinementBudget: 20,
+  featureDistrictStrength: 0,
+  featureDistrictRadius: 300000,
+  featureDistrictThreshold: 5,
+  featureCoarseningBudget: 0,
+  featureCoarseningSpacing: 250000,
+  featureCoarseningTolerance: 25,
+  landscapeBatches: 4,
+  hillslopeStrength: 1,
   irregularity: 0.65,
   plates: 18,
   oceanFraction: 0.66,
@@ -68,6 +99,9 @@ export const DEFAULT_CONFIG: WorldConfig = {
   waveErosion: 1,
   windErosion: 1,
   lakePersistence: 0.35,
+  salinityYears: 100,
+  weatheringSalinity: 0.05,
+  inheritedMarineSalinity: 0,
   windStrength: 1.8,
   circulationScale: 1,
   currentStrength: 1,
@@ -87,13 +121,21 @@ export const DEFAULT_CONFIG: WorldConfig = {
   depositAmount: 1,
 };
 
+/** Fresh worlds resolve final features; legacy recipes keep their original topology. */
+export const NEW_WORLD_CONFIG: WorldConfig = {
+  ...DEFAULT_CONFIG,
+  featureRefinementPasses: 1,
+  featureDistrictStrength: 60,
+  featureCoarseningBudget: 10,
+};
+
 /** Unit-sphere geometry with packed adjacency arrays. All IDs are zero-based.
  * A cell is a surface polygon; a corner is a meeting point of three cells.
  * Cell adjacency uses offsets[cell]..offsets[cell + 1]; corner adjacency has degree three.
  */
 export interface Grid {
   count: number;
-  level: number;
+  level: number; // seed subdivision; adaptive resolution is described by actual geometry
   positions: Float64Array; // xyz unit vector per cell center
   triangles: Uint32Array; // three incident cell IDs per corner
   corners: Float64Array; // xyz unit vector per corner
@@ -110,6 +152,12 @@ export interface Grid {
   cornerNeighbors: Uint32Array;
   cornerEdges: Uint32Array;
   flips: number;
+  refinement?: {
+    baseCount: number;
+    insertedCount: number;
+    passes: number;
+    sourceCell: Uint32Array; // organizational nearest seed site, not polygon containment
+  };
 }
 
 export interface Plate {
@@ -129,10 +177,30 @@ export interface Geology {
   volcanism: Float32Array;
   boundary: Uint8Array;
   crust?: CrustHistory;
+  hotspots?: HotspotSource[];
+}
+
+/** Sparse mantle-frame sources retained independently of process-grid sampling. */
+export interface HotspotSource {
+  position: [number, number, number];
+  start: number;
+  end: number;
+  radius: number;
+  rate: number;
+}
+
+/** Volume attributed during the existing geological history, not a new eruption. */
+export interface VolcanicConstructionSource {
+  position: [number, number, number];
+  plate: number;
+  radius: number;
+  volume: number;
+  age: number;
 }
 
 /** Material reconstruction and inherited deformation; all fields use the process grid. */
 export interface CrustHistory {
+  volcanicSources?: VolcanicConstructionSource[];
   initialPlate: Uint16Array;
   initialBase: Float32Array; // raw basement metres relative to the initial datum
   base: Float32Array; // reconstructed raw basement, including inherited deformation
@@ -157,6 +225,26 @@ export interface Terrain {
   fluvialIncision: Float32Array; // gross cell-average lowering by the recent river pass, m
   deltaSediment: Float32Array; // sediment deposited at river mouths, m
   oxbows: Oxbow[];
+  migration?: RiverMigration[];
+  saltMass?: Float64Array; // derived geographic inventory, kg per surface cell; parcels are authoritative when present
+  saltParcels?: SaltParcels; // sparse immutable geographic inventory; preserves separate lakes sharing a cell
+  saltAgeYears?: number; // modeled salt age; remeshing never advances this clock
+}
+
+/** Source supports survive remeshing without relocating or duplicating their salt. */
+export interface SaltParcels {
+  positions: Float64Array; // xyz unit-vector per source support
+  masses: Float64Array; // kg per support, liquid plus bed/exposed salt
+}
+
+/** Persistent geographic bend history, independent of surface corner IDs. */
+export interface RiverMigration {
+  start: [number, number, number];
+  end: [number, number, number];
+  space: number;
+  mobility: number;
+  variation: number;
+  elapsedMyr: number;
 }
 
 /** An abandoned subcell channel. Its water comes from the seasonal land-water budget. */
@@ -222,6 +310,26 @@ export interface Lake {
   displacedRunoff: number;
   kind: 'closed' | 'spilling';
   seasonal?: LakeSeasons;
+  salinity?: LakeSalinity;
+}
+
+/** Representative annual mixed-water chemistry, not a drinking-water assessment. */
+export interface LakeSalinity {
+  dissolvedSalt: number; // kg remaining in liquid water
+  bedSalt: number; // kg precipitated or retained on a dry bed
+  concentration: number; // kg/m³ (= g/L), zero when dry
+  inflowSalt: number; // contemporary kg/s entering the reservoir
+  outflowSalt: number; // contemporary kg/s leaving the reservoir
+  elapsedYears: number;
+}
+
+export interface SalinityBudget {
+  initialSalt: number; // kg, including explicit initial marine scenario
+  weatheringSalt: number; // kg added over the assigned years
+  exportedSalt: number; // kg leaving the modeled land/lake network
+  retainedSalt: number; // kg in the geographic inventory after this solve
+  residual: number; // kg; initial + weathering - exported - retained
+  elapsedYears: number; // physical years advanced by this solve; zero for remeshing
 }
 
 /** Four representative quarters. Fluxes are m³/s; storage is m³ and area is m².
@@ -247,6 +355,7 @@ export interface Drainage {
   receiver: Int32Array; // downstream corner; -1 marks a terminal node
   order: Uint32Array; // Priority-Flood order, from lower flood rank to higher
   discharge: Float64Array; // annual mean channel flow, m³/s
+  seasonalPeak?: Float32Array; // maximum routed seasonal channel flow, m³/s
   basin: Uint32Array;
   lakeId: Int32Array;
   lakeDepth: Float32Array;
@@ -257,6 +366,10 @@ export interface Drainage {
   runoffTotal: number;
   oceanDischarge: number;
   lakeExchange: number;
+  riverSalinity?: Float32Array; // contemporary channel concentration, kg/m³ per corner
+  soilSalinity?: Float32Array; // local exposed shore/bed porewater proxy, kg/m³ per cell
+  soilSalinityFraction?: Float32Array; // affected exposed fraction of the whole cell
+  salinityBudget?: SalinityBudget;
 }
 
 export interface Ecology {
@@ -357,6 +470,56 @@ export interface World {
   elapsed: number;
   bytes: number;
   sedimentExport: number; // m³ of unresolved downstream sediment export, including ocean delivery
+  evolution: LandscapeEvolution;
+  refinementPlans: import('./grid/refinement-plan').ResolvedRefinementPlan[];
+  featureRefinementPlans?: import('./grid/feature-refinement').ResolvedFeatureRefinementPlan[];
+  featureRefinementStats?: import('./grid/feature-refinement').FeatureRefinementPassStats[];
+  featureCoarseningPlans?: import('./grid/feature-coarsening').ResolvedFeatureCoarseningPlan[];
+  featureCoarseningStats?: import('./grid/feature-coarsening').FeatureCoarseningStats[];
+  refinementWork: import('./grid/refinement-work').RefinementWorkEstimate[];
+  execution: { climateWorkers: number }; // runtime choice, never part of the physical recipe
+  regionalRefinements?: ResolvedRegionalRefinement[];
+  climateReferenceHeight?: Float32Array; // process heights underlying retained climate after local remeshing
+}
+
+/** Resolution requests act on an existing evolved snapshot without advancing time. */
+export type RegionalRefinementRequest =
+  | {
+      kind: 'region';
+      center: [number, number, number];
+      radiusMetres: number;
+      targetSpacingMetres: number;
+    }
+  // The entire final river-system watershed containing this corner, not only its upstream reach.
+  | { kind: 'watershed'; corner: number; targetSpacingMetres: number };
+
+/** Sparse, resolved geographic footprint; replay never reselects a changed watershed. */
+export interface ResolvedRegionalRefinement {
+  format: 'atlas-regional-refinement/v1';
+  sourceGeometryHash: string;
+  sourceCellCount: number;
+  configSignature: string;
+  planetRadiusMetres: number;
+  baseSpacingMetres: number;
+  gradation: number;
+  request: RegionalRefinementRequest;
+  caps: { center: [number, number, number]; radiusMetres: number }[];
+}
+
+export interface LandscapeEvolution {
+  durationMyr: number;
+  batches: number;
+  drainageRefreshes: number;
+  remeshes: {
+    beforeCells: number;
+    afterCells: number;
+    elapsedMyr: number;
+    sedimentBefore: number;
+    sedimentAfter: number;
+  }[];
+  hillslopeMoved: number;
+  windMoved: number;
+  coastalMoved?: number;
 }
 
 export type Progress = (stage: string, completed: number, total: number) => void;

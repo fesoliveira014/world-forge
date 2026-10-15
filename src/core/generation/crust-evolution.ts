@@ -4,6 +4,7 @@ import { nearestCell } from '../grid/build';
 import { computeDistances } from '../operators/spatial';
 import { sampleUplift, createTerrainSampler, updateTectonicRelief } from './geology';
 import { createHotspots, emplaceVolcanics, volcanicRates } from './volcanism';
+import { createVolcanicSourceRecorder } from './volcanic-detail';
 
 /** A prescribed plate reconstruction, not a force or mantle solver.
  * Reference crust moves in rigid plate frames. Overlaps prefer buoyant crust;
@@ -87,7 +88,11 @@ export function evolveCrust(
   const increment = new Float64Array(count * 9);
   const overlap = new Uint8Array(cellCount);
   const sourceFrom = new Int32Array(cellCount);
-  const hotspots = createHotspots(config);
+  const faultOrigins = new Int32Array(cellCount);
+  const volcanicSources = createVolcanicSourceRecorder(grid, config);
+  // Keep the seeded source geometry available even when no pilot sample resolves it.
+  const hotspots = geology.hotspots ?? createHotspots(config);
+  geology.hotspots = hotspots;
 
   for (let plateIndex = 0; plateIndex < count; plateIndex++) {
     for (let cellIndex = 0; cellIndex < cellCount; cellIndex++) {
@@ -307,7 +312,7 @@ export function evolveCrust(
     const response = 1 - Math.exp(-timeStep / 18);
     const construction =
       config.volcanicActivity > 0
-        ? volcanicRates(grid, owners, faults, hotspots, elapsed, config)
+        ? volcanicRates(grid, owners, faults, hotspots, elapsed, config, faultOrigins)
         : faults.fill(0);
 
     for (let cellIndex = 0; cellIndex < cellCount; cellIndex++) {
@@ -329,6 +334,19 @@ export function evolveCrust(
       crust.volcanicAge[cellIndex] = construction[cellIndex] > 5 ? 0 : volcanicAge[cellIndex];
     }
 
+    if (config.volcanicActivity > 0) {
+      volcanicSources.advect(increment, owners, timeStep);
+      volcanicSources.record(
+        owners,
+        faultOrigins,
+        hotspots,
+        elapsed,
+        volcanic,
+        crust.volcanic,
+        construction,
+      );
+    }
+
     geology.plate.set(owners);
     geology.continental.set(continental);
     geology.age.set(age);
@@ -339,6 +357,8 @@ export function evolveCrust(
       progress(elapsed);
     }
   }
+
+  crust.volcanicSources = volcanicSources.sources();
 
   // Sampling continuous noise once in the final material frame supplies a fine
   // residual without regenerating a stationary noise continent under the crust.

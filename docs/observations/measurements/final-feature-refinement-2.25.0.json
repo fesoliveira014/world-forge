@@ -1,0 +1,1227 @@
+{
+  "version": "2.25.0",
+  "generatedAt": "2026-10-14T06:01:02.972Z",
+  "environment": {
+    "node": "v24.19.0",
+    "platform": "linux",
+    "architecture": "x64",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "generatorThreads": 1
+  },
+  "fixtureSource": "docs/measurements/fantasy-density-browser-2.23.1.json",
+  "methodology": [
+    "Same recreated AETHER-2408 Balanced cloud recipe; this is not the user's exact saved snapshot.",
+    "Baseline and one final feature pass run in separate fresh Node processes. Each uses the synchronous reference path; timings are single observations, not a multithreaded browser benchmark.",
+    "Peak RSS is the process high-water mark captured after generation and before snapshot export; retainedBuffersMiB counts deduplicated World array buffers.",
+    "Selected lake-shore source spacing is sqrt(3) times its source-cell circumradius. Paired actual before/after spacing measures the closest adjacent cell centre at the same retained anchor; it is not an assertion that every cell reaches the requested10km target.",
+    "Selected cap locations are independently checked against the baseline cells incident to positive-outflow lake outlets; overlapping detector provenance alone does not establish coverage of other feature locations.",
+    "Selection reserves half of the estimated work budget equally across active detectors, ranked by each detector's own scores. Unused reserves and the other half return to global priority selection; the insertion cap enforces the actual cell limit.",
+    "Browser QA may run concurrently on the same cloud host during the refined measurement. These single observations should not be interpreted as a precise before/after performance ratio.",
+    "Encoded graph snapshots and V8 World files live in the requested temporary snapshot directory; no application save or user data is modified."
+  ],
+  "baseline": {
+    "variant": "baseline",
+    "config": {
+      "seed": "AETHER-2408",
+      "surfaceLevel": 6,
+      "processLevel": 6,
+      "refinementMinSpacing": 50000,
+      "refinementStrength": 0.8,
+      "evolutionRefinements": 2,
+      "featureRefinementPasses": 0,
+      "featureRefinementSpacing": 10000,
+      "featureRefinementBudget": 20,
+      "landscapeBatches": 12,
+      "hillslopeStrength": 1,
+      "irregularity": 0.65,
+      "plates": 18,
+      "oceanFraction": 0.66,
+      "exposure": 1,
+      "temperature": 15,
+      "obliquity": 23.4,
+      "erosion": 0.35,
+      "radius": 6371000,
+      "continentScale": 1,
+      "reliefScale": 1,
+      "tectonicWidth": 1,
+      "tectonicDuration": 200,
+      "plateSpeed": 3,
+      "volcanicActivity": 1,
+      "hotspotCount": 8,
+      "waveErosion": 1,
+      "windErosion": 1,
+      "lakePersistence": 0.35,
+      "windStrength": 1.8,
+      "circulationScale": 1,
+      "currentStrength": 1,
+      "evaporationScale": 1.5,
+      "moistureLifetime": 18,
+      "moistureMixing": 800000,
+      "orographicStrength": 0.8,
+      "recycling": 0.65,
+      "soilCapacity": 140,
+      "infiltration": 0.85,
+      "riverSourceArea": 8000,
+      "riverSourceFlow": 1,
+      "floodplainExtent": 1,
+      "fluvialDuration": 1,
+      "bankMobility": 1,
+      "depositFrequency": 1,
+      "depositAmount": 1
+    },
+    "cells": 251559,
+    "generationMs": 93681.513679,
+    "retainedBuffersMiB": 228.08141422271729,
+    "peakGenerationRssMiB": 715.09765625,
+    "afterGenerationMemoryMiB": {
+      "rss": 709.33984375,
+      "heap": 75.94701385498047,
+      "external": 334.40506172180176
+    },
+    "spacingMetres": {
+      "min": 36154.55141704977,
+      "p10": 36422.939646761784,
+      "median": 37871.930090081536,
+      "p90": 43466.82058919354,
+      "max": 131067.09630477516,
+      "mean": 40162.907634702
+    },
+    "lakes": 2781,
+    "lakeAreaM2": 7497149683578.484,
+    "mixedLakeCells": 8518,
+    "runoffRelativeResidual": 2.5759285540497687e-14,
+    "featureStats": [],
+    "featureTimings": [],
+    "allTimings": [
+      {
+        "name": "Simulation grid",
+        "ms": 168.90830099999997
+      },
+      {
+        "name": "Surface grid",
+        "ms": 0.05647399999998015
+      },
+      {
+        "name": "Spatial transfer",
+        "ms": 0.7169139999999743
+      },
+      {
+        "name": "Plates & tectonics",
+        "ms": 153.793116
+      },
+      {
+        "name": "Crust evolution",
+        "ms": 9104.870661
+      },
+      {
+        "name": "Terrain & oceans",
+        "ms": 148.58057700000063
+      },
+      {
+        "name": "Seasonal climate",
+        "ms": 20997.12156
+      },
+      {
+        "name": "Pilot water & refinement plan",
+        "ms": 374.226752999999
+      },
+      {
+        "name": "Refinement cost estimate · 1",
+        "ms": 23.613553999999567
+      },
+      {
+        "name": "Adaptive surface mesh",
+        "ms": 108.68424600000071
+      },
+      {
+        "name": "Conservative spatial transfer",
+        "ms": 292.79846499999985
+      },
+      {
+        "name": "Refined terrain & oceans",
+        "ms": 336.63553899999897
+      },
+      {
+        "name": "Land water budget",
+        "ms": 163.6804059999995
+      },
+      {
+        "name": "Landscape weathering & sediment",
+        "ms": 376.7081160000016
+      },
+      {
+        "name": "Rivers & reservoirs",
+        "ms": 188.174243999998
+      },
+      {
+        "name": "River landscape evolution",
+        "ms": 286.8475120000003
+      },
+      {
+        "name": "Fine hillslope transport · 1 / 12",
+        "ms": 25.59658599999966
+      },
+      {
+        "name": "Fine wind transport · 1 / 12",
+        "ms": 34.13539099999616
+      },
+      {
+        "name": "Coastal sediment transport · 1 / 12",
+        "ms": 32.66661999999633
+      },
+      {
+        "name": "Landscape water & drainage · 1 / 12",
+        "ms": 306.47264999999607
+      },
+      {
+        "name": "River landscape evolution · 2 / 12",
+        "ms": 233.07066499999928
+      },
+      {
+        "name": "Fine hillslope transport · 2 / 12",
+        "ms": 33.980437999998685
+      },
+      {
+        "name": "Fine wind transport · 2 / 12",
+        "ms": 34.86740799999825
+      },
+      {
+        "name": "Coastal sediment transport · 2 / 12",
+        "ms": 28.369981999996526
+      },
+      {
+        "name": "Landscape water & drainage · 2 / 12",
+        "ms": 278.7381810000006
+      },
+      {
+        "name": "River landscape evolution · 3 / 12",
+        "ms": 207.4297280000028
+      },
+      {
+        "name": "Fine hillslope transport · 3 / 12",
+        "ms": 19.654261000003316
+      },
+      {
+        "name": "Fine wind transport · 3 / 12",
+        "ms": 26.70683999999892
+      },
+      {
+        "name": "Coastal sediment transport · 3 / 12",
+        "ms": 14.019338000005519
+      },
+      {
+        "name": "Landscape water & drainage · 3 / 12",
+        "ms": 222.3606609999988
+      },
+      {
+        "name": "River landscape evolution · 4 / 12",
+        "ms": 182.72249400000146
+      },
+      {
+        "name": "Fine hillslope transport · 4 / 12",
+        "ms": 11.436837000001105
+      },
+      {
+        "name": "Fine wind transport · 4 / 12",
+        "ms": 19.05905999999959
+      },
+      {
+        "name": "Coastal sediment transport · 4 / 12",
+        "ms": 19.20589000000473
+      },
+      {
+        "name": "Landscape water & drainage · 4 / 12",
+        "ms": 209.44891300000018
+      },
+      {
+        "name": "Evolved refinement plan · 1",
+        "ms": 248.37905799999862
+      },
+      {
+        "name": "Refinement cost estimate · 2",
+        "ms": 879.8982969999997
+      },
+      {
+        "name": "Conservative terrain remesh · 1",
+        "ms": 4053.466604000001
+      },
+      {
+        "name": "Rebuild spatial transfers · 1",
+        "ms": 669.9900450000059
+      },
+      {
+        "name": "Remeshed water & drainage · 1",
+        "ms": 689.5027300000002
+      },
+      {
+        "name": "River landscape evolution · 5 / 12",
+        "ms": 419.6081649999978
+      },
+      {
+        "name": "Fine hillslope transport · 5 / 12",
+        "ms": 76.05413799999951
+      },
+      {
+        "name": "Fine wind transport · 5 / 12",
+        "ms": 65.06778199999826
+      },
+      {
+        "name": "Coastal sediment transport · 5 / 12",
+        "ms": 83.41979600000195
+      },
+      {
+        "name": "Landscape water & drainage · 5 / 12",
+        "ms": 503.01987300000474
+      },
+      {
+        "name": "River landscape evolution · 6 / 12",
+        "ms": 490.45490099999734
+      },
+      {
+        "name": "Fine hillslope transport · 6 / 12",
+        "ms": 23.401585999999952
+      },
+      {
+        "name": "Fine wind transport · 6 / 12",
+        "ms": 53.773848999997426
+      },
+      {
+        "name": "Coastal sediment transport · 6 / 12",
+        "ms": 30.820653000002494
+      },
+      {
+        "name": "Landscape water & drainage · 6 / 12",
+        "ms": 671.7618100000036
+      },
+      {
+        "name": "River landscape evolution · 7 / 12",
+        "ms": 570.1021030000047
+      },
+      {
+        "name": "Fine hillslope transport · 7 / 12",
+        "ms": 31.78811300000234
+      },
+      {
+        "name": "Fine wind transport · 7 / 12",
+        "ms": 90.46719099999609
+      },
+      {
+        "name": "Coastal sediment transport · 7 / 12",
+        "ms": 89.09117400000105
+      },
+      {
+        "name": "Landscape water & drainage · 7 / 12",
+        "ms": 492.71297900000354
+      },
+      {
+        "name": "River landscape evolution · 8 / 12",
+        "ms": 564.6828709999972
+      },
+      {
+        "name": "Fine hillslope transport · 8 / 12",
+        "ms": 54.52460599999904
+      },
+      {
+        "name": "Fine wind transport · 8 / 12",
+        "ms": 47.7572269999946
+      },
+      {
+        "name": "Coastal sediment transport · 8 / 12",
+        "ms": 76.70466999999917
+      },
+      {
+        "name": "Landscape water & drainage · 8 / 12",
+        "ms": 489.3968959999984
+      },
+      {
+        "name": "Evolved refinement plan · 2",
+        "ms": 566.7638740000039
+      },
+      {
+        "name": "Refinement cost estimate · 3",
+        "ms": 2027.1532799999986
+      },
+      {
+        "name": "Conservative terrain remesh · 2",
+        "ms": 10840.363481999993
+      },
+      {
+        "name": "Rebuild spatial transfers · 2",
+        "ms": 1014.1256369999974
+      },
+      {
+        "name": "Remeshed water & drainage · 2",
+        "ms": 1571.6403229999996
+      },
+      {
+        "name": "River landscape evolution · 9 / 12",
+        "ms": 879.1109960000031
+      },
+      {
+        "name": "Fine hillslope transport · 9 / 12",
+        "ms": 90.9488199999978
+      },
+      {
+        "name": "Fine wind transport · 9 / 12",
+        "ms": 128.6381739999997
+      },
+      {
+        "name": "Coastal sediment transport · 9 / 12",
+        "ms": 60.784059999998135
+      },
+      {
+        "name": "Landscape water & drainage · 9 / 12",
+        "ms": 1248.5142530000012
+      },
+      {
+        "name": "River landscape evolution · 10 / 12",
+        "ms": 844.3287790000031
+      },
+      {
+        "name": "Fine hillslope transport · 10 / 12",
+        "ms": 82.59649500000523
+      },
+      {
+        "name": "Fine wind transport · 10 / 12",
+        "ms": 150.45964300000924
+      },
+      {
+        "name": "Coastal sediment transport · 10 / 12",
+        "ms": 67.35370500000136
+      },
+      {
+        "name": "Landscape water & drainage · 10 / 12",
+        "ms": 1154.0380189999996
+      },
+      {
+        "name": "River landscape evolution · 11 / 12",
+        "ms": 796.0417350000062
+      },
+      {
+        "name": "Fine hillslope transport · 11 / 12",
+        "ms": 65.2212889999937
+      },
+      {
+        "name": "Fine wind transport · 11 / 12",
+        "ms": 144.49000700000033
+      },
+      {
+        "name": "Coastal sediment transport · 11 / 12",
+        "ms": 62.4038670000009
+      },
+      {
+        "name": "Landscape water & drainage · 11 / 12",
+        "ms": 1111.957064000002
+      },
+      {
+        "name": "River landscape evolution · 12 / 12",
+        "ms": 820.2628089999926
+      },
+      {
+        "name": "Fine hillslope transport · 12 / 12",
+        "ms": 61.789143000001786
+      },
+      {
+        "name": "Fine wind transport · 12 / 12",
+        "ms": 125.99110100000689
+      },
+      {
+        "name": "Coastal sediment transport · 12 / 12",
+        "ms": 61.49448999999731
+      },
+      {
+        "name": "Landscape water & drainage · 12 / 12",
+        "ms": 1010.8507859999954
+      },
+      {
+        "name": "Final climate",
+        "ms": 20255.779731999995
+      },
+      {
+        "name": "Final water & drainage",
+        "ms": 939.0458740000031
+      },
+      {
+        "name": "Headwaters & channels",
+        "ms": 245.2192880000075
+      },
+      {
+        "name": "River courses & deltas",
+        "ms": 326.09284599999955
+      },
+      {
+        "name": "Biomes & ecology",
+        "ms": 181.35486599999422
+      },
+      {
+        "name": "Minerals & fertility",
+        "ms": 330.149384999997
+      },
+      {
+        "name": "Publish world",
+        "ms": 46.00690799999575
+      }
+    ],
+    "selectedLakeShoreSpacing": {
+      "source": null,
+      "plannedTarget": null,
+      "actualNearestAdjacentAfter": null,
+      "samples": []
+    }
+  },
+  "refined": {
+    "variant": "refined",
+    "config": {
+      "seed": "AETHER-2408",
+      "surfaceLevel": 6,
+      "processLevel": 6,
+      "refinementMinSpacing": 50000,
+      "refinementStrength": 0.8,
+      "evolutionRefinements": 2,
+      "featureRefinementPasses": 1,
+      "featureRefinementSpacing": 10000,
+      "featureRefinementBudget": 20,
+      "landscapeBatches": 12,
+      "hillslopeStrength": 1,
+      "irregularity": 0.65,
+      "plates": 18,
+      "oceanFraction": 0.66,
+      "exposure": 1,
+      "temperature": 15,
+      "obliquity": 23.4,
+      "erosion": 0.35,
+      "radius": 6371000,
+      "continentScale": 1,
+      "reliefScale": 1,
+      "tectonicWidth": 1,
+      "tectonicDuration": 200,
+      "plateSpeed": 3,
+      "volcanicActivity": 1,
+      "hotspotCount": 8,
+      "waveErosion": 1,
+      "windErosion": 1,
+      "lakePersistence": 0.35,
+      "windStrength": 1.8,
+      "circulationScale": 1,
+      "currentStrength": 1,
+      "evaporationScale": 1.5,
+      "moistureLifetime": 18,
+      "moistureMixing": 800000,
+      "orographicStrength": 0.8,
+      "recycling": 0.65,
+      "soilCapacity": 140,
+      "infiltration": 0.85,
+      "riverSourceArea": 8000,
+      "riverSourceFlow": 1,
+      "floodplainExtent": 1,
+      "fluvialDuration": 1,
+      "bankMobility": 1,
+      "depositFrequency": 1,
+      "depositAmount": 1
+    },
+    "cells": 267301,
+    "generationMs": 107896.59152300001,
+    "retainedBuffersMiB": 240.6931390762329,
+    "peakGenerationRssMiB": 890.09765625,
+    "afterGenerationMemoryMiB": {
+      "rss": 844.0625,
+      "heap": 111.0147933959961,
+      "external": 325.3191328048706
+    },
+    "spacingMetres": {
+      "min": 11011.120839505567,
+      "p10": 33268.73997437143,
+      "median": 37601.49699493608,
+      "p90": 42959.57641721291,
+      "max": 131067.09630477516,
+      "mean": 38486.505969072496
+    },
+    "lakes": 2900,
+    "lakeAreaM2": 7224219151547.855,
+    "mixedLakeCells": 9757,
+    "runoffRelativeResidual": 1.8996271184542798e-14,
+    "featureStats": [
+      {
+        "beforeCells": 251559,
+        "afterCells": 267301,
+        "budget": 50311,
+        "candidateCells": 59605,
+        "selectedCells": 591,
+        "budgetExhausted": true,
+        "byDetector": {
+          "coastline": {
+            "candidates": 6157,
+            "selected": 96
+          },
+          "lake-shores": {
+            "candidates": 8536,
+            "selected": 348
+          },
+          "river-features": {
+            "candidates": 30929,
+            "selected": 420
+          },
+          "terrain-relief": {
+            "candidates": 34754,
+            "selected": 310
+          }
+        }
+      }
+    ],
+    "selectedCapLocations": {
+      "atExistingLakeOutlets": 387,
+      "outsideExistingLakeOutlets": 204
+    },
+    "featureTimings": [
+      {
+        "name": "Final feature plan · 1 / 1",
+        "ms": 434.53912099999434
+      },
+      {
+        "name": "Final feature mesh · 1 / 1",
+        "ms": 4835.2119539999985
+      },
+      {
+        "name": "Final feature transfers · 1 / 1",
+        "ms": 1093.4389470000024
+      },
+      {
+        "name": "Final feature water & drainage · 1 / 1",
+        "ms": 1456.7810739999986
+      },
+      {
+        "name": "Final feature channels · 1 / 1",
+        "ms": 226.7770809999929
+      }
+    ],
+    "allTimings": [
+      {
+        "name": "Simulation grid",
+        "ms": 177.06267400000002
+      },
+      {
+        "name": "Surface grid",
+        "ms": 0.0844560000000456
+      },
+      {
+        "name": "Spatial transfer",
+        "ms": 0.6991269999999759
+      },
+      {
+        "name": "Plates & tectonics",
+        "ms": 157.081211
+      },
+      {
+        "name": "Crust evolution",
+        "ms": 10218.111684
+      },
+      {
+        "name": "Terrain & oceans",
+        "ms": 154.92674599999918
+      },
+      {
+        "name": "Seasonal climate",
+        "ms": 20693.309602
+      },
+      {
+        "name": "Pilot water & refinement plan",
+        "ms": 428.1795349999993
+      },
+      {
+        "name": "Refinement cost estimate · 1",
+        "ms": 26.237019999996846
+      },
+      {
+        "name": "Adaptive surface mesh",
+        "ms": 159.13233200000104
+      },
+      {
+        "name": "Conservative spatial transfer",
+        "ms": 297.586170999999
+      },
+      {
+        "name": "Refined terrain & oceans",
+        "ms": 307.72805199999857
+      },
+      {
+        "name": "Land water budget",
+        "ms": 167.39022100000147
+      },
+      {
+        "name": "Landscape weathering & sediment",
+        "ms": 333.47372599999653
+      },
+      {
+        "name": "Rivers & reservoirs",
+        "ms": 186.17599099999643
+      },
+      {
+        "name": "River landscape evolution",
+        "ms": 312.9449969999987
+      },
+      {
+        "name": "Fine hillslope transport · 1 / 12",
+        "ms": 44.17347699999664
+      },
+      {
+        "name": "Fine wind transport · 1 / 12",
+        "ms": 40.88518099999783
+      },
+      {
+        "name": "Coastal sediment transport · 1 / 12",
+        "ms": 72.91453200000251
+      },
+      {
+        "name": "Landscape water & drainage · 1 / 12",
+        "ms": 559.524265
+      },
+      {
+        "name": "River landscape evolution · 2 / 12",
+        "ms": 335.4631850000005
+      },
+      {
+        "name": "Fine hillslope transport · 2 / 12",
+        "ms": 83
+      },
+      {
+        "name": "Fine wind transport · 2 / 12",
+        "ms": 47.11005000000296
+      },
+      {
+        "name": "Coastal sediment transport · 2 / 12",
+        "ms": 65.46737199999916
+      },
+      {
+        "name": "Landscape water & drainage · 2 / 12",
+        "ms": 293.63792300000205
+      },
+      {
+        "name": "River landscape evolution · 3 / 12",
+        "ms": 357.9874419999978
+      },
+      {
+        "name": "Fine hillslope transport · 3 / 12",
+        "ms": 46.32648799999879
+      },
+      {
+        "name": "Fine wind transport · 3 / 12",
+        "ms": 35.56713399999717
+      },
+      {
+        "name": "Coastal sediment transport · 3 / 12",
+        "ms": 22.609784000000218
+      },
+      {
+        "name": "Landscape water & drainage · 3 / 12",
+        "ms": 289.89130500000465
+      },
+      {
+        "name": "River landscape evolution · 4 / 12",
+        "ms": 217.87063099999796
+      },
+      {
+        "name": "Fine hillslope transport · 4 / 12",
+        "ms": 39.15057800000068
+      },
+      {
+        "name": "Fine wind transport · 4 / 12",
+        "ms": 38.30226599999878
+      },
+      {
+        "name": "Coastal sediment transport · 4 / 12",
+        "ms": 40.28658600000199
+      },
+      {
+        "name": "Landscape water & drainage · 4 / 12",
+        "ms": 252.76795599999605
+      },
+      {
+        "name": "Evolved refinement plan · 1",
+        "ms": 352.7311009999976
+      },
+      {
+        "name": "Refinement cost estimate · 2",
+        "ms": 1310.0214790000027
+      },
+      {
+        "name": "Conservative terrain remesh · 1",
+        "ms": 4587.858657999997
+      },
+      {
+        "name": "Rebuild spatial transfers · 1",
+        "ms": 492.92509900000005
+      },
+      {
+        "name": "Remeshed water & drainage · 1",
+        "ms": 878.7083879999991
+      },
+      {
+        "name": "River landscape evolution · 5 / 12",
+        "ms": 524.0036339999933
+      },
+      {
+        "name": "Fine hillslope transport · 5 / 12",
+        "ms": 114.06618299999536
+      },
+      {
+        "name": "Fine wind transport · 5 / 12",
+        "ms": 61.82894600000145
+      },
+      {
+        "name": "Coastal sediment transport · 5 / 12",
+        "ms": 134.39401599999837
+      },
+      {
+        "name": "Landscape water & drainage · 5 / 12",
+        "ms": 539.9739380000028
+      },
+      {
+        "name": "River landscape evolution · 6 / 12",
+        "ms": 590.9988880000019
+      },
+      {
+        "name": "Fine hillslope transport · 6 / 12",
+        "ms": 24.24599300000409
+      },
+      {
+        "name": "Fine wind transport · 6 / 12",
+        "ms": 80.80887100000109
+      },
+      {
+        "name": "Coastal sediment transport · 6 / 12",
+        "ms": 76.41196299999865
+      },
+      {
+        "name": "Landscape water & drainage · 6 / 12",
+        "ms": 767.9730159999963
+      },
+      {
+        "name": "River landscape evolution · 7 / 12",
+        "ms": 611.1053859999956
+      },
+      {
+        "name": "Fine hillslope transport · 7 / 12",
+        "ms": 20.683797000005143
+      },
+      {
+        "name": "Fine wind transport · 7 / 12",
+        "ms": 92.91288399999758
+      },
+      {
+        "name": "Coastal sediment transport · 7 / 12",
+        "ms": 86.18346200000087
+      },
+      {
+        "name": "Landscape water & drainage · 7 / 12",
+        "ms": 441.5386870000002
+      },
+      {
+        "name": "River landscape evolution · 8 / 12",
+        "ms": 552.3627669999987
+      },
+      {
+        "name": "Fine hillslope transport · 8 / 12",
+        "ms": 23.446564999998373
+      },
+      {
+        "name": "Fine wind transport · 8 / 12",
+        "ms": 73.0759659999967
+      },
+      {
+        "name": "Coastal sediment transport · 8 / 12",
+        "ms": 103.0784879999992
+      },
+      {
+        "name": "Landscape water & drainage · 8 / 12",
+        "ms": 544.2490130000006
+      },
+      {
+        "name": "Evolved refinement plan · 2",
+        "ms": 586.2049780000016
+      },
+      {
+        "name": "Refinement cost estimate · 3",
+        "ms": 2855.2444179999948
+      },
+      {
+        "name": "Conservative terrain remesh · 2",
+        "ms": 14873.602907999993
+      },
+      {
+        "name": "Rebuild spatial transfers · 2",
+        "ms": 1095.176649999994
+      },
+      {
+        "name": "Remeshed water & drainage · 2",
+        "ms": 1629.9317410000076
+      },
+      {
+        "name": "River landscape evolution · 9 / 12",
+        "ms": 742.8083340000012
+      },
+      {
+        "name": "Fine hillslope transport · 9 / 12",
+        "ms": 70.84930699999677
+      },
+      {
+        "name": "Fine wind transport · 9 / 12",
+        "ms": 141.41011099999014
+      },
+      {
+        "name": "Coastal sediment transport · 9 / 12",
+        "ms": 87.87356799999543
+      },
+      {
+        "name": "Landscape water & drainage · 9 / 12",
+        "ms": 1026.1507739999943
+      },
+      {
+        "name": "River landscape evolution · 10 / 12",
+        "ms": 747.8955199999909
+      },
+      {
+        "name": "Fine hillslope transport · 10 / 12",
+        "ms": 67.78513699999894
+      },
+      {
+        "name": "Fine wind transport · 10 / 12",
+        "ms": 124.39333200000692
+      },
+      {
+        "name": "Coastal sediment transport · 10 / 12",
+        "ms": 52.31764799999655
+      },
+      {
+        "name": "Landscape water & drainage · 10 / 12",
+        "ms": 979.8187319999997
+      },
+      {
+        "name": "River landscape evolution · 11 / 12",
+        "ms": 775.6955170000001
+      },
+      {
+        "name": "Fine hillslope transport · 11 / 12",
+        "ms": 69.50636200000008
+      },
+      {
+        "name": "Fine wind transport · 11 / 12",
+        "ms": 135.90002500000992
+      },
+      {
+        "name": "Coastal sediment transport · 11 / 12",
+        "ms": 55.41029800000251
+      },
+      {
+        "name": "Landscape water & drainage · 11 / 12",
+        "ms": 1014.582196000003
+      },
+      {
+        "name": "River landscape evolution · 12 / 12",
+        "ms": 872.4555300000065
+      },
+      {
+        "name": "Fine hillslope transport · 12 / 12",
+        "ms": 76.66735299999709
+      },
+      {
+        "name": "Fine wind transport · 12 / 12",
+        "ms": 162.31072700000368
+      },
+      {
+        "name": "Coastal sediment transport · 12 / 12",
+        "ms": 71.10963300000003
+      },
+      {
+        "name": "Landscape water & drainage · 12 / 12",
+        "ms": 1143.6840050000028
+      },
+      {
+        "name": "Final climate",
+        "ms": 18344.03244499999
+      },
+      {
+        "name": "Final water & drainage",
+        "ms": 937.6042019999877
+      },
+      {
+        "name": "Headwaters & channels",
+        "ms": 211.4350010000053
+      },
+      {
+        "name": "Final feature plan · 1 / 1",
+        "ms": 434.53912099999434
+      },
+      {
+        "name": "Final feature mesh · 1 / 1",
+        "ms": 4835.2119539999985
+      },
+      {
+        "name": "Final feature transfers · 1 / 1",
+        "ms": 1093.4389470000024
+      },
+      {
+        "name": "Final feature water & drainage · 1 / 1",
+        "ms": 1456.7810739999986
+      },
+      {
+        "name": "Final feature channels · 1 / 1",
+        "ms": 226.7770809999929
+      },
+      {
+        "name": "River courses & deltas",
+        "ms": 335.59215199999744
+      },
+      {
+        "name": "Biomes & ecology",
+        "ms": 221.34017900000617
+      },
+      {
+        "name": "Minerals & fertility",
+        "ms": 419.9801149999985
+      },
+      {
+        "name": "Publish world",
+        "ms": 53.29046099999687
+      }
+    ],
+    "selectedLakeShoreSpacing": {
+      "source": {
+        "count": 348,
+        "minimum": 36567.71621432748,
+        "p10": 50009.434166883555,
+        "median": 59137.99263059263,
+        "p90": 62226.557793773165,
+        "maximum": 69952.30382623043
+      },
+      "plannedTarget": {
+        "count": 348,
+        "minimum": 18283.85810716374,
+        "p10": 25004.717083441778,
+        "median": 29568.996315296314,
+        "p90": 31113.278896886583,
+        "maximum": 34976.151913115216
+      },
+      "actualNearestAdjacentBefore": {
+        "count": 348,
+        "minimum": 36157.79941629698,
+        "p10": 36324.97646270788,
+        "median": 37208.441817655905,
+        "p90": 40178.93922025946,
+        "maximum": 45743.985978500874
+      },
+      "actualNearestAdjacentAfter": {
+        "count": 348,
+        "minimum": 11011.120839526488,
+        "p10": 15221.400922992952,
+        "median": 18357.611710802237,
+        "p90": 20177.377365028522,
+        "maximum": 24626.694693013713
+      },
+      "samples": [
+        {
+          "longitude": 102.4460892761406,
+          "latitude": 64.90529508970174,
+          "sourceSpacingMetres": 52071.84320205278,
+          "targetSpacingMetres": 26035.92160102639,
+          "nearestAdjacentSpacingBeforeMetres": 37041.191599408594,
+          "nearestAdjacentSpacingAfterMetres": 18000.660585807356
+        },
+        {
+          "longitude": 92.21601650022679,
+          "latitude": 34.610186777431636,
+          "sourceSpacingMetres": 57949.09670648259,
+          "targetSpacingMetres": 28974.548353241295,
+          "nearestAdjacentSpacingBeforeMetres": 37831.53938012542,
+          "nearestAdjacentSpacingAfterMetres": 18398.9109776591
+        },
+        {
+          "longitude": 81.27721132904634,
+          "latitude": 26.185734491965725,
+          "sourceSpacingMetres": 36567.71621432748,
+          "targetSpacingMetres": 18283.85810716374,
+          "nearestAdjacentSpacingBeforeMetres": 36540.51956443818,
+          "nearestAdjacentSpacingAfterMetres": 11999.563708667445
+        },
+        {
+          "longitude": 23.206362117454457,
+          "latitude": -44.73972713629533,
+          "sourceSpacingMetres": 58471.1216858568,
+          "targetSpacingMetres": 29235.5608429284,
+          "nearestAdjacentSpacingBeforeMetres": 39110.055511701,
+          "nearestAdjacentSpacingAfterMetres": 19587.743765555726
+        },
+        {
+          "longitude": -39.78983594493103,
+          "latitude": -57.07253789554718,
+          "sourceSpacingMetres": 43685.247845399324,
+          "targetSpacingMetres": 21842.623922699662,
+          "nearestAdjacentSpacingBeforeMetres": 36319.698973179824,
+          "nearestAdjacentSpacingAfterMetres": 12735.102012872227
+        },
+        {
+          "longitude": -76.98108476011804,
+          "latitude": -17.88917647837056,
+          "sourceSpacingMetres": 50009.434166883555,
+          "targetSpacingMetres": 25004.717083441778,
+          "nearestAdjacentSpacingBeforeMetres": 36692.46538273057,
+          "nearestAdjacentSpacingAfterMetres": 15216.121869591452
+        },
+        {
+          "longitude": -5.461583378923405,
+          "latitude": 71.6068909142553,
+          "sourceSpacingMetres": 54276.274876863055,
+          "targetSpacingMetres": 27138.137438431528,
+          "nearestAdjacentSpacingBeforeMetres": 36416.90934381201,
+          "nearestAdjacentSpacingAfterMetres": 18807.0632618172
+        },
+        {
+          "longitude": -3.7807619494224602,
+          "latitude": -61.777181333642986,
+          "sourceSpacingMetres": 59437.75529863504,
+          "targetSpacingMetres": 29718.87764931752,
+          "nearestAdjacentSpacingBeforeMetres": 39821.14632903867,
+          "nearestAdjacentSpacingAfterMetres": 17414.573752212338
+        },
+        {
+          "longitude": 82.36546736261002,
+          "latitude": 39.93489303170809,
+          "sourceSpacingMetres": 59479.06317632267,
+          "targetSpacingMetres": 29739.531588161335,
+          "nearestAdjacentSpacingBeforeMetres": 36379.08550450139,
+          "nearestAdjacentSpacingAfterMetres": 18217.682902930002
+        },
+        {
+          "longitude": 0.028065116213667998,
+          "latitude": 70.07063503249515,
+          "sourceSpacingMetres": 56025.57740334164,
+          "targetSpacingMetres": 28012.78870167082,
+          "nearestAdjacentSpacingBeforeMetres": 40024.538939025064,
+          "nearestAdjacentSpacingAfterMetres": 20096.478489522608
+        },
+        {
+          "longitude": -69.49025589683072,
+          "latitude": -24.913816653272438,
+          "sourceSpacingMetres": 62184.17911722847,
+          "targetSpacingMetres": 31092.089558614236,
+          "nearestAdjacentSpacingBeforeMetres": 41941.837686072206,
+          "nearestAdjacentSpacingAfterMetres": 20289.059961941708
+        },
+        {
+          "longitude": 59.90444420513399,
+          "latitude": 37.37660212218353,
+          "sourceSpacingMetres": 53176.0865135728,
+          "targetSpacingMetres": 26588.0432567864,
+          "nearestAdjacentSpacingBeforeMetres": 36739.55884812276,
+          "nearestAdjacentSpacingAfterMetres": 15734.946844082646
+        }
+      ],
+      "nearUserDesert": [
+        {
+          "longitude": 71.218842270827,
+          "latitude": 24.976672379273108,
+          "sourceSpacingMetres": 51085.11110935327,
+          "targetSpacingMetres": 25542.555554676634,
+          "nearestAdjacentSpacingBeforeMetres": 36442.04582567644,
+          "nearestAdjacentSpacingAfterMetres": 16413.432372329768
+        },
+        {
+          "longitude": 71.96180378584849,
+          "latitude": 32.21318330795783,
+          "sourceSpacingMetres": 43407.55012404809,
+          "targetSpacingMetres": 21703.775062024044,
+          "nearestAdjacentSpacingBeforeMetres": 36207.1357767222,
+          "nearestAdjacentSpacingAfterMetres": 12928.528754129191
+        },
+        {
+          "longitude": 81.27721132904634,
+          "latitude": 26.185734491965725,
+          "sourceSpacingMetres": 36567.71621432748,
+          "targetSpacingMetres": 18283.85810716374,
+          "nearestAdjacentSpacingBeforeMetres": 36540.51956443818,
+          "nearestAdjacentSpacingAfterMetres": 11999.563708667445
+        },
+        {
+          "longitude": 79.8169335992575,
+          "latitude": 20.16438544600395,
+          "sourceSpacingMetres": 59722.79997857226,
+          "targetSpacingMetres": 29861.39998928613,
+          "nearestAdjacentSpacingBeforeMetres": 36419.92598377844,
+          "nearestAdjacentSpacingAfterMetres": 18893.539808780282
+        },
+        {
+          "longitude": 59.183836816850736,
+          "latitude": 26.076690218973276,
+          "sourceSpacingMetres": 60405.729479569934,
+          "targetSpacingMetres": 30202.864739784967,
+          "nearestAdjacentSpacingBeforeMetres": 36750.05347820311,
+          "nearestAdjacentSpacingAfterMetres": 18750.19174439993
+        },
+        {
+          "longitude": 79.92156432487326,
+          "latitude": 18.15476571563249,
+          "sourceSpacingMetres": 60988.42299986103,
+          "targetSpacingMetres": 30494.211499930516,
+          "nearestAdjacentSpacingBeforeMetres": 36541.01736925038,
+          "nearestAdjacentSpacingAfterMetres": 18573.746860620315
+        },
+        {
+          "longitude": 83.5195904190794,
+          "latitude": 27.73468438474654,
+          "sourceSpacingMetres": 56200.70347241502,
+          "targetSpacingMetres": 28100.35173620751,
+          "nearestAdjacentSpacingBeforeMetres": 37392.8490358076,
+          "nearestAdjacentSpacingAfterMetres": 17765.632075170393
+        },
+        {
+          "longitude": 58.14837218634971,
+          "latitude": 27.07320791874408,
+          "sourceSpacingMetres": 59618.74585099704,
+          "targetSpacingMetres": 29809.37292549852,
+          "nearestAdjacentSpacingBeforeMetres": 36327.65369075625,
+          "nearestAdjacentSpacingAfterMetres": 18455.376104349023
+        },
+        {
+          "longitude": 63.49498115326034,
+          "latitude": 35.17830570538914,
+          "sourceSpacingMetres": 61048.56450873107,
+          "targetSpacingMetres": 30524.282254365535,
+          "nearestAdjacentSpacingBeforeMetres": 37883.46651730732,
+          "nearestAdjacentSpacingAfterMetres": 19213.79568138216
+        },
+        {
+          "longitude": 82.06733344425368,
+          "latitude": 18.95422914864066,
+          "sourceSpacingMetres": 62348.71600104908,
+          "targetSpacingMetres": 31174.35800052454,
+          "nearestAdjacentSpacingBeforeMetres": 36743.159985412145,
+          "nearestAdjacentSpacingAfterMetres": 18553.012246624912
+        },
+        {
+          "longitude": 62.54984744515412,
+          "latitude": 34.75756377917786,
+          "sourceSpacingMetres": 59137.99263059263,
+          "targetSpacingMetres": 29568.996315296314,
+          "nearestAdjacentSpacingBeforeMetres": 36910.57580646204,
+          "nearestAdjacentSpacingAfterMetres": 20731.43972718275
+        },
+        {
+          "longitude": 72.41657607558174,
+          "latitude": 37.98702964296847,
+          "sourceSpacingMetres": 58927.435333205496,
+          "targetSpacingMetres": 29463.717666602748,
+          "nearestAdjacentSpacingBeforeMetres": 36622.264981746855,
+          "nearestAdjacentSpacingAfterMetres": 19161.205349088603
+        }
+      ]
+    }
+  },
+  "comparison": {
+    "addedCells": 15742,
+    "hardCellBudget": 50311,
+    "fractionOfBudgetUsed": 0.3128938005605136,
+    "retainedBuffersIncreaseMiB": 12.611724853515625,
+    "totalGenerationDifferenceMs": 14215.077844000014,
+    "measuredFinalFeatureStageMs": 8046.748176999987,
+    "allActualCellsWithinBudget": true
+  }
+}

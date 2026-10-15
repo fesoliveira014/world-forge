@@ -1,0 +1,668 @@
+{
+  "version": "2.26.0",
+  "generatedAt": "2026-10-14T21:44:30.981Z",
+  "sourceFixture": "docs/measurements/fantasy-density-browser-2.23.1.json",
+  "config": {
+    "seed": "AETHER-2408",
+    "surfaceLevel": 6,
+    "processLevel": 6,
+    "refinementMinSpacing": 50000,
+    "refinementStrength": 0.8,
+    "evolutionRefinements": 2,
+    "featureRefinementPasses": 1,
+    "featureRefinementSpacing": 10000,
+    "featureRefinementBudget": 20,
+    "featureDistrictStrength": 60,
+    "featureDistrictRadius": 300000,
+    "featureDistrictThreshold": 5,
+    "featureCoarseningBudget": 10,
+    "featureCoarseningSpacing": 250000,
+    "featureCoarseningTolerance": 25,
+    "landscapeBatches": 12,
+    "hillslopeStrength": 1,
+    "irregularity": 0.65,
+    "plates": 18,
+    "oceanFraction": 0.66,
+    "exposure": 1,
+    "temperature": 15,
+    "obliquity": 23.4,
+    "erosion": 0.35,
+    "radius": 6371000,
+    "continentScale": 1,
+    "reliefScale": 1,
+    "tectonicWidth": 1,
+    "tectonicDuration": 200,
+    "plateSpeed": 3,
+    "volcanicActivity": 1,
+    "hotspotCount": 8,
+    "waveErosion": 1,
+    "windErosion": 1,
+    "lakePersistence": 0.35,
+    "windStrength": 1.8,
+    "circulationScale": 1,
+    "currentStrength": 1,
+    "evaporationScale": 1.5,
+    "moistureLifetime": 18,
+    "moistureMixing": 800000,
+    "orographicStrength": 0.8,
+    "recycling": 0.65,
+    "soilCapacity": 140,
+    "infiltration": 0.85,
+    "riverSourceArea": 8000,
+    "riverSourceFlow": 1,
+    "floodplainExtent": 1,
+    "fluvialDuration": 1,
+    "bankMobility": 1,
+    "depositFrequency": 1,
+    "depositAmount": 1
+  },
+  "environment": {
+    "node": "v24.19.0",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "generatorThreads": 1
+  },
+  "methodology": [
+    "Same recreated AETHER-2408 recipe with 40,962 base surface cells and 40,962 weather cells; this is not the user's exact saved snapshot.",
+    "Baseline reuses its recorded v2.25 generation. Refined generation runs the current implementation in a fresh synchronous Node process. Timings are single observations, not a browser multithreading comparison.",
+    "The baseline feature-mask inspection uses the final saved physical fields; actual generation selects coarsening before its final delta/ecology stage. Reported selected removals and budgets come from generation itself.",
+    "Regional spacing is area-equivalent cell spacing within geographic caps, not a promise that each point reaches the requested 10km floor.",
+    "Quiet-land screenshot anchor maximizes net cell reduction among up to 256 deterministic removed-site candidates and 100/150/200/300km caps with at least 10 actual removals. Larger 300km context is also reported to expose surrounding fine features. The lake anchor is the selected district nearest 25.47N 71E.",
+    "Coarsening and insertion have separate hard budgets against the same pre-pass surface. Removing cells does not expand the insertion allowance.",
+    "Temporary encoded graph/V8 snapshots support browser QA; application saving and user data are not touched."
+  ],
+  "baseline": {
+    "cells": 251559,
+    "retainedBuffersMiB": 228.08141422271729,
+    "analysisMs": 650.6787870000003,
+    "districtCells": 43309,
+    "biomeEligibleCells": 54277,
+    "protectedCells": 246736,
+    "quietCandidates": 2605,
+    "districtCandidates": 3631,
+    "userDesert": {
+      "longitude": 71,
+      "latitude": 25.47,
+      "cell": 169918,
+      "lakeCoverage": 0.29768437147140503,
+      "districtStrength": 1,
+      "shorelineDensity": 0.22435545921325684
+    }
+  },
+  "refined": {
+    "generationMs": 112224.54308900001,
+    "peakRssMiB": 938.3671875,
+    "retainedBuffersMiB": 251.8547945022583,
+    "cells": 281393,
+    "timings": [
+      {
+        "name": "Simulation grid",
+        "ms": 190.65252099999998
+      },
+      {
+        "name": "Surface grid",
+        "ms": 0.08169300000002977
+      },
+      {
+        "name": "Spatial transfer",
+        "ms": 0.7200789999999984
+      },
+      {
+        "name": "Plates & tectonics",
+        "ms": 179.77763200000004
+      },
+      {
+        "name": "Crust evolution",
+        "ms": 10658.844198
+      },
+      {
+        "name": "Terrain & oceans",
+        "ms": 173.22278800000095
+      },
+      {
+        "name": "Seasonal climate",
+        "ms": 20929.132255
+      },
+      {
+        "name": "Pilot water & refinement plan",
+        "ms": 454.4726300000002
+      },
+      {
+        "name": "Refinement cost estimate · 1",
+        "ms": 26.248937999996997
+      },
+      {
+        "name": "Adaptive surface mesh",
+        "ms": 132.35705900000175
+      },
+      {
+        "name": "Conservative spatial transfer",
+        "ms": 303.32527399999526
+      },
+      {
+        "name": "Refined terrain & oceans",
+        "ms": 339.6232579999996
+      },
+      {
+        "name": "Land water budget",
+        "ms": 170.055551999998
+      },
+      {
+        "name": "Landscape weathering & sediment",
+        "ms": 383.3435129999998
+      },
+      {
+        "name": "Rivers & reservoirs",
+        "ms": 165.2026429999969
+      },
+      {
+        "name": "River landscape evolution",
+        "ms": 284.92833999999857
+      },
+      {
+        "name": "Fine hillslope transport · 1 / 12",
+        "ms": 31.845492000000377
+      },
+      {
+        "name": "Fine wind transport · 1 / 12",
+        "ms": 48.855561000003945
+      },
+      {
+        "name": "Coastal sediment transport · 1 / 12",
+        "ms": 29.530475999999908
+      },
+      {
+        "name": "Landscape water & drainage · 1 / 12",
+        "ms": 326.94547299999977
+      },
+      {
+        "name": "River landscape evolution · 2 / 12",
+        "ms": 232.96964299999672
+      },
+      {
+        "name": "Fine hillslope transport · 2 / 12",
+        "ms": 29.22271400000318
+      },
+      {
+        "name": "Fine wind transport · 2 / 12",
+        "ms": 23.385762999998406
+      },
+      {
+        "name": "Coastal sediment transport · 2 / 12",
+        "ms": 23.92197699999815
+      },
+      {
+        "name": "Landscape water & drainage · 2 / 12",
+        "ms": 200.87075999999797
+      },
+      {
+        "name": "River landscape evolution · 3 / 12",
+        "ms": 206.36120700000174
+      },
+      {
+        "name": "Fine hillslope transport · 3 / 12",
+        "ms": 40.25608700000157
+      },
+      {
+        "name": "Fine wind transport · 3 / 12",
+        "ms": 17.175512000001618
+      },
+      {
+        "name": "Coastal sediment transport · 3 / 12",
+        "ms": 14.225414000000455
+      },
+      {
+        "name": "Landscape water & drainage · 3 / 12",
+        "ms": 213.50493299999653
+      },
+      {
+        "name": "River landscape evolution · 4 / 12",
+        "ms": 197.5173919999943
+      },
+      {
+        "name": "Fine hillslope transport · 4 / 12",
+        "ms": 15.762002000003122
+      },
+      {
+        "name": "Fine wind transport · 4 / 12",
+        "ms": 19.306345999997575
+      },
+      {
+        "name": "Coastal sediment transport · 4 / 12",
+        "ms": 15.048062000001664
+      },
+      {
+        "name": "Landscape water & drainage · 4 / 12",
+        "ms": 234.0538729999971
+      },
+      {
+        "name": "Evolved refinement plan · 1",
+        "ms": 269.05663800000184
+      },
+      {
+        "name": "Refinement cost estimate · 2",
+        "ms": 888.6741869999969
+      },
+      {
+        "name": "Conservative terrain remesh · 1",
+        "ms": 3659.2756789999985
+      },
+      {
+        "name": "Rebuild spatial transfers · 1",
+        "ms": 472.16816599999584
+      },
+      {
+        "name": "Remeshed water & drainage · 1",
+        "ms": 612.9390589999966
+      },
+      {
+        "name": "River landscape evolution · 5 / 12",
+        "ms": 382.75625299999956
+      },
+      {
+        "name": "Fine hillslope transport · 5 / 12",
+        "ms": 51.69646300000022
+      },
+      {
+        "name": "Fine wind transport · 5 / 12",
+        "ms": 68.6484249999994
+      },
+      {
+        "name": "Coastal sediment transport · 5 / 12",
+        "ms": 54.930093999995734
+      },
+      {
+        "name": "Landscape water & drainage · 5 / 12",
+        "ms": 579.677840999997
+      },
+      {
+        "name": "River landscape evolution · 6 / 12",
+        "ms": 336.6013329999987
+      },
+      {
+        "name": "Fine hillslope transport · 6 / 12",
+        "ms": 30.201930999995966
+      },
+      {
+        "name": "Fine wind transport · 6 / 12",
+        "ms": 40.16652699999395
+      },
+      {
+        "name": "Coastal sediment transport · 6 / 12",
+        "ms": 30.703928000002634
+      },
+      {
+        "name": "Landscape water & drainage · 6 / 12",
+        "ms": 472.6080230000007
+      },
+      {
+        "name": "River landscape evolution · 7 / 12",
+        "ms": 444.6054739999963
+      },
+      {
+        "name": "Fine hillslope transport · 7 / 12",
+        "ms": 24.95113699999638
+      },
+      {
+        "name": "Fine wind transport · 7 / 12",
+        "ms": 55.08073499999591
+      },
+      {
+        "name": "Coastal sediment transport · 7 / 12",
+        "ms": 45.40853100000095
+      },
+      {
+        "name": "Landscape water & drainage · 7 / 12",
+        "ms": 410.6644359999991
+      },
+      {
+        "name": "River landscape evolution · 8 / 12",
+        "ms": 416.5234410000048
+      },
+      {
+        "name": "Fine hillslope transport · 8 / 12",
+        "ms": 24.125911000002816
+      },
+      {
+        "name": "Fine wind transport · 8 / 12",
+        "ms": 60.24827799999912
+      },
+      {
+        "name": "Coastal sediment transport · 8 / 12",
+        "ms": 47.95795199999702
+      },
+      {
+        "name": "Landscape water & drainage · 8 / 12",
+        "ms": 444.6646120000005
+      },
+      {
+        "name": "Evolved refinement plan · 2",
+        "ms": 515.1522229999973
+      },
+      {
+        "name": "Refinement cost estimate · 3",
+        "ms": 2153.005541999999
+      },
+      {
+        "name": "Conservative terrain remesh · 2",
+        "ms": 11527.386815999998
+      },
+      {
+        "name": "Rebuild spatial transfers · 2",
+        "ms": 1170.6997549999942
+      },
+      {
+        "name": "Remeshed water & drainage · 2",
+        "ms": 1572.6386409999977
+      },
+      {
+        "name": "River landscape evolution · 9 / 12",
+        "ms": 756.8186320000023
+      },
+      {
+        "name": "Fine hillslope transport · 9 / 12",
+        "ms": 67.66053000000102
+      },
+      {
+        "name": "Fine wind transport · 9 / 12",
+        "ms": 164.6822020000036
+      },
+      {
+        "name": "Coastal sediment transport · 9 / 12",
+        "ms": 69.22282299999642
+      },
+      {
+        "name": "Landscape water & drainage · 9 / 12",
+        "ms": 1080.1773909999974
+      },
+      {
+        "name": "River landscape evolution · 10 / 12",
+        "ms": 769.4050119999883
+      },
+      {
+        "name": "Fine hillslope transport · 10 / 12",
+        "ms": 68.66667400000733
+      },
+      {
+        "name": "Fine wind transport · 10 / 12",
+        "ms": 141.81822700001067
+      },
+      {
+        "name": "Coastal sediment transport · 10 / 12",
+        "ms": 61.76480200000515
+      },
+      {
+        "name": "Landscape water & drainage · 10 / 12",
+        "ms": 1074.2089489999926
+      },
+      {
+        "name": "River landscape evolution · 11 / 12",
+        "ms": 794.9615760000015
+      },
+      {
+        "name": "Fine hillslope transport · 11 / 12",
+        "ms": 70.98569800000405
+      },
+      {
+        "name": "Fine wind transport · 11 / 12",
+        "ms": 127.93063899999834
+      },
+      {
+        "name": "Coastal sediment transport · 11 / 12",
+        "ms": 59.25783600000432
+      },
+      {
+        "name": "Landscape water & drainage · 11 / 12",
+        "ms": 1108.7918479999935
+      },
+      {
+        "name": "River landscape evolution · 12 / 12",
+        "ms": 834.3509639999975
+      },
+      {
+        "name": "Fine hillslope transport · 12 / 12",
+        "ms": 65.85371899999154
+      },
+      {
+        "name": "Fine wind transport · 12 / 12",
+        "ms": 129.44597899999644
+      },
+      {
+        "name": "Coastal sediment transport · 12 / 12",
+        "ms": 55.30613499999163
+      },
+      {
+        "name": "Landscape water & drainage · 12 / 12",
+        "ms": 1088.1149229999864
+      },
+      {
+        "name": "Final climate",
+        "ms": 21255.711979999993
+      },
+      {
+        "name": "Final water & drainage",
+        "ms": 973.768510000009
+      },
+      {
+        "name": "Headwaters & channels",
+        "ms": 231.65231900000072
+      },
+      {
+        "name": "Quiet land mesh · 1 / 1",
+        "ms": 4270.651871000009
+      },
+      {
+        "name": "Quiet land transfers · 1 / 1",
+        "ms": 1395.2031729999871
+      },
+      {
+        "name": "Quiet land water & drainage · 1 / 1",
+        "ms": 1598.568551999997
+      },
+      {
+        "name": "Quiet land channels · 1 / 1",
+        "ms": 223.08678999998665
+      },
+      {
+        "name": "Final feature plan · 1 / 1",
+        "ms": 633.5202700000082
+      },
+      {
+        "name": "Final feature mesh · 1 / 1",
+        "ms": 5523.749148000003
+      },
+      {
+        "name": "Final feature transfers · 1 / 1",
+        "ms": 1193.5342540000129
+      },
+      {
+        "name": "Final feature water & drainage · 1 / 1",
+        "ms": 1651.205725000007
+      },
+      {
+        "name": "Final feature channels · 1 / 1",
+        "ms": 219.24003100000846
+      },
+      {
+        "name": "River courses & deltas",
+        "ms": 343.1219790000032
+      },
+      {
+        "name": "Biomes & ecology",
+        "ms": 203.1308849999914
+      },
+      {
+        "name": "Minerals & fertility",
+        "ms": 456.1029669999989
+      },
+      {
+        "name": "Publish world",
+        "ms": 43.62012500000128
+      }
+    ],
+    "featureStats": [
+      {
+        "beforeCells": 250760,
+        "afterCells": 281393,
+        "budget": 50311,
+        "candidateCells": 61534,
+        "selectedCells": 304,
+        "budgetExhausted": true,
+        "byDetector": {
+          "coastline": {
+            "candidates": 6157,
+            "selected": 45
+          },
+          "lake-districts": {
+            "candidates": 3815,
+            "selected": 40
+          },
+          "lake-shores": {
+            "candidates": 8741,
+            "selected": 167
+          },
+          "river-features": {
+            "candidates": 31450,
+            "selected": 197
+          },
+          "terrain-relief": {
+            "candidates": 34767,
+            "selected": 163
+          }
+        }
+      }
+    ],
+    "coarseningStats": [
+      {
+        "pass": 0,
+        "beforeCells": 251559,
+        "afterCells": 250760,
+        "removedCells": 799,
+        "candidateCells": 2605,
+        "budgetCells": 25155
+      }
+    ],
+    "selectedDistrictCaps": 40
+  },
+  "comparison": {
+    "grossAddedCells": 30633,
+    "grossRemovedCells": 799,
+    "netAddedCells": 29834,
+    "insertionBudget": 50311,
+    "removalBudget": 25155,
+    "runoffRelativeResidual": 3.480081169608859e-14
+  },
+  "captureAnchors": {
+    "lakeDistrict": {
+      "longitude": 70.06388128062332,
+      "latitude": 30.587671921632193,
+      "radiusMetres": 300000,
+      "before": {
+        "cells": 165,
+        "lakeAffectedCells": 53,
+        "mixedLakeCells": 53,
+        "areaEquivalentSpacingMetres": {
+          "count": 165,
+          "p10": 40640.04699829462,
+          "median": 44269.96256474106,
+          "p90": 49219.30654970891
+        }
+      },
+      "after": {
+        "cells": 954,
+        "lakeAffectedCells": 173,
+        "mixedLakeCells": 154,
+        "areaEquivalentSpacingMetres": {
+          "count": 954,
+          "p10": 14801.391415619753,
+          "median": 17668.51728308057,
+          "p90": 22537.02886244585
+        }
+      },
+      "targetSpacingMetres": 28745.034047611418
+    },
+    "quietLand": {
+      "longitude": 11.614557180396014,
+      "latitude": 41.57606821065804,
+      "radiusMetres": 150000,
+      "before": {
+        "cells": 42,
+        "lakeAffectedCells": 0,
+        "mixedLakeCells": 0,
+        "areaEquivalentSpacingMetres": {
+          "count": 42,
+          "p10": 40529.9222096653,
+          "median": 44021.043508625604,
+          "p90": 47551.68237560951
+        }
+      },
+      "after": {
+        "cells": 28,
+        "lakeAffectedCells": 0,
+        "mixedLakeCells": 0,
+        "areaEquivalentSpacingMetres": {
+          "count": 28,
+          "p10": 45397.2299043681,
+          "median": 52325.63452463744,
+          "p90": 57721.07577383857
+        }
+      },
+      "actualRemovedWithinRegion": 14,
+      "contextAt300km": {
+        "longitude": 11.614557180396014,
+        "latitude": 41.57606821065804,
+        "radiusMetres": 300000,
+        "before": {
+          "cells": 163,
+          "lakeAffectedCells": 3,
+          "mixedLakeCells": 3,
+          "areaEquivalentSpacingMetres": {
+            "count": 163,
+            "p10": 40465.611966305594,
+            "median": 43855.643609208906,
+            "p90": 49605.87704844348
+          }
+        },
+        "after": {
+          "cells": 154,
+          "lakeAffectedCells": 3,
+          "mixedLakeCells": 3,
+          "areaEquivalentSpacingMetres": {
+            "count": 154,
+            "p10": 33476.94927018133,
+            "median": 46489.828228834755,
+            "p90": 54665.09069608437
+          }
+        }
+      },
+      "biome": 5
+    },
+    "river": {
+      "longitude": 60.28021304584132,
+      "latitude": 24.618836213897467,
+      "radiusMetres": 200000,
+      "before": {
+        "cells": 70,
+        "lakeAffectedCells": 11,
+        "mixedLakeCells": 11,
+        "areaEquivalentSpacingMetres": {
+          "count": 70,
+          "p10": 40090.14032170523,
+          "median": 44200.857322996795,
+          "p90": 49214.7036617368
+        }
+      },
+      "after": {
+        "cells": 70,
+        "lakeAffectedCells": 11,
+        "mixedLakeCells": 11,
+        "areaEquivalentSpacingMetres": {
+          "count": 70,
+          "p10": 40090.14032170523,
+          "median": 44200.857322996795,
+          "p90": 49214.7036617368
+        }
+      },
+      "sourceAnnualDischarge": 3772.6715811308186
+    }
+  }
+}

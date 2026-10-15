@@ -1,0 +1,233 @@
+{
+  "version": "2.27.0",
+  "baselineCommit": "44ea57d5e9006512cf15bb35810f76fc6e0a98cc",
+  "environment": "System Chromium, ANGLE SwiftShader software rendering",
+  "fixture": {
+    "id": "qa-lake-densitybalanced-original",
+    "cells": 251559,
+    "version": "2.17.1",
+    "bytes": 340316027
+  },
+  "baseTerrainCells": 40962,
+  "weatherCells": 40962,
+  "visualChecks": [
+    {
+      "layer": "wind",
+      "projection": "globe",
+      "paths": 256,
+      "geometryAttributeBytes": 3030144,
+      "preparationMilliseconds": 765.8,
+      "animatedChangedPixels": 69491,
+      "pausedChangedPixels": 0,
+      "flowDrawCalls": 1,
+      "image": "atlas-flow-trails-227-final-wind-globe-animated-1.png"
+    },
+    {
+      "layer": "wind",
+      "projection": "map",
+      "paths": 255,
+      "geometryAttributeBytes": 3040320,
+      "preparationMilliseconds": 906.2,
+      "animatedChangedPixels": 87532,
+      "pausedChangedPixels": 0,
+      "flowDrawCalls": 1,
+      "image": "atlas-flow-trails-227-final-wind-map-animated-1.png"
+    },
+    {
+      "layer": "currents",
+      "projection": "globe",
+      "paths": 144,
+      "geometryAttributeBytes": 1594752,
+      "preparationMilliseconds": 536.4,
+      "animatedChangedPixels": 36933,
+      "pausedChangedPixels": 0,
+      "flowDrawCalls": 1,
+      "image": "atlas-flow-trails-227-final-currents-globe-animated-1.png"
+    },
+    {
+      "layer": "currents",
+      "projection": "map",
+      "paths": 140,
+      "geometryAttributeBytes": 1605312,
+      "preparationMilliseconds": 805.6,
+      "animatedChangedPixels": 43135,
+      "pausedChangedPixels": 0,
+      "flowDrawCalls": 1,
+      "image": "atlas-flow-trails-227-final-currents-map-animated-1.png"
+    }
+  ],
+  "lifecycle": {
+    "baselineCommit": "44ea57d5e9006512cf15bb35810f76fc6e0a98cc",
+    "method": "Real PagedWorldView with saved snapshot loaded through WorldDataClient; delayed gridManifest and seasonal riverRender promises; 1-second uniform/frame observations. Wind and currents remain animated while unrelated assets load. Pause and zero-speed controls remain stationary.",
+    "harness": "/tmp/world-forge-browser/flow-lifecycle-qa.mjs",
+    "results": {
+      "before": {
+        "completed": true,
+        "errors": [],
+        "checks": [
+          {
+            "name": "loaded-wind",
+            "expectedMoving": true,
+            "delta": 1.1333000000000002,
+            "frames": 3
+          },
+          {
+            "name": "wind-during-grid-loading",
+            "expectedMoving": false,
+            "delta": 0,
+            "frames": 0
+          },
+          {
+            "name": "wind-grid-off",
+            "expectedMoving": true,
+            "delta": 1.2832999999999988,
+            "frames": 6
+          },
+          {
+            "name": "currents-during-river-loading",
+            "expectedMoving": false,
+            "delta": 0,
+            "frames": 0
+          },
+          {
+            "name": "loaded-currents",
+            "expectedMoving": true,
+            "delta": 1.0500000000000007,
+            "frames": 16
+          },
+          {
+            "name": "animation-paused",
+            "expectedMoving": false,
+            "delta": 0,
+            "frames": 0
+          },
+          {
+            "name": "zero-speed",
+            "expectedMoving": false,
+            "delta": 0,
+            "frames": 0
+          },
+          {
+            "name": "animation-resumed",
+            "expectedMoving": true,
+            "delta": 1.9998000000000005,
+            "frames": 22
+          },
+          {
+            "name": "hidden-flows",
+            "visible": false
+          }
+        ]
+      },
+      "after": {
+        "completed": true,
+        "errors": [],
+        "checks": [
+          {
+            "name": "loaded-wind",
+            "expectedMoving": true,
+            "delta": 1.0166000000000008,
+            "frames": 16
+          },
+          {
+            "name": "wind-during-grid-loading",
+            "expectedMoving": true,
+            "delta": 1.0332,
+            "frames": 16
+          },
+          {
+            "name": "wind-grid-off",
+            "expectedMoving": true,
+            "delta": 1.0332999999999988,
+            "frames": 17
+          },
+          {
+            "name": "currents-during-river-loading",
+            "expectedMoving": true,
+            "delta": 1.0500000000000007,
+            "frames": 25
+          },
+          {
+            "name": "loaded-currents",
+            "expectedMoving": true,
+            "delta": 1.0332999999999988,
+            "frames": 22
+          },
+          {
+            "name": "animation-paused",
+            "expectedMoving": false,
+            "delta": 0,
+            "frames": 0
+          },
+          {
+            "name": "zero-speed",
+            "expectedMoving": false,
+            "delta": 0,
+            "frames": 0
+          },
+          {
+            "name": "animation-resumed",
+            "expectedMoving": true,
+            "delta": 2.066599999999994,
+            "frames": 27
+          },
+          {
+            "name": "hidden-flows",
+            "visible": false
+          }
+        ]
+      }
+    }
+  },
+  "coreMeasurement": {
+    "fixture": {
+      "seed": "AETHER-2408",
+      "surface": 251559,
+      "process": 40962
+    },
+    "mode": "In-memory PageValues with actual paged spatial index; no disk I/O timing",
+    "cases": [
+      {
+        "kind": "wind",
+        "milliseconds": 818.2316400000001,
+        "paths": 255,
+        "segments": 7905,
+        "medianAngle": 0.600009010457949,
+        "reads": 119295,
+        "largestRead": 369,
+        "indexNodes": 3813,
+        "indexLeaves": 128,
+        "samples": 16068,
+        "surfaceReads": 14995,
+        "processReads": 9291,
+        "peakSurfaceCache": 4096,
+        "peakProcessCache": 4096,
+        "oceanProbes": 0
+      },
+      {
+        "kind": "current",
+        "milliseconds": 848.2675829999998,
+        "paths": 140,
+        "segments": 4052,
+        "medianAngle": 0.6000068342996816,
+        "reads": 84275,
+        "largestRead": 369,
+        "indexNodes": 2983,
+        "indexLeaves": 128,
+        "samples": 24311,
+        "surfaceReads": 11339,
+        "processReads": 4736,
+        "peakSurfaceCache": 4096,
+        "peakProcessCache": 4096,
+        "oceanProbes": 15913
+      }
+    ]
+  },
+  "errors": [],
+  "limitations": [
+    "Initial fixture reconstruction timed out at the QA harness 30-second startup limit; repeated with 180 seconds, then final checks used the saved snapshot without full restoration.",
+    "Screenshots are actual saved-world rendering through WorldDataClient. The QA-only harness sets display options/camera and instruments scene and requests.",
+    "Pixel comparisons prove visible change and stable pause; they are not FPS benchmarks. Browser screenshot readback can stall the software GPU.",
+    "Very fine coastline sampling retains a fixed probe budget, so paths can end conservatively in highly refined water."
+  ]
+}

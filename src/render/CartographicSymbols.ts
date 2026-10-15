@@ -44,7 +44,7 @@ export function loadSymbolAtlas() {
   texture.addEventListener('dispose', () => {
     disposed = true;
   });
-  new THREE.ImageLoader().load(`${import.meta.env.BASE_URL}art/ink-symbol-atlas.png`, (image) => {
+  new THREE.ImageLoader().load('/art/ink-symbol-atlas.png', (image) => {
     if (disposed) {
       return;
     }
@@ -70,13 +70,13 @@ function symbolSpacing(symbol: MapSymbol): number {
   return symbol.width * (symbol.variant === 3 ? 1.05 : symbol.variant < 3 ? 0.62 : 0.52);
 }
 
-function minimumSymbolDistance(first: MapSymbol, second: MapSymbol): number {
+function minimumSymbolDistance(first: MapSymbol, second: MapSymbol, radius: number): number {
   if (first.variant < 3 && second.variant < 3) {
     // Peaks illustrate a shared range: their bases may overlap. A large summit
     // must not erase its neighboring peaks just because its drawing is wider.
-    return 0.028;
+    return 0.028 * radius;
   }
-  return symbolSpacing(first) + symbolSpacing(second);
+  return (symbolSpacing(first) + symbolSpacing(second)) * radius;
 }
 
 /** A bounded, elevation-prioritized cartographic sample. The spherical spacing
@@ -89,11 +89,13 @@ export function selectMapSymbols(world: World): MapSymbol[] {
     return cached;
   }
   const random = createSeededRandom(`${world.config.seed}:cartographic-symbols`);
-  const probability = Math.min(1, 18000 / world.grid.count);
   const candidates: (MapSymbol & { priority: number })[] = [];
   const { grid, terrain, ecology, config } = world;
 
   for (let cell = 0; cell < grid.count; cell++) {
+    // Sample by represented area, so adding small cells cannot turn a refined
+    // coastline or mountain range into a denser carpet of symbols.
+    const probability = Math.min(1, (18000 * grid.areas[cell]) / (4 * Math.PI));
     const chance = random();
     const variation = random();
     const landFraction = exposedLandFraction(terrain, world.drainage, cell);
@@ -199,11 +201,12 @@ export function selectMapSymbols(world: World): MapSymbol[] {
           }
           for (const neighbor of neighbors) {
             const offset = neighbor.cell * 3;
-            const minimumDistance = minimumSymbolDistance(candidate, neighbor);
+            const minimumDistance = minimumSymbolDistance(candidate, neighbor, config.radius);
             const distanceSquared =
-              (x - grid.positions[offset]) ** 2 +
-              (y - grid.positions[offset + 1]) ** 2 +
-              (z - grid.positions[offset + 2]) ** 2;
+              ((x - grid.positions[offset]) ** 2 +
+                (y - grid.positions[offset + 1]) ** 2 +
+                (z - grid.positions[offset + 2]) ** 2) *
+              config.radius ** 2;
             if (distanceSquared < minimumDistance * minimumDistance) {
               crowded = true;
               break;

@@ -1,5 +1,6 @@
 import type { Grid } from '../model';
 import { calculateHeightGradient } from './spatial';
+import type { OverlapTransfer } from './transfer';
 
 /** Limited linear reconstruction around each child-area centroid. The deviation
  * integrates to zero within every parent, so rainfall volume is conserved without
@@ -11,7 +12,11 @@ export function prolongRainfall(
   process: Grid,
   parent: Uint32Array,
   fields: Float32Array[],
+  overlaps?: OverlapTransfer,
 ): Float32Array[] {
+  if (overlaps) {
+    return prolongOverlapRainfall(surface, process, fields, overlaps);
+  }
   const childArea = new Float64Array(process.count);
   const centroid = new Float64Array(process.count * 3);
   for (let cell = 0; cell < surface.count; cell++) {
@@ -61,5 +66,77 @@ export function prolongRainfall(
     return Float32Array.from(parent, (coarse, cell) =>
       Math.max(0, mean[coarse] + limiter[coarse] * deviation[cell]),
     );
+  });
+}
+
+/** Reconstruct over actual intersected polygons, with one limiter per source.
+ * Centering deviations on each source's integrated overlap centroid makes their
+ * area sum zero. Mixing bounded overlap averages then preserves rainfall volume,
+ * constants, positivity, and neighboring source extrema even across mesh seams.
+ */
+function prolongOverlapRainfall(
+  surface: Grid,
+  process: Grid,
+  fields: Float32Array[],
+  overlaps: OverlapTransfer,
+): Float32Array[] {
+  const area = new Float64Array(process.count);
+  const centroid = new Float64Array(process.count * 3);
+  for (let overlap = 0; overlap < overlaps.sources.length; overlap++) {
+    const coarse = overlaps.sources[overlap];
+    const overlapArea = overlaps.areas[overlap];
+    area[coarse] += overlapArea;
+    for (let axis = 0; axis < 3; axis++) {
+      centroid[3 * coarse + axis] += overlapArea * overlaps.centroids[3 * overlap + axis];
+    }
+  }
+  for (let coarse = 0; coarse < process.count; coarse++) {
+    for (let axis = 0; axis < 3; axis++) {
+      centroid[3 * coarse + axis] /= area[coarse] || 1;
+    }
+  }
+
+  return fields.map((field) => {
+    const mean = Float64Array.from(field, (value, coarse) =>
+      area[coarse] ? (value * process.areas[coarse]) / area[coarse] : 0,
+    );
+    const gradient = calculateHeightGradient(process, mean, 1);
+    const limiter = new Float64Array(process.count).fill(1);
+    const lower = new Float64Array(mean);
+    const upper = new Float64Array(mean);
+    const deviation = new Float64Array(overlaps.sources.length);
+    for (let coarse = 0; coarse < process.count; coarse++) {
+      for (let offset = process.offsets[coarse]; offset < process.offsets[coarse + 1]; offset++) {
+        const neighbor = process.neighbors[offset];
+        lower[coarse] = Math.min(lower[coarse], mean[neighbor]);
+        upper[coarse] = Math.max(upper[coarse], mean[neighbor]);
+      }
+      lower[coarse] = Math.max(0, lower[coarse]);
+    }
+    for (let overlap = 0; overlap < overlaps.sources.length; overlap++) {
+      const coarse = overlaps.sources[overlap];
+      let delta = 0;
+      for (let axis = 0; axis < 3; axis++) {
+        delta +=
+          gradient[3 * coarse + axis] *
+          (overlaps.centroids[3 * overlap + axis] - centroid[3 * coarse + axis]);
+      }
+      deviation[overlap] = delta;
+      if (delta !== 0) {
+        const bound = delta > 0 ? upper[coarse] - mean[coarse] : lower[coarse] - mean[coarse];
+        limiter[coarse] = Math.min(limiter[coarse], Math.max(0, bound / delta));
+      }
+    }
+    const result = new Float32Array(surface.count);
+    for (let cell = 0; cell < surface.count; cell++) {
+      let inventory = 0;
+      for (let overlap = overlaps.offsets[cell]; overlap < overlaps.offsets[cell + 1]; overlap++) {
+        const coarse = overlaps.sources[overlap];
+        inventory +=
+          overlaps.areas[overlap] * (mean[coarse] + limiter[coarse] * deviation[overlap]);
+      }
+      result[cell] = Math.max(0, inventory / surface.areas[cell]);
+    }
+    return result;
   });
 }

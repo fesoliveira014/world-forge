@@ -1,0 +1,342 @@
+{
+  "scope": "Production browser renderer on generated AETHER-6389 (10,242 cells), its regionally refined 15,049-cell snapshot, a controlled 5,567-cell lake/island fixture, and the preserved 2,621,442-cell world. No maximum world regeneration or full-World restoration.",
+  "baseline": "84c53d9b2d5905b05dd774826abe196374f7e049",
+  "version": "2.19.0",
+  "environment": {
+    "browser": "System Chromium",
+    "gpu": "ANGLE / SwiftShader software rendering",
+    "smallViewport": [
+      1440,
+      1000
+    ],
+    "maximumWorldViewport": [
+      2048,
+      1140
+    ]
+  },
+  "smallMatrix": {
+    "report": "atlas-zoom-final-browser-qa.json",
+    "captures": 30,
+    "cases": [
+      "mountain",
+      "coast",
+      "river",
+      "lake with island",
+      "north pole",
+      "south pole",
+      "dateline"
+    ],
+    "styles": [
+      "Natural",
+      "Shaded relief",
+      "Illustrated bypass"
+    ],
+    "projections": [
+      "globe",
+      "flat map"
+    ],
+    "errors": [],
+    "immutableFieldPacketRiverAndBankHashesAllEqual": true,
+    "hashComparison": "atlas-zoom-hash-comparison.json",
+    "pixelComparison": "atlas-zoom-pixel-comparison.json",
+    "matchedBypassedOrEmptyViewsPixelIdentical": 10,
+    "maximumObservedTemporaryVertices": 10944,
+    "maximumObservedExtraAccountedBytes": 4505520,
+    "mountainGlobeMaximumReconstructedHeightCorrectionMetres": 375.06899711825247
+  },
+  "lifecycle": {
+    "report": "atlas-zoom-final-stable-lifecycle-qa.json",
+    "checks": [
+      {
+        "name": "same-physical-cell-picking",
+        "passed": true,
+        "before": {
+          "anchor": [
+            -0.4456294639215054,
+            0.3098077535547386,
+            0.8399009088710394
+          ],
+          "cell": 4941,
+          "height": 2478.786865234375,
+          "lakeCoverage": 0
+        },
+        "after": {
+          "anchor": [
+            -0.4456294639215054,
+            0.3098077535547386,
+            0.8399009088710394
+          ],
+          "cell": 4941,
+          "height": 2478.786865234375,
+          "lakeCoverage": 0
+        }
+      },
+      {
+        "name": "zoom-tour-no-physical-or-river-reads",
+        "passed": true,
+        "newSourceReads": []
+      },
+      {
+        "name": "natural-flat-map-does-not-subdivide",
+        "passed": true
+      },
+      {
+        "name": "categorical-layer-does-not-subdivide",
+        "passed": true
+      },
+      {
+        "name": "replacement-world-uses-new-physical-source",
+        "passed": true
+      },
+      {
+        "name": "every-step-within-32760-vertex-budget",
+        "passed": true
+      }
+    ],
+    "errors": [],
+    "allSnapshotsSettled": true,
+    "offPixelChecks": [
+      {
+        "before": "atlas-zoom-baseline-context-coast-globe-natural.png",
+        "after": "atlas-zoom-final-stable-lifecycle-coast-off-before.png",
+        "pixelsChanged": 0,
+        "maximumChannelDifference": 0,
+        "meanAbsoluteChannelDifference": 0.0
+      },
+      {
+        "before": "atlas-zoom-final-stable-lifecycle-coast-off-before.png",
+        "after": "atlas-zoom-final-stable-lifecycle-coast-off-after.png",
+        "pixelsChanged": 0,
+        "maximumChannelDifference": 0,
+        "meanAbsoluteChannelDifference": 0.0
+      },
+      {
+        "before": "atlas-zoom-baseline-context-coast-map-natural.png",
+        "after": "atlas-zoom-final-stable-lifecycle-map-off.png",
+        "pixelsChanged": 0,
+        "maximumChannelDifference": 0,
+        "meanAbsoluteChannelDifference": 0.0
+      },
+      {
+        "before": "atlas-zoom-baseline-coast-relief-coast-map-relief.png",
+        "after": "atlas-zoom-final-stable-lifecycle-map-relief-off.png",
+        "pixelsChanged": 0,
+        "maximumChannelDifference": 0,
+        "meanAbsoluteChannelDifference": 0.0
+      }
+    ]
+  },
+  "maximumWorld": {
+    "report": "atlas-zoom-highres-final-browser-qa.json",
+    "previousSelectorReport": "atlas-zoom-highres-browser-qa.json",
+    "snapshot": {
+      "id": "8e9bd04e-2510-494f-a8cd-5dec9d87f5be",
+      "cells": 2621442,
+      "version": "2.16.1",
+      "bytes": 3427513728
+    },
+    "openingMs": 95399.5,
+    "camera": {
+      "position": [
+        -0.8846473150956694,
+        0.10110603719949753,
+        0.6458921714464708
+      ],
+      "target": [
+        0,
+        0,
+        0
+      ],
+      "zoom": 8
+    },
+    "steps": [
+      {
+        "name": "wide-off",
+        "pageElapsedMs": 95399.5,
+        "state": "off",
+        "vertices": 0,
+        "triangles": 0,
+        "physicalFacesPatched": 0,
+        "extraAccountedBytes": 0,
+        "riverConstraintIndexBytes": 0,
+        "lastBuildMs": 0.0,
+        "gpuCompletedFrameMs": 4976.8
+      },
+      {
+        "name": "wide-on",
+        "pageElapsedMs": 102596.59999999404,
+        "state": "ready",
+        "vertices": 0,
+        "triangles": 0,
+        "physicalFacesPatched": 0,
+        "extraAccountedBytes": 0,
+        "riverConstraintIndexBytes": 0,
+        "lastBuildMs": 0.0,
+        "gpuCompletedFrameMs": 4769.9
+      },
+      {
+        "name": "close-on",
+        "pageElapsedMs": 128060.29999999702,
+        "state": "ready",
+        "vertices": 6372,
+        "triangles": 12449,
+        "physicalFacesPatched": 59,
+        "extraAccountedBytes": 22770496,
+        "riverConstraintIndexBytes": 20533624,
+        "lastBuildMs": 46.2,
+        "gpuCompletedFrameMs": 467.3
+      },
+      {
+        "name": "close-off",
+        "pageElapsedMs": 130438.59999999404,
+        "state": "off",
+        "vertices": 0,
+        "triangles": 0,
+        "physicalFacesPatched": 0,
+        "extraAccountedBytes": 0,
+        "riverConstraintIndexBytes": 0,
+        "lastBuildMs": 46.2,
+        "gpuCompletedFrameMs": 377.5
+      },
+      {
+        "name": "close-on-restored",
+        "pageElapsedMs": 156776.79999999702,
+        "state": "ready",
+        "vertices": 6372,
+        "triangles": 12449,
+        "physicalFacesPatched": 59,
+        "extraAccountedBytes": 22770496,
+        "riverConstraintIndexBytes": 20533624,
+        "lastBuildMs": 35.7,
+        "gpuCompletedFrameMs": 584.2
+      },
+      {
+        "name": "wide-return",
+        "pageElapsedMs": 179077.40000000596,
+        "state": "ready",
+        "vertices": 0,
+        "triangles": 0,
+        "physicalFacesPatched": 0,
+        "extraAccountedBytes": 0,
+        "riverConstraintIndexBytes": 0,
+        "lastBuildMs": 35.7,
+        "gpuCompletedFrameMs": 5011.9
+      }
+    ],
+    "selectorBefore": [
+      {
+        "label": "wide",
+        "cpuMs": 273.1999999433756,
+        "elapsedMs": 396.59999999403954,
+        "steps": 21760,
+        "scannedFaces": 5242880,
+        "candidates": 0,
+        "viewport": [
+          2048,
+          1140
+        ]
+      },
+      {
+        "label": "close",
+        "cpuMs": 61.299999952316284,
+        "elapsedMs": 65.5,
+        "steps": 2273,
+        "scannedFaces": 5242880,
+        "candidates": 59,
+        "viewport": [
+          2048,
+          1140
+        ]
+      }
+    ],
+    "selectorAfter": [
+      {
+        "label": "wide",
+        "cpuMs": 8.999999970197678,
+        "elapsedMs": 10.799999997019768,
+        "steps": 1329,
+        "scannedFaces": 5242880,
+        "candidates": 0,
+        "viewport": [
+          2048,
+          1140
+        ]
+      },
+      {
+        "label": "close",
+        "cpuMs": 29.200000017881393,
+        "elapsedMs": 33.400000005960464,
+        "steps": 1921,
+        "scannedFaces": 5242880,
+        "candidates": 59,
+        "viewport": [
+          2048,
+          1140
+        ]
+      }
+    ],
+    "observedStepIntervalsMs": {
+      "wideReadyToFirstCloseReady": 25463.70000000298,
+      "closeOffToRestoredOn": 26338.20000000298
+    },
+    "stepTimingLimit": "These intervals include constraint preparation, scheduled GPU frames, readiness polling and surrounding probe/screenshot overhead. lastBuildMs reports one build stage, not total end-to-end camera readiness.",
+    "selectorTimingMethod": "Cooperative production selectZoomFaces generator over existing resident buffers; CPU time sums generator.next() calls, elapsed includes cooperative yields. scannedFaces is accounting, including skipped batches; it is not a count of projected faces. Single observational run per camera, not a statistical benchmark.",
+    "checks": [
+      {
+        "name": "camera-and-detail-no-world-source-reads",
+        "passed": true,
+        "extra": []
+      },
+      {
+        "name": "actual-maximum-world-fully-resident",
+        "passed": true
+      },
+      {
+        "name": "temporary-vertex-budget",
+        "passed": true
+      },
+      {
+        "name": "zoom-out-releases-extra-geometry",
+        "passed": true
+      }
+    ],
+    "errors": [],
+    "riverViewOnOff": {
+      "before": "atlas-zoom-highres-final-close-off.png",
+      "after": "atlas-zoom-highres-final-close-on.png",
+      "pixelsChanged": 6186,
+      "maximumChannelDifference": 1,
+      "meanAbsoluteChannelDifference": 0.0008869014985380117
+    },
+    "onOffOnPixelReproducibility": {
+      "before": "atlas-zoom-highres-final-close-on.png",
+      "after": "atlas-zoom-highres-final-close-on-restored.png",
+      "pixelsChanged": 0,
+      "maximumChannelDifference": 0,
+      "meanAbsoluteChannelDifference": 0.0
+    },
+    "cachedSelectorImageParity": {
+      "before": "atlas-zoom-highres-close-on.png",
+      "after": "atlas-zoom-highres-final-close-on.png",
+      "pixelsChanged": 0,
+      "maximumChannelDifference": 0,
+      "meanAbsoluteChannelDifference": 0.0
+    }
+  },
+  "limits": [
+    "The vertex budget is 32,760 temporary vertices; observed extra bytes include temporary masks/geometry and the data-dependent river-constraint index, not total process or driver memory.",
+    "Existing normal shading is preserved. Reconstructed geometric heights can change hundreds of metres while top-down color differences remain subtle.",
+    "The maximum-world river view contains pre-existing broad gaps in the saved/rendered network. The same-camera OFF comparison confirms those gaps are unchanged; this feature does not repair old water/network behavior.",
+    "Existing white cuts in the high-relief flat coast view are present in baseline; its lower-left comparison region has zero changed pixels.",
+    "Natural flat maps, Illustrated and analytical layers bypass temporary subdivision. Empty/no-eligible views legitimately report zero temporary vertices.",
+    "Software GPU frame completion times are environment-specific; they are not hardware-GPU performance claims."
+  ],
+  "passed": true,
+  "cleanup": {
+    "qaBrowserClosed": true,
+    "qa5176Stopped": true,
+    "root5175Preserved": true,
+    "highResolutionProfilePreserved": true,
+    "smallFixtureProfilePreserved": true
+  }
+}

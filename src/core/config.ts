@@ -43,6 +43,34 @@ export const SETTING_GROUPS: { name: string; settings: Setting[] }[] = [
     name: 'Geometry & continents',
     settings: [
       {
+        key: 'refinementStrength',
+        label: 'Adaptive detail',
+        min: 0,
+        max: 1,
+        step: 0.05,
+        description:
+          'Add surface cells near coasts, rivers, lake outlets, complex terrain and volcanics. Zero keeps the uniform base grid; climate and plates retain their simulation grid.',
+      },
+      {
+        key: 'refinementMinSpacing',
+        label: 'Minimum target spacing',
+        min: 100,
+        max: 1000000,
+        step: 100,
+        unit: 'km',
+        description:
+          'Target spacing in selected regions; actual adjacent distances vary. Fine spacing can create many more cells; generation time and memory grow with the resulting count.',
+      },
+      {
+        key: 'evolutionRefinements',
+        label: 'Refine evolving terrain',
+        min: 0,
+        max: 2,
+        step: 1,
+        description:
+          'Refine after part of the landscape interval, preserving eroded bedrock and sediment. Requires Adaptive detail, erosion and a positive landscape duration. Extra passes start coarser and reach the requested final spacing.',
+      },
+      {
         key: 'processLevel',
         label: 'Simulation detail',
         min: 3,
@@ -93,6 +121,100 @@ export const SETTING_GROUPS: { name: string; settings: Setting[] }[] = [
         step: 100000,
         unit: 'km',
         description: 'Sets physical cell areas and transport distances.',
+      },
+    ],
+  },
+  {
+    name: 'Automatic feature detail',
+    settings: [
+      {
+        key: 'featureRefinementPasses',
+        label: 'Final detail passes',
+        min: 0,
+        max: 2,
+        step: 1,
+        description:
+          'After the landscape settles, add detail around selected features and simplify quiet land within the limits below. Zero disables these final passes.',
+      },
+      {
+        key: 'featureRefinementSpacing',
+        label: 'Feature target spacing',
+        min: 100,
+        max: 1000000,
+        step: 100,
+        unit: 'km',
+        description:
+          'Desired spacing around selected features. The cell budget limits how much detail can be added; some features may remain coarser.',
+      },
+      {
+        key: 'featureRefinementBudget',
+        label: 'Extra cell budget',
+        min: 0,
+        max: 50,
+        step: 1,
+        unit: '%',
+        description:
+          'Maximum cells inserted across all final detail passes, as a percentage of the count before those passes. Removing quiet-land cells does not increase this budget. Zero adds no cells.',
+      },
+      {
+        key: 'featureDistrictStrength',
+        label: 'Lake district detail',
+        min: 0,
+        max: 100,
+        step: 5,
+        unit: '%',
+        description:
+          'Give broad lake-rich regions a share of the extra cell budget, including the land between small lakes. Zero disables district refinement; individual shores and rivers can still refine.',
+      },
+      {
+        key: 'featureDistrictRadius',
+        label: 'District search radius',
+        min: 50000,
+        max: 1500000,
+        step: 10000,
+        unit: 'km',
+        description:
+          'Geographic neighborhood used to recognize a lake district. Larger values group more widely spaced lakes into broad regions.',
+      },
+      {
+        key: 'featureDistrictThreshold',
+        label: 'District shore evidence',
+        min: 1,
+        max: 30,
+        step: 1,
+        unit: '%',
+        description:
+          'Minimum area-weighted evidence of lake shores in the search neighborhood. Mixed land and water cells and lake boundaries contribute; this is not the percentage covered by water. Lower values include sparser districts.',
+      },
+      {
+        key: 'featureCoarseningBudget',
+        label: 'Quiet-land reduction budget',
+        min: 0,
+        max: 40,
+        step: 1,
+        unit: '%',
+        description:
+          'Maximum cells removed across all final detail passes, measured against the original count. Only quiet grassland and forest interiors qualify; waterways, coasts, wetlands and terrain features stay protected. Zero disables simplification.',
+      },
+      {
+        key: 'featureCoarseningSpacing',
+        label: 'Quiet-land maximum spacing',
+        min: 10000,
+        max: 1000000,
+        step: 10000,
+        unit: 'km',
+        description:
+          'Upper spacing limit after removing quiet-land cells. Smaller values retain a denser mesh even where the landscape is uniform.',
+      },
+      {
+        key: 'featureCoarseningTolerance',
+        label: 'Quiet-land height tolerance',
+        min: 0,
+        max: 200,
+        step: 1,
+        unit: 'm',
+        description:
+          'Maximum allowed height difference when reconstructing a removed cell from its neighbors. Lower values preserve subtle terrain; higher values allow more simplification.',
       },
     ],
   },
@@ -294,6 +416,36 @@ export const SETTING_GROUPS: { name: string; settings: Setting[] }[] = [
           'Higher values preserve depressions during geological sediment infill. Lower values let more old basins become plains.',
       },
       {
+        key: 'salinityYears',
+        label: 'Salt accumulation interval',
+        min: 0,
+        max: 10000,
+        step: 10,
+        unit: 'years',
+        description:
+          'Time for dissolved minerals to accumulate under the final water balance. This is separate from geological age; refinement and solver iterations do not add time.',
+      },
+      {
+        key: 'weatheringSalinity',
+        label: 'Catchment dissolved salts',
+        min: 0,
+        max: 1,
+        step: 0.01,
+        unit: 'g/L',
+        description:
+          'Dissolved mineral concentration supplied by runoff. Evaporation concentrates salts in lakes; spilling lakes carry them downstream.',
+      },
+      {
+        key: 'inheritedMarineSalinity',
+        label: 'Inherited lake salinity',
+        min: 0,
+        max: 35,
+        step: 0.5,
+        unit: 'g/L',
+        description:
+          'Starting concentration for lakes: zero assumes fresh water; 35 g/L represents seawater. This is a world-wide scenario, not a history inferred from oceanic crust.',
+      },
+      {
         key: 'recycling',
         label: 'Moisture recycling',
         min: 0,
@@ -331,13 +483,32 @@ export const SETTING_GROUPS: { name: string; settings: Setting[] }[] = [
       },
       {
         key: 'fluvialDuration',
-        label: 'River evolution duration',
+        label: 'Landscape evolution duration',
         min: 0,
         max: 5,
         step: 0.25,
         unit: 'Myr',
         description:
-          'Recent landscape time for river incision and migration. Uses the generated climate; this is not the age of every river. Requires erosion above zero.',
+          'One recent interval shared by river incision, hillslope creep and wind sediment transport. Refinement divides this time; it never repeats the geological history. Requires erosion above zero.',
+      },
+      {
+        key: 'landscapeBatches',
+        label: 'Landscape time steps',
+        min: 1,
+        max: 12,
+        step: 1,
+        description:
+          'Rebuild water routing between terrain updates. More steps resolve changing valleys and outlets at greater cost; total landscape time stays fixed. Refinement may require at least one step per resolution.',
+      },
+      {
+        key: 'hillslopeStrength',
+        label: 'Hillslope transport',
+        min: 0,
+        max: 2,
+        step: 0.1,
+        unit: '×',
+        description:
+          'Moves available loose sediment downhill across shared cell edges. Uses stable physical time steps on the fine surface; zero disables creep.',
       },
       {
         key: 'bankMobility',
@@ -381,7 +552,7 @@ export function validateConfig(config: WorldConfig) {
   const settings = SETTING_GROUPS.flatMap((group) => group.settings);
   settings.push({
     key: 'surfaceLevel',
-    label: 'Surface detail',
+    label: 'Base surface detail',
     min: 3,
     max: 9,
     step: 1,
@@ -395,7 +566,15 @@ export function validateConfig(config: WorldConfig) {
       !Number.isFinite(value) ||
       value < setting.min ||
       value > setting.max ||
-      (['plates', 'hotspotCount', 'surfaceLevel', 'processLevel'].includes(setting.key) &&
+      ([
+        'plates',
+        'hotspotCount',
+        'surfaceLevel',
+        'processLevel',
+        'evolutionRefinements',
+        'featureRefinementPasses',
+        'landscapeBatches',
+      ].includes(setting.key) &&
         !Number.isInteger(value))
     ) {
       throw Error(`${setting.label} is outside the supported range.`);
@@ -403,6 +582,6 @@ export function validateConfig(config: WorldConfig) {
   }
 
   if (config.processLevel > config.surfaceLevel) {
-    throw Error('Simulation detail cannot exceed surface detail.');
+    throw Error('Simulation detail cannot exceed base surface detail.');
   }
 }

@@ -1,0 +1,656 @@
+{
+  "version": "2.22.0",
+  "baseline": "d29f1766309eb2f5fa168abf5820d72dd8e50eab",
+  "environment": {
+    "browser": "System Chromium",
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "webgl2": true,
+    "nativeMultiDrawSupported": true,
+    "smallViewport": [1440, 1000],
+    "maximumViewport": [2048, 1140]
+  },
+  "fixtures": {
+    "locallyRefined": {
+      "seed": "AETHER-6389",
+      "cells": 15049,
+      "sourceCells": 10242,
+      "sourceTriangles": 90282
+    },
+    "maximum": {
+      "snapshot": "8e9bd04e-2510-494f-a8cd-5dec9d87f5be",
+      "cells": 2621442,
+      "savedVersion": "2.16.1",
+      "snapshotBytes": 3427513728
+    }
+  },
+  "methodology": [
+    "Independent archived baseline modules and current production reader/renderer through a QA-only props/camera harness. Existing worlds reused; maximum World never regenerated or fully restored.",
+    "All four categorical views compared with requested relief 26, plus relief 1 checks. Oblique globe and Shaded-relief map checked for drainage/biomes. Rivers, physical grid and coast overlays checked on the refined lake.",
+    "Maximum drainage is the large active-simplification case; one fresh browser/reader per before/after opening. OS caches are not flushed. Timings are single observations on a software GPU, not FPS benchmarks.",
+    "Actual packet index counts, native WebGL calls and buffer allocations are instrumented. Completed frame times wait on a WebGL2 fence. Original CPU positions remain resident for picking.",
+    "Unique CPU buffer audit includes terrain packets, retained CPU surfaces and scene geometry, including hidden river geometry; excludes compact river assets, textures, worker heaps and driver overhead. Native GPU buffer bytes exclude textures; displayBytes is the production accounting estimate.",
+    "The 5m scalar-height envelope is separate from the 0.5-degree spherical-chord approximation (about 61m maximum edge-midpoint sag at Earth radius). It is not a 5m total 3D-position guarantee."
+  ],
+  "smallPixelComparisons": [
+    {
+      "name": "drainage-globe-mountain",
+      "changedPixels": 0,
+      "totalPixels": 1440000,
+      "changedPercent": 0.0,
+      "maxChannelDifference": 0,
+      "boundingBox": null
+    },
+    {
+      "name": "drainage-globe-mountain-relief1",
+      "changedPixels": 0,
+      "totalPixels": 1440000,
+      "changedPercent": 0.0,
+      "maxChannelDifference": 0,
+      "boundingBox": null
+    },
+    {
+      "name": "drainage-globe-refined",
+      "changedPixels": 0,
+      "totalPixels": 1440000,
+      "changedPercent": 0.0,
+      "maxChannelDifference": 0,
+      "boundingBox": null
+    },
+    {
+      "name": "drainage-globe-refined-overlays",
+      "changedPixels": 0,
+      "totalPixels": 1440000,
+      "changedPercent": 0.0,
+      "maxChannelDifference": 0,
+      "boundingBox": null
+    },
+    {
+      "name": "drainage-map-refined",
+      "changedPixels": 0,
+      "totalPixels": 1440000,
+      "changedPercent": 0.0,
+      "maxChannelDifference": 0,
+      "boundingBox": null
+    },
+    {
+      "name": "sources-globe-mountain",
+      "changedPixels": 0,
+      "totalPixels": 1440000,
+      "changedPercent": 0.0,
+      "maxChannelDifference": 0,
+      "boundingBox": null
+    },
+    {
+      "name": "sources-globe-mountain-relief1",
+      "changedPixels": 0,
+      "totalPixels": 1440000,
+      "changedPercent": 0.0,
+      "maxChannelDifference": 0,
+      "boundingBox": null
+    },
+    {
+      "name": "sources-globe-refined",
+      "changedPixels": 0,
+      "totalPixels": 1440000,
+      "changedPercent": 0.0,
+      "maxChannelDifference": 0,
+      "boundingBox": null
+    },
+    {
+      "name": "sources-map-refined",
+      "changedPixels": 0,
+      "totalPixels": 1440000,
+      "changedPercent": 0.0,
+      "maxChannelDifference": 0,
+      "boundingBox": null
+    },
+    {
+      "name": "biomes-globe-mountain",
+      "changedPixels": 0,
+      "totalPixels": 1440000,
+      "changedPercent": 0.0,
+      "maxChannelDifference": 0,
+      "boundingBox": null
+    },
+    {
+      "name": "biomes-globe-mountain-relief1",
+      "changedPixels": 0,
+      "totalPixels": 1440000,
+      "changedPercent": 0.0,
+      "maxChannelDifference": 0,
+      "boundingBox": null
+    },
+    {
+      "name": "biomes-globe-refined",
+      "changedPixels": 0,
+      "totalPixels": 1440000,
+      "changedPercent": 0.0,
+      "maxChannelDifference": 0,
+      "boundingBox": null
+    },
+    {
+      "name": "biomes-map-refined",
+      "changedPixels": 0,
+      "totalPixels": 1440000,
+      "changedPercent": 0.0,
+      "maxChannelDifference": 0,
+      "boundingBox": null
+    },
+    {
+      "name": "wetlands-globe-mountain",
+      "changedPixels": 0,
+      "totalPixels": 1440000,
+      "changedPercent": 0.0,
+      "maxChannelDifference": 0,
+      "boundingBox": null
+    },
+    {
+      "name": "wetlands-globe-mountain-relief1",
+      "changedPixels": 0,
+      "totalPixels": 1440000,
+      "changedPercent": 0.0,
+      "maxChannelDifference": 0,
+      "boundingBox": null
+    },
+    {
+      "name": "wetlands-globe-refined",
+      "changedPixels": 0,
+      "totalPixels": 1440000,
+      "changedPercent": 0.0,
+      "maxChannelDifference": 0,
+      "boundingBox": null
+    },
+    {
+      "name": "wetlands-map-refined",
+      "changedPixels": 0,
+      "totalPixels": 1440000,
+      "changedPercent": 0.0,
+      "maxChannelDifference": 0,
+      "boundingBox": null
+    }
+  ],
+  "refinedOverlayRetention": {
+    "gridSegmentsBeforeAndAfter": 45141,
+    "gridRequestsBeforeAndAfter": 7,
+    "riverBytesBeforeAndAfter": 97187246,
+    "riverAssetPacketBytesBeforeAndAfter": 2822663,
+    "gridBytesBeforeAndAfter": 1442344,
+    "matchedOverlayImageChangedPixels": 0
+  },
+  "obliquePixelComparisons": [
+    {
+      "name": "drainage-globe-oblique",
+      "changedPixels": 0,
+      "totalPixels": 1440000,
+      "changedPercent": 0.0,
+      "maxChannelDifference": 0,
+      "boundingBox": null
+    },
+    {
+      "name": "drainage-map-shaded-relief",
+      "changedPixels": 0,
+      "totalPixels": 1440000,
+      "changedPercent": 0.0,
+      "maxChannelDifference": 0,
+      "boundingBox": null
+    },
+    {
+      "name": "drainage-map-shaded-relief-overlays",
+      "changedPixels": 0,
+      "totalPixels": 1440000,
+      "changedPercent": 0.0,
+      "maxChannelDifference": 0,
+      "boundingBox": null
+    },
+    {
+      "name": "biomes-globe-oblique",
+      "changedPixels": 0,
+      "totalPixels": 1440000,
+      "changedPercent": 0.0,
+      "maxChannelDifference": 0,
+      "boundingBox": null
+    },
+    {
+      "name": "biomes-map-shaded-relief",
+      "changedPixels": 0,
+      "totalPixels": 1440000,
+      "changedPercent": 0.0,
+      "maxChannelDifference": 0,
+      "boundingBox": null
+    },
+    {
+      "name": "biomes-map-shaded-relief-overlays",
+      "changedPixels": 0,
+      "totalPixels": 1440000,
+      "changedPercent": 0.0,
+      "maxChannelDifference": 0,
+      "boundingBox": null
+    }
+  ],
+  "reliefResponseAndGeometry": {
+    "drainage": {
+      "changedPixels26Versus1": 82338,
+      "beforeTriangles": 90282,
+      "afterTriangles": 87722,
+      "afterHeightStats": {
+        "min": -7160.3798828125,
+        "max": 9484.8544921875,
+        "positive": 34506,
+        "negative": 21838,
+        "zero": 0
+      }
+    },
+    "sources": {
+      "changedPixels26Versus1": 49717,
+      "beforeTriangles": 90282,
+      "afterTriangles": 90282,
+      "afterHeightStats": {
+        "min": -7160.3798828125,
+        "max": 9484.8544921875,
+        "positive": 34692,
+        "negative": 21838,
+        "zero": 0
+      }
+    },
+    "biomes": {
+      "changedPixels26Versus1": 92153,
+      "beforeTriangles": 90282,
+      "afterTriangles": 90282,
+      "afterHeightStats": {
+        "min": -7160.3798828125,
+        "max": 9484.8544921875,
+        "positive": 34692,
+        "negative": 21838,
+        "zero": 0
+      }
+    },
+    "wetlands": {
+      "changedPixels26Versus1": 35322,
+      "beforeTriangles": 90282,
+      "afterTriangles": 90282,
+      "afterHeightStats": {
+        "min": -7160.3798828125,
+        "max": 9484.8544921875,
+        "positive": 34692,
+        "negative": 21838,
+        "zero": 0
+      }
+    }
+  },
+  "picking": {
+    "globeLake": {
+      "beforeCell": 13629,
+      "afterCell": 13629,
+      "heightMetres": 265.65655517578125,
+      "angularAnchorDifferenceRadians": 1.50311885885931e-8,
+      "beforeAnchor": [0.02492347583840697, 0.7477728580545466, 0.6634866789235992],
+      "afterAnchor": [0.024923475530715708, 0.747772848086284, 0.6634866901697406]
+    },
+    "drainageShadedReliefMap": {
+      "beforeCell": 591,
+      "afterCell": 591,
+      "heightMetres": 3426.749755859375,
+      "angularAnchorDifferenceRadians": 1.906549482210303e-5,
+      "beforeAnchor": [-0.35052722873576075, -0.5010048182898814, -0.7912805027075737],
+      "afterAnchor": [-0.35053234239973724, -0.5009883608897124, -0.7912886573083128]
+    },
+    "biomesShadedReliefMap": {
+      "beforeCell": 591,
+      "afterCell": 591,
+      "heightMetres": 3426.749755859375,
+      "angularAnchorDifferenceRadians": 1.906549482210303e-5,
+      "beforeAnchor": [-0.35052722873576075, -0.5010048182898814, -0.7912805027075737],
+      "afterAnchor": [-0.35053234239973724, -0.5009883608897124, -0.7912886573083128]
+    }
+  },
+  "maximum": {
+    "beforeOpenToReadyMs": 131269,
+    "afterOpenToReadyMs": 155926,
+    "before": [
+      {
+        "name": "drainage-globe-wide",
+        "packetGeometry": {
+          "packets": 1280,
+          "triangles": 15728640,
+          "vertices": 8234256
+        },
+        "heightStats": null,
+        "submittedTriangles": 8896512,
+        "actualWebGLCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 88,
+          "multiDrawLogical": 724
+        },
+        "gpuCompleteMs": 2990.7999999821186,
+        "cpuSubmitMs": 4.4000000059604645,
+        "accountedDisplayBytes": 1106978893,
+        "memory": {
+          "uniqueCpuBufferBytes": 491209128,
+          "originalSurfacePositionBytes": 98811072,
+          "gpuSlabBytes": 357868032,
+          "allocatedWebGLBufferBytes": 357897504,
+          "peakAllocatedWebGLBufferBytes": 357985216
+        },
+        "sourceRequestCounts": {
+          "physicalManifest": 1,
+          "riverRender": 181,
+          "physicalBatch": 1280,
+          "overlays": 2,
+          "releaseRiverRender": 1
+        },
+        "camera": {
+          "position": [2.523979218038812, 2.020667218593133e-16, 2.1259183678843807],
+          "target": [0, 0, 0],
+          "zoom": 1
+        },
+        "errors": []
+      },
+      {
+        "name": "drainage-globe-close",
+        "packetGeometry": {
+          "packets": 1280,
+          "triangles": 15728640,
+          "vertices": 8234256
+        },
+        "heightStats": null,
+        "submittedTriangles": 1425408,
+        "actualWebGLCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 21,
+          "multiDrawLogical": 116
+        },
+        "gpuCompleteMs": 672.8000000119209,
+        "cpuSubmitMs": 0.4000000059604645,
+        "accountedDisplayBytes": 1106978893,
+        "memory": {
+          "uniqueCpuBufferBytes": 491209128,
+          "originalSurfacePositionBytes": 98811072,
+          "gpuSlabBytes": 357868032,
+          "allocatedWebGLBufferBytes": 357897504,
+          "peakAllocatedWebGLBufferBytes": 357985216
+        },
+        "sourceRequestCounts": {
+          "physicalManifest": 1,
+          "riverRender": 181,
+          "physicalBatch": 1280,
+          "overlays": 3,
+          "releaseRiverRender": 1
+        },
+        "camera": {
+          "position": [1.678030415397394, 1.1985638465105077, 1.4133855209528592],
+          "target": [0, 0, 0],
+          "zoom": 2
+        },
+        "errors": []
+      },
+      {
+        "name": "drainage-map-wide",
+        "packetGeometry": {
+          "packets": 1280,
+          "triangles": 15728640,
+          "vertices": 8234256
+        },
+        "heightStats": null,
+        "submittedTriangles": 15740216,
+        "actualWebGLCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 130,
+          "multiDrawLogical": 1280
+        },
+        "gpuCompleteMs": 37548.69999998808,
+        "cpuSubmitMs": 1,
+        "accountedDisplayBytes": 1122678305,
+        "memory": {
+          "uniqueCpuBufferBytes": 505634892,
+          "originalSurfacePositionBytes": 99227808,
+          "gpuSlabBytes": 359048784,
+          "allocatedWebGLBufferBytes": 359048784,
+          "peakAllocatedWebGLBufferBytes": 360534416
+        },
+        "sourceRequestCounts": {
+          "physicalManifest": 1,
+          "riverRender": 181,
+          "physicalBatch": 1280,
+          "overlays": 4,
+          "releaseRiverRender": 1
+        },
+        "camera": {
+          "position": [0, 3.3677786976552215e-16, 5.5],
+          "target": [0, 0, 0],
+          "zoom": 1
+        },
+        "errors": []
+      }
+    ],
+    "after": [
+      {
+        "name": "drainage-globe-wide",
+        "packetGeometry": {
+          "packets": 1280,
+          "triangles": 5693398,
+          "vertices": 3626147
+        },
+        "heightStats": {
+          "min": -7358.82177734375,
+          "max": 15888.7626953125,
+          "positive": 2765871,
+          "negative": 859902,
+          "zero": 374
+        },
+        "submittedTriangles": 3221666,
+        "actualWebGLCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 61,
+          "multiDrawLogical": 724
+        },
+        "gpuCompleteMs": 1513.5,
+        "cpuSubmitMs": 0.7000000178813934,
+        "accountedDisplayBytes": 691631381,
+        "memory": {
+          "uniqueCpuBufferBytes": 283538188,
+          "originalSurfacePositionBytes": 43513764,
+          "gpuSlabBytes": 150197092,
+          "allocatedWebGLBufferBytes": 150226564,
+          "peakAllocatedWebGLBufferBytes": 152650404
+        },
+        "sourceRequestCounts": {
+          "physicalManifest": 1,
+          "riverRender": 181,
+          "physicalBatch": 1280,
+          "overlays": 2,
+          "releaseRiverRender": 1
+        },
+        "camera": {
+          "position": [2.523979218038812, 2.020667218593133e-16, 2.1259183678843807],
+          "target": [0, 0, 0],
+          "zoom": 1
+        },
+        "errors": []
+      },
+      {
+        "name": "drainage-globe-close",
+        "packetGeometry": {
+          "packets": 1280,
+          "triangles": 5693398,
+          "vertices": 3626147
+        },
+        "heightStats": {
+          "min": -7358.82177734375,
+          "max": 15888.7626953125,
+          "positive": 2765871,
+          "negative": 859902,
+          "zero": 374
+        },
+        "submittedTriangles": 310204,
+        "actualWebGLCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 16,
+          "multiDrawLogical": 116
+        },
+        "gpuCompleteMs": 164.09999999403954,
+        "cpuSubmitMs": 0.5,
+        "accountedDisplayBytes": 691631381,
+        "memory": {
+          "uniqueCpuBufferBytes": 283538188,
+          "originalSurfacePositionBytes": 43513764,
+          "gpuSlabBytes": 150197092,
+          "allocatedWebGLBufferBytes": 150226564,
+          "peakAllocatedWebGLBufferBytes": 152650404
+        },
+        "sourceRequestCounts": {
+          "physicalManifest": 1,
+          "riverRender": 181,
+          "physicalBatch": 1280,
+          "overlays": 3,
+          "releaseRiverRender": 1
+        },
+        "camera": {
+          "position": [1.678030415397394, 1.1985638465105077, 1.4133855209528592],
+          "target": [0, 0, 0],
+          "zoom": 2
+        },
+        "errors": []
+      },
+      {
+        "name": "drainage-map-wide",
+        "packetGeometry": {
+          "packets": 1280,
+          "triangles": 5693398,
+          "vertices": 3626147
+        },
+        "heightStats": {
+          "min": -7358.82177734375,
+          "max": 15888.7626953125,
+          "positive": 2765871,
+          "negative": 859902,
+          "zero": 374
+        },
+        "submittedTriangles": 5701752,
+        "actualWebGLCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 84,
+          "multiDrawLogical": 1280
+        },
+        "gpuCompleteMs": 3368.600000023842,
+        "cpuSubmitMs": 0.800000011920929,
+        "accountedDisplayBytes": 700901961,
+        "memory": {
+          "uniqueCpuBufferBytes": 291864020,
+          "originalSurfacePositionBytes": 43814508,
+          "gpuSlabBytes": 151049200,
+          "allocatedWebGLBufferBytes": 151049200,
+          "peakAllocatedWebGLBufferBytes": 153473040
+        },
+        "sourceRequestCounts": {
+          "physicalManifest": 1,
+          "riverRender": 181,
+          "physicalBatch": 1280,
+          "overlays": 4,
+          "releaseRiverRender": 1
+        },
+        "camera": {
+          "position": [0, 3.3677786976552215e-16, 5.5],
+          "target": [0, 0, 0],
+          "zoom": 1
+        },
+        "errors": []
+      }
+    ],
+    "pixelComparisons": [
+      {
+        "name": "drainage-globe-wide",
+        "changedPixels": 2544,
+        "totalPixels": 2334720,
+        "changedPercent": 0.10896381578947369,
+        "maxChannelDifference": 165,
+        "boundingBox": [498, 46, 1549, 1094],
+        "changedWithin5PixelsOfExistingEdge": 2544,
+        "maximumDistanceToExistingEdgePixels": 1.4142135623730951,
+        "newBackgroundPixelsBeyond5PixelOldSilhouette": 0
+      },
+      {
+        "name": "drainage-globe-close",
+        "changedPixels": 64,
+        "totalPixels": 2334720,
+        "changedPercent": 0.0027412280701754384,
+        "maxChannelDifference": 165,
+        "boundingBox": [4, 286, 2025, 1107],
+        "changedWithin5PixelsOfExistingEdge": 64,
+        "maximumDistanceToExistingEdgePixels": 1.0,
+        "newBackgroundPixelsBeyond5PixelOldSilhouette": 0
+      },
+      {
+        "name": "drainage-map-wide",
+        "changedPixels": 3,
+        "totalPixels": 2334720,
+        "changedPercent": 0.00012849506578947368,
+        "maxChannelDifference": 41,
+        "boundingBox": [1095, 668, 1828, 977],
+        "changedWithin5PixelsOfExistingEdge": 3,
+        "maximumDistanceToExistingEdgePixels": 0.0,
+        "newBackgroundPixelsBeyond5PixelOldSilhouette": 0
+      }
+    ],
+    "reductionPercent": {
+      "packetTriangles": 63.80235036214192,
+      "nativeGpuBufferBytes": 58.02525518590931,
+      "accountedDisplayBytes": 37.52081585533899
+    }
+  },
+  "browserErrors": [],
+  "webglErrors": [],
+  "checks": [
+    {
+      "name": "all23SmallMatchedImagesPixelIdentical",
+      "passed": true
+    },
+    {
+      "name": "allFourLayersRetainPositiveAndNegativePhysicalHeights",
+      "passed": true
+    },
+    {
+      "name": "allFourReliefControlsChangeVisibleGeometry",
+      "passed": true
+    },
+    {
+      "name": "allThreePickingChecksRetainPhysicalCellAndHeight",
+      "passed": true
+    },
+    {
+      "name": "maximumGeometryIsSimplified",
+      "passed": true
+    },
+    {
+      "name": "maximumCameraAndProjectionReuseTerrainAndRiverPackets",
+      "passed": true
+    },
+    {
+      "name": "browserAndWebglErrorsEmpty",
+      "passed": true
+    },
+    {
+      "name": "maximumChangesConfinedToExistingEdgesWithoutInteriorHoles",
+      "passed": true
+    }
+  ],
+  "rawReports": [
+    "outputs/atlas-regions-before-small-qa.json",
+    "outputs/atlas-regions-after-small-qa.json",
+    "outputs/atlas-regions-oblique-before-small-qa.json",
+    "outputs/atlas-regions-oblique-after-small-qa.json",
+    "outputs/atlas-regions-before-highres-qa.json",
+    "outputs/atlas-regions-after-highres-qa.json"
+  ],
+  "visualAssessment": {
+    "small": "All 23 matched captures are pixel-identical. The refined drainage mesh has 2,560 fewer triangles; the other three layers make no legal collapses on this small fixture under the conservative constraints.",
+    "maximum": "Wide globe changes 2,544 pixels (0.109%), all within 1.414 pixels of an existing image edge; close globe changes 64 pixels, all within 1 pixel; map changes 3 pixels on existing edges. These are edge rasterization differences from bounded geometry approximation. No new interior background holes were detected or visible surface discontinuities observed.",
+    "picking": "The corrected inverse projection retains the same inspected physical cells/heights. Map anchors differ from the prior barycentric approximation by 1.90655e-5 radians; globe lake anchors differ by 1.50312e-8 radians. These are observed differences, not a global picking-error guarantee.",
+    "maximumCoverageLimit": "Browser testing on the maximum world covers drainage only; all four categorical views are covered on the locally refined fixture. Timing results are individual software-GPU observations."
+  },
+  "cleanup": {
+    "browserContextsClosed": true,
+    "ownedPreview5176Stopped": true,
+    "parentPreview5175Preserved": true,
+    "savedProfilesPreserved": true
+  }
+}

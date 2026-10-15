@@ -1,11 +1,11 @@
 # World Forge
 
 A TypeScript planet-generation prototype for worldbuilding. Explore a generated
-world as a globe or flat map, inspect its physical fields, and switch between
-natural, shaded-relief and ink-atlas styles.
+world as a globe or flat map, inspect its physical fields, and choose natural,
+relief, fantasy-cartography or grayscale heightmap styles.
 
-Application **2.13.2**, generator **2.13.0**. This is the standalone React/Vite
-edition of the browser prototype.
+Application and generator **2.28.0**. This is the standalone React/Vite edition
+of the browser prototype; [the changelog](CHANGELOG.md) records source provenance.
 
 ![Shaded-relief map](docs/observations/art-styles/relief-map.png)
 
@@ -18,8 +18,9 @@ npm ci
 npm run dev
 ```
 
-Open the local URL printed by Vite. The initial world is generated in a Web
-Worker. No account, database, environment variables or server API is required.
+Open the local URL printed by Vite. Generation runs in browser workers, with up
+to four independent seasonal climate workers. No account, environment variables
+or server API is required. The world library uses browser-local IndexedDB.
 
 ```sh
 npm run build
@@ -28,48 +29,66 @@ npm run preview
 
 The build produces a static application in `dist/`. Serve it over HTTP; opening
 `index.html` directly from disk does not provide the module-worker environment
-the app needs. Relative asset paths also support hosting beneath a URL prefix.
+the app needs. Relative asset paths support hosting beneath a URL prefix.
 
 ## Explore
 
-- Change the seed and generation settings, then generate a world.
+- Change the seed and generation settings, then choose **Generate world**.
 - Inspect tectonics, climate, rivers, lakes, wetlands, vegetation, minerals and fertility.
 - Switch between Globe and Flat map, choose a season, or change the map style.
-- Click a cell or deposit for its values and explanatory details.
-- Use **Save project** and **Load** to exchange JSON recipes. Examples are in
-  [`examples/`](examples/), including AETHER-0004.
+  Classic parchment, Engraved explorer and Painted fantasy atlas illustrate
+  mountain ranges and woodland; Heightmap maps low elevations to black and high
+  elevations to white.
+- Click a cell or deposit for its values and explanatory details. Salinity-aware
+  worlds include lake/river concentration and local soil effects.
+- Use adaptive detail during generation, bounded automatic final feature passes,
+  or **Refine region** on an existing world. Lake districts can receive more cells;
+  optional quiet-land simplification removes detail from suitable interiors.
+- Use **Save world** to retain the complete physical state in this browser's
+  library. Saving is manual; generating or refining does not add a library entry.
+- Use **Export recipe** and **Import recipe** to exchange JSON reconstruction
+  settings, including resolved refinement history. Examples are in
+  [`examples/`](examples/).
 
-Project files store recipes rather than computed worlds. Exact reproduction
-requires the same generator version. A subdivision increase roughly quadruples
-the cell count; the highest optional settings take substantial time and memory.
+The local library belongs to the browser and origin; it is not a cross-device
+backup. Recipes contain reconstruction instructions rather than complete worlds.
+Exact reproduction requires a compatible generator version. Older recipes receive
+explicit compatibility defaults; old snapshots keep unknown salinity until a new
+world is generated.
+
+Physical detail stays fixed while navigating. Optional **Zoom detail** adds a
+bounded display-only reconstruction from existing samples. Finer physical meshes
+and higher weather detail still cost generation memory and time; the fixed mesh
+renderer also scales with world size. Quality presets provide starting points,
+not performance guarantees.
 
 ## Develop
 
-| Command                                            | Purpose                                        |
-| -------------------------------------------------- | ---------------------------------------------- |
-| `npm run dev`                                      | Development server                             |
-| `npm run build`                                    | Type-check and build the static application    |
-| `npm run preview`                                  | Serve the production build locally             |
-| `npm run typecheck`                                | Check TypeScript without building              |
-| `npm test`                                         | Run the generator and rendering-geometry tests |
-| `npm run lint`                                     | Check source conventions and unused code       |
-| `npm run format`                                   | Format maintained source and documentation     |
-| `npm run format:check`                             | Check formatting                               |
-| `npm run measure -- examples/AETHER-0004.json 5 4` | Measure a world at explicit detail levels      |
+| Command                                            | Purpose                                            |
+| -------------------------------------------------- | -------------------------------------------------- |
+| `npm run dev`                                      | Development server                                 |
+| `npm run build`                                    | Type-check and build the static application        |
+| `npm run preview`                                  | Serve the production build locally                 |
+| `npm run typecheck`                                | Check TypeScript without building                  |
+| `npm test`                                         | Run numerical, storage, worker and rendering tests |
+| `npm run lint`                                     | Check source conventions and unused code           |
+| `npm run format`                                   | Format maintained source and documentation         |
+| `npm run format:check`                             | Check formatting                                   |
+| `npm run measure -- examples/AETHER-0004.json 5 4` | Measure a world at explicit detail levels          |
 
 Start with [`src/core/pipeline.ts`](src/core/pipeline.ts) for generation,
 [`src/core/model.ts`](src/core/model.ts) for fields and units, and
-[`src/render/WorldView.tsx`](src/render/WorldView.tsx) for the viewer.
+[`src/render/PagedWorldView.tsx`](src/render/PagedWorldView.tsx) for the active viewer.
 
-| Directory            | Responsibility                                                      |
-| -------------------- | ------------------------------------------------------------------- |
-| `src/core/`          | Spherical grids, deterministic generation and world data            |
-| `src/app/`           | Editor, inspection, styles and worker lifecycle                     |
-| `src/render/`        | Three.js meshes, materials, projections and overlays                |
-| `src/components/ui/` | Shared UI primitives used by the editor                             |
-| `tests/`             | Numerical, data-contract and geometry checks                        |
-| `scripts/`           | Optional generation and tectonics measurements                      |
-| `docs/`              | Architecture, algorithms, development notes and historical evidence |
+| Directory            | Responsibility                                                           |
+| -------------------- | ------------------------------------------------------------------------ |
+| `src/core/`          | Spherical grids, deterministic generation, snapshots and bounded readers |
+| `src/app/`           | Editor, inspection, saved-world library and worker lifecycle             |
+| `src/render/`        | Three.js meshes, materials, projections and overlays                     |
+| `src/components/ui/` | Shared UI primitives used by the editor                                  |
+| `tests/`             | Numerical, data-contract, storage, worker and geometry checks            |
+| `scripts/`           | Optional generation, refinement, rendering and salinity measurements     |
+| `docs/`              | Architecture, algorithms, development notes and historical evidence      |
 
 ## Documentation
 
@@ -81,9 +100,10 @@ The [documentation index](docs/README.md) is the entry point.
 - [History](docs/history/README.md): revision notes, proposals and comparisons.
 - [Changelog](CHANGELOG.md): repository preparation and source provenance.
 
-This is an approximate worldbuilding model: prescribed plate motion is
-kinematic, climate uses representative seasons, and several river and resource
-processes use procedural proxies. The documentation identifies their limits.
-Civilizations, mining and irrigation are future work.
+This is an approximate worldbuilding model: plate motion is prescribed, climate
+uses representative seasons, and river, resource and salinity processes use
+simplified physical or procedural models. Salt accumulation has its own explicit
+interval; oceanic crust alone does not establish a salt source. The documentation
+identifies the models' limits. Civilizations, mining and irrigation are future work.
 
 Third-party notices are in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

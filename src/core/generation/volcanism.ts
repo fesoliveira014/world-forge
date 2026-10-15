@@ -1,13 +1,7 @@
-import type { Grid, WorldConfig } from '../model';
+import type { Grid, HotspotSource, WorldConfig } from '../model';
 import { MinHeap, createSeededRandom, randomSpherePoint } from '../math';
 
-export interface Hotspot {
-  position: [number, number, number];
-  start: number;
-  end: number;
-  radius: number;
-  rate: number;
-}
+export type Hotspot = HotspotSource;
 
 /** Fixed mantle-frame sources; motion of the crust creates age-progressive tracks.
  * The seed fixes positions and lifetimes independently of the requested end date.
@@ -39,15 +33,20 @@ export function volcanicRates(
   hotspots: Hotspot[],
   elapsed: number,
   config: WorldConfig,
+  faultOrigins?: Int32Array,
 ): Float32Array {
   const cost = new Float64Array(grid.count).fill(Infinity);
   const heap = new MinHeap();
   const rate = new Float32Array(grid.count);
   const width = 130000 * config.tectonicWidth;
+  faultOrigins?.fill(-1);
 
   for (let cellIndex = 0; cellIndex < grid.count; cellIndex++) {
     if (faults[cellIndex] > 0) {
       cost[cellIndex] = -Math.log(faults[cellIndex] / 200);
+      if (faultOrigins) {
+        faultOrigins[cellIndex] = cellIndex;
+      }
       heap.push(cellIndex, cost[cellIndex]);
     }
   }
@@ -75,6 +74,9 @@ export function volcanicRates(
 
       if (next < cost[neighborCell] && next < 5) {
         cost[neighborCell] = next;
+        if (faultOrigins) {
+          faultOrigins[neighborCell] = faultOrigins[cellIndex];
+        }
         heap.push(neighborCell, next);
       }
     }
@@ -86,19 +88,34 @@ export function volcanicRates(
     let construction = 200 * Math.exp(-cost[cellIndex]);
 
     for (const hotspot of active) {
-      const cosineDistance =
-        grid.positions[cellIndex * 3] * hotspot.position[0] +
-        grid.positions[cellIndex * 3 + 1] * hotspot.position[1] +
-        grid.positions[cellIndex * 3 + 2] * hotspot.position[2];
-      // Chord distance is adequate over a volcanic province; avoids an acos per source.
-      const distanceSquared = 2 * Math.max(0, 1 - cosineDistance) * config.radius ** 2;
-      construction += hotspot.rate * Math.exp(-distanceSquared / hotspot.radius ** 2);
+      construction += hotspotRateAt(
+        hotspot,
+        grid.positions[cellIndex * 3],
+        grid.positions[cellIndex * 3 + 1],
+        grid.positions[cellIndex * 3 + 2],
+        config.radius,
+      );
     }
 
     rate[cellIndex] = construction * config.volcanicActivity;
   }
 
   return rate;
+}
+
+export function hotspotRateAt(
+  hotspot: Hotspot,
+  x: number,
+  y: number,
+  z: number,
+  radius: number,
+): number {
+  const cosineDistance =
+    x * hotspot.position[0] + y * hotspot.position[1] + z * hotspot.position[2];
+  // The same chord-distance kernel is used for emplacement and its attribution.
+  const distanceSquared = 2 * Math.max(0, 1 - cosineDistance) * radius ** 2;
+
+  return hotspot.rate * Math.exp(-distanceSquared / hotspot.radius ** 2);
 }
 
 /** Saturating emplacement approximates load compensation, not unlimited vertical stacking. */

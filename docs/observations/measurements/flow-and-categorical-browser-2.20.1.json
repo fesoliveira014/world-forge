@@ -1,0 +1,594 @@
+{
+  "version": "2.20.1",
+  "baseline": "7b59e5085e32814e549435f1d441b8929d811e94",
+  "environment": {
+    "browser": "System Chromium",
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "webgl2": true,
+    "nativeMultiDrawSupported": true,
+    "smallViewport": [1440, 1000],
+    "maximumViewport": [2048, 1140]
+  },
+  "fixtures": {
+    "small": {
+      "seed": "AETHER-6389",
+      "cells": 10242
+    },
+    "maximumSavedWorld": {
+      "id": "8e9bd04e-2510-494f-a8cd-5dec9d87f5be",
+      "cells": 2621442,
+      "version": "2.16.1",
+      "bytes": 3427513728
+    }
+  },
+  "methodology": [
+    "Independent frozen baseline modules; current production readers and renderers accessed through a QA-only props/camera harness. No simulation generation for the maximum fixture.",
+    "Fresh browser/reader for before and after maximum runs, preserving the identical IndexedDB snapshot. OS/storage caches were not flushed. These are single observations, not statistical performance benchmarks.",
+    "Maximum camera is longitude 0.7 rad, latitude 0, distance 3.3, zoom 1, globe. Annual mean, no visible rivers/grid/flow/zoom patches. Readiness includes GPU completion and a 700 ms stability confirmation.",
+    "Native WebGL calls and buffer allocation are instrumented. Completed frame time uses a WebGL2 fence, not CPU submission time.",
+    "Small categorical image comparisons exclude the top 60 px QA-only title bar, which was corrected from a hard-coded label. All other pixels match. The entire maximum screenshot matches."
+  ],
+  "flow": {
+    "baselineFinding": "The previous renderer used disconnected vector dashes and point sprites; disabling animation hid the moving points instead of freezing visible trails.",
+    "finalVisuals": [
+      {
+        "layer": "wind",
+        "projection": "globe",
+        "animationChangedPixels": 10205,
+        "pausedChangedPixels": 0,
+        "trailsOffAgainstPreviousTerrainChangedPixels": 0,
+        "pausedClock": [2.566600000000001, 2.566600000000001],
+        "renderedSegments": 5626,
+        "flowObjectCount": 1,
+        "pointSprites": 0,
+        "flowGeometryCpuBytes": 270048,
+        "depthTest": false,
+        "overlayRequestCounts": [4, 4, 4, 4],
+        "image": "atlas-flow-trails-final-visual-wind-globe-animated-1.png"
+      },
+      {
+        "layer": "wind",
+        "projection": "map",
+        "animationChangedPixels": 18315,
+        "pausedChangedPixels": 0,
+        "trailsOffAgainstPreviousTerrainChangedPixels": 0,
+        "pausedClock": [3.2666000000000004, 3.2666000000000004],
+        "renderedSegments": 6150,
+        "flowObjectCount": 1,
+        "pointSprites": 0,
+        "flowGeometryCpuBytes": 295200,
+        "depthTest": false,
+        "overlayRequestCounts": [6, 6, 6, 6],
+        "image": "atlas-flow-trails-final-visual-wind-map-animated-1.png"
+      },
+      {
+        "layer": "currents",
+        "projection": "globe",
+        "animationChangedPixels": 7490,
+        "pausedChangedPixels": 0,
+        "trailsOffAgainstPreviousTerrainChangedPixels": 0,
+        "pausedClock": [2.6164999999999985, 2.6164999999999985],
+        "renderedSegments": 3898,
+        "flowObjectCount": 1,
+        "pointSprites": 0,
+        "flowGeometryCpuBytes": 187104,
+        "depthTest": true,
+        "overlayRequestCounts": [9, 9, 9, 9],
+        "image": "atlas-flow-trails-final-visual-currents-globe-animated-1.png"
+      },
+      {
+        "layer": "currents",
+        "projection": "map",
+        "animationChangedPixels": 7576,
+        "pausedChangedPixels": 0,
+        "trailsOffAgainstPreviousTerrainChangedPixels": 0,
+        "pausedClock": [2.9665999999999997, 2.9665999999999997],
+        "renderedSegments": 3647,
+        "flowObjectCount": 1,
+        "pointSprites": 0,
+        "flowGeometryCpuBytes": 175056,
+        "depthTest": true,
+        "overlayRequestCounts": [11, 11, 11, 11],
+        "image": "atlas-flow-trails-final-visual-currents-map-animated-1.png"
+      }
+    ],
+    "controlMatrixBeforeFinalFadeLengthAdjustment": {
+      "wind-globe": {
+        "animationChangedPixels": 6947,
+        "pausedChangedPixels": 0,
+        "speedZeroChangedPixels": 0,
+        "offHiddenChangedPixels": 0,
+        "pausedTime": [3.049900000000001, 3.049900000000001],
+        "speedZeroTime": [3.049900000000001, 3.049900000000001],
+        "pauseRequests": [4, 4, 4, 4, 4],
+        "densityRequests": [6, 6, 6],
+        "densityCounts": [0, 5218]
+      },
+      "wind-map": {
+        "animationChangedPixels": 11669,
+        "pausedChangedPixels": 0,
+        "speedZeroChangedPixels": 0,
+        "offHiddenChangedPixels": 0,
+        "pausedTime": [3.7665000000000006, 3.7665000000000006],
+        "speedZeroTime": [3.7665000000000006, 3.7665000000000006],
+        "pauseRequests": [8, 8, 8, 8, 8],
+        "densityRequests": [10, 10, 10],
+        "densityCounts": [0, 5611]
+      },
+      "currents-globe": {
+        "animationChangedPixels": 3824,
+        "pausedChangedPixels": 0,
+        "speedZeroChangedPixels": 0,
+        "offHiddenChangedPixels": 0,
+        "pausedTime": [2.9665999999999926, 2.9665999999999926],
+        "speedZeroTime": [2.9665999999999926, 2.9665999999999926],
+        "pauseRequests": [13, 13, 13, 13, 13],
+        "densityRequests": [15, 15, 15],
+        "densityCounts": [0, 3541]
+      },
+      "currents-map": {
+        "animationChangedPixels": 3458,
+        "pausedChangedPixels": 0,
+        "speedZeroChangedPixels": 0,
+        "offHiddenChangedPixels": 0,
+        "pausedTime": [3.2498000000000005, 3.2498000000000005],
+        "speedZeroTime": [3.2498000000000005, 3.2498000000000005],
+        "pauseRequests": [17, 17, 17, 17, 17],
+        "densityRequests": [19, 19, 19],
+        "densityCounts": [0, 3243]
+      }
+    },
+    "freshDelayedOffOnBeforeFinalFadeLengthAdjustment": {
+      "wind": {
+        "phase": [1.5831999999999997, 1.5831999999999997, 1.5831999999999997, 2.1831999999999994],
+        "offOnChangedPixels": 0,
+        "densityRestoreChangedPixels": 0,
+        "resumedChangedPixels": 10894,
+        "errors": []
+      },
+      "currents": {
+        "phase": [1.7832000000000008, 1.7832000000000008, 1.7832000000000008, 2.383200000000002],
+        "offOnChangedPixels": 0,
+        "densityRestoreChangedPixels": 0,
+        "resumedChangedPixels": 5298,
+        "errors": []
+      }
+    },
+    "note": "Final source-span and fade-length adjustments were covered by a fresh 20-capture rendering/animation/pause matrix. The earlier 48-capture controls matrix and 12-capture delayed phase matrix cover unchanged clock/density/query logic. Trails interpolate the supplied bounded local vectors; this is not a new flow-field simulation."
+  },
+  "categorical": {
+    "maximum": {
+      "before": {
+        "baseline": "7b59e5085e32814e549435f1d441b8929d811e94",
+        "cells": 2621442,
+        "openToReadyMs": 240363,
+        "physicalRpcSpanMs": 236132.89999999106,
+        "physicalBatchMedianMs": 363.75,
+        "physicalBatchP95Ms": 2117.0999999940395,
+        "physicalBatchMaxMs": 7337.4000000059605,
+        "completedGpuFrameMs": 2889.199999988079,
+        "glCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 88,
+          "multiDrawLogical": 724
+        },
+        "submittedTriangles": 8896512,
+        "retainedTriangles": 15728640,
+        "accountedDisplayBytes": 1106978893,
+        "actualGpuBufferBytes": 357897504,
+        "peakGpuBufferBytes": 357985216,
+        "errors": [],
+        "glErrors": []
+      },
+      "after": {
+        "baseline": "7b59e5085e32814e549435f1d441b8929d811e94",
+        "cells": 2621442,
+        "openToReadyMs": 125208,
+        "physicalRpcSpanMs": 120174.90000000596,
+        "physicalBatchMedianMs": 144.45000000298023,
+        "physicalBatchP95Ms": 2292.7999999970198,
+        "completedGpuFrameMs": 2547.4000000059605,
+        "glCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 88,
+          "multiDrawLogical": 724
+        },
+        "submittedTriangles": 8896512,
+        "retainedTriangles": 15728640,
+        "accountedDisplayBytes": 1106978893,
+        "actualGpuBufferBytes": 357897504,
+        "peakGpuBufferBytes": 357985216,
+        "changedPixels": 0,
+        "errors": [],
+        "glErrors": []
+      },
+      "openToReadyReductionPercent": 47.9087879582132,
+      "camera": {
+        "position": [2.523979218038812, 2.020667218593133e-16, 2.1259183678843807],
+        "target": [0, 0, 0],
+        "zoom": 1
+      },
+      "image": "atlas-categorical-after-highres-tectonics-globe-wide.png"
+    },
+    "smallComparisons": [
+      {
+        "layer": "world",
+        "changedPixels": 0,
+        "beforeRpc": {
+          "count": 5,
+          "spanMs": 168.0,
+          "medianMs": 89.70000000298023,
+          "p95Ms": 123.79999999701977,
+          "maxMs": 123.79999999701977
+        },
+        "afterRpc": {
+          "count": 5,
+          "spanMs": 155.29999999701977,
+          "medianMs": 95.90000000596046,
+          "p95Ms": 125.79999999701977,
+          "maxMs": 125.79999999701977
+        },
+        "beforeGpuCompleteMs": 108.1000000089407,
+        "afterGpuCompleteMs": 91,
+        "beforeCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 1,
+          "multiDrawLogical": 5
+        },
+        "afterCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 1,
+          "multiDrawLogical": 5
+        },
+        "beforeSubmittedTriangles": 20480,
+        "afterSubmittedTriangles": 20480,
+        "beforeRetainedTriangles": 20480,
+        "afterRetainedTriangles": 20480,
+        "beforeDisplayBytes": 91175241,
+        "afterDisplayBytes": 91175241,
+        "beforeAllocatedGpuBytes": 721128,
+        "afterAllocatedGpuBytes": 721128,
+        "beforePeakAllocatedGpuBytes": 4223724,
+        "afterPeakAllocatedGpuBytes": 4223724,
+        "glErrors": []
+      },
+      {
+        "layer": "tectonics",
+        "changedPixels": 0,
+        "beforeRpc": {
+          "count": 5,
+          "spanMs": 175.40000000596046,
+          "medianMs": 96.19999998807907,
+          "p95Ms": 144.59999999403954,
+          "maxMs": 144.59999999403954
+        },
+        "afterRpc": {
+          "count": 5,
+          "spanMs": 142.0,
+          "medianMs": 92.0,
+          "p95Ms": 122.0,
+          "maxMs": 122.0
+        },
+        "beforeGpuCompleteMs": 43.5,
+        "afterGpuCompleteMs": 35.6000000089407,
+        "beforeCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 1,
+          "multiDrawLogical": 5
+        },
+        "afterCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 1,
+          "multiDrawLogical": 5
+        },
+        "beforeSubmittedTriangles": 61440,
+        "afterSubmittedTriangles": 61440,
+        "beforeRetainedTriangles": 61440,
+        "afterRetainedTriangles": 61440,
+        "beforeDisplayBytes": 92685561,
+        "afterDisplayBytes": 92685561,
+        "beforeAllocatedGpuBytes": 1451712,
+        "afterAllocatedGpuBytes": 1451712,
+        "beforePeakAllocatedGpuBytes": 4223724,
+        "afterPeakAllocatedGpuBytes": 4223724,
+        "glErrors": []
+      },
+      {
+        "layer": "drainage",
+        "changedPixels": 0,
+        "beforeRpc": {
+          "count": 5,
+          "spanMs": 76.29999999701977,
+          "medianMs": 33.0,
+          "p95Ms": 61.0,
+          "maxMs": 61.0
+        },
+        "afterRpc": {
+          "count": 5,
+          "spanMs": 70.30000001192093,
+          "medianMs": 24.900000005960464,
+          "p95Ms": 46.6000000089407,
+          "maxMs": 46.6000000089407
+        },
+        "beforeGpuCompleteMs": 76.30000001192093,
+        "afterGpuCompleteMs": 38.099999994039536,
+        "beforeCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 1,
+          "multiDrawLogical": 5
+        },
+        "afterCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 1,
+          "multiDrawLogical": 5
+        },
+        "beforeSubmittedTriangles": 61440,
+        "afterSubmittedTriangles": 61440,
+        "beforeRetainedTriangles": 61440,
+        "afterRetainedTriangles": 61440,
+        "beforeDisplayBytes": 92685561,
+        "afterDisplayBytes": 92685561,
+        "beforeAllocatedGpuBytes": 1451712,
+        "afterAllocatedGpuBytes": 1451712,
+        "beforePeakAllocatedGpuBytes": 4223724,
+        "afterPeakAllocatedGpuBytes": 4223724,
+        "glErrors": []
+      },
+      {
+        "layer": "sources",
+        "changedPixels": 0,
+        "beforeRpc": {
+          "count": 5,
+          "spanMs": 95.1000000089407,
+          "medianMs": 45.5,
+          "p95Ms": 70.0,
+          "maxMs": 70.0
+        },
+        "afterRpc": {
+          "count": 5,
+          "spanMs": 65.20000000298023,
+          "medianMs": 26.0,
+          "p95Ms": 47.80000001192093,
+          "maxMs": 47.80000001192093
+        },
+        "beforeGpuCompleteMs": 48.70000000298023,
+        "afterGpuCompleteMs": 38.20000000298023,
+        "beforeCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 1,
+          "multiDrawLogical": 5
+        },
+        "afterCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 1,
+          "multiDrawLogical": 5
+        },
+        "beforeSubmittedTriangles": 61440,
+        "afterSubmittedTriangles": 61440,
+        "beforeRetainedTriangles": 61440,
+        "afterRetainedTriangles": 61440,
+        "beforeDisplayBytes": 92685561,
+        "afterDisplayBytes": 92685561,
+        "beforeAllocatedGpuBytes": 1451712,
+        "afterAllocatedGpuBytes": 1451712,
+        "beforePeakAllocatedGpuBytes": 4223724,
+        "afterPeakAllocatedGpuBytes": 4223724,
+        "glErrors": []
+      },
+      {
+        "layer": "biomes",
+        "changedPixels": 0,
+        "beforeRpc": {
+          "count": 5,
+          "spanMs": 65.20000000298023,
+          "medianMs": 28.099999994039536,
+          "p95Ms": 53.0,
+          "maxMs": 53.0
+        },
+        "afterRpc": {
+          "count": 5,
+          "spanMs": 63.1000000089407,
+          "medianMs": 25.5,
+          "p95Ms": 47.79999999701977,
+          "maxMs": 47.79999999701977
+        },
+        "beforeGpuCompleteMs": 35.6000000089407,
+        "afterGpuCompleteMs": 37.5,
+        "beforeCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 1,
+          "multiDrawLogical": 5
+        },
+        "afterCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 1,
+          "multiDrawLogical": 5
+        },
+        "beforeSubmittedTriangles": 61440,
+        "afterSubmittedTriangles": 61440,
+        "beforeRetainedTriangles": 61440,
+        "afterRetainedTriangles": 61440,
+        "beforeDisplayBytes": 92685561,
+        "afterDisplayBytes": 92685561,
+        "beforeAllocatedGpuBytes": 1451712,
+        "afterAllocatedGpuBytes": 1451712,
+        "beforePeakAllocatedGpuBytes": 4223724,
+        "afterPeakAllocatedGpuBytes": 4223724,
+        "glErrors": []
+      },
+      {
+        "layer": "wetlands",
+        "changedPixels": 0,
+        "beforeRpc": {
+          "count": 5,
+          "spanMs": 112.80000001192093,
+          "medianMs": 31.400000005960464,
+          "p95Ms": 93.6000000089407,
+          "maxMs": 93.6000000089407
+        },
+        "afterRpc": {
+          "count": 5,
+          "spanMs": 59.70000000298023,
+          "medianMs": 25.69999998807907,
+          "p95Ms": 46.8999999910593,
+          "maxMs": 46.8999999910593
+        },
+        "beforeGpuCompleteMs": 42.6000000089407,
+        "afterGpuCompleteMs": 42.5,
+        "beforeCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 1,
+          "multiDrawLogical": 5
+        },
+        "afterCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 1,
+          "multiDrawLogical": 5
+        },
+        "beforeSubmittedTriangles": 61440,
+        "afterSubmittedTriangles": 61440,
+        "beforeRetainedTriangles": 61440,
+        "afterRetainedTriangles": 61440,
+        "beforeDisplayBytes": 92685561,
+        "afterDisplayBytes": 92685561,
+        "beforeAllocatedGpuBytes": 1451712,
+        "afterAllocatedGpuBytes": 1451712,
+        "beforePeakAllocatedGpuBytes": 4223724,
+        "afterPeakAllocatedGpuBytes": 4223724,
+        "glErrors": []
+      },
+      {
+        "layer": "elevation",
+        "changedPixels": 0,
+        "beforeRpc": {
+          "count": 5,
+          "spanMs": 88.59999999403954,
+          "medianMs": 50.3999999910593,
+          "p95Ms": 77.70000000298023,
+          "maxMs": 77.70000000298023
+        },
+        "afterRpc": {
+          "count": 5,
+          "spanMs": 127.70000000298023,
+          "medianMs": 44.6000000089407,
+          "p95Ms": 70.40000000596046,
+          "maxMs": 70.40000000596046
+        },
+        "beforeGpuCompleteMs": 24.100000008940697,
+        "afterGpuCompleteMs": 29.5,
+        "beforeCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 1,
+          "multiDrawLogical": 5
+        },
+        "afterCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 1,
+          "multiDrawLogical": 5
+        },
+        "beforeSubmittedTriangles": 20480,
+        "afterSubmittedTriangles": 20480,
+        "beforeRetainedTriangles": 20480,
+        "afterRetainedTriangles": 20480,
+        "beforeDisplayBytes": 90825225,
+        "afterDisplayBytes": 90825225,
+        "beforeAllocatedGpuBytes": 546120,
+        "afterAllocatedGpuBytes": 546120,
+        "beforePeakAllocatedGpuBytes": 4223724,
+        "afterPeakAllocatedGpuBytes": 4223724,
+        "glErrors": []
+      }
+    ],
+    "modeledIoEvidence": {
+      "report": "outputs/atlas-categorical-reader-profile.json",
+      "note": "Separate in-memory reader/page-cache model; not measured disk I/O or browser timing. Browser timings above are measured independently."
+    }
+  },
+  "limitations": [
+    "SwiftShader is a software GPU. The remaining 125.208-second maximum categorical opening and 2.547-second completed frame are substantial; these checks do not establish hardware GPU FPS.",
+    "Accounted display and native WebGL buffer totals are unchanged. They are not whole-process peak RSS; the new bounded 8 MiB decoded worker cache is outside the view display-byte total.",
+    "Maximum categorical coverage uses Tectonics; all five categorical paths plus Natural/elevation controls are exercised on the 10,242-cell fixture.",
+    "Flow screenshots are global overview views. Thin trails remain visually subtle over bright portions of the fields."
+  ],
+  "checks": [
+    {
+      "name": "Final wind and current trails animate in both projections",
+      "passed": true
+    },
+    {
+      "name": "Paused final trails stay visible and pixel-identical",
+      "passed": true
+    },
+    {
+      "name": "Final flow changes do not affect the trails-off terrain image",
+      "passed": true
+    },
+    {
+      "name": "Pause and animation do not request new overlay packets",
+      "passed": true
+    },
+    {
+      "name": "Zero speed freezes visible trails in all four views",
+      "passed": true
+    },
+    {
+      "name": "Hiding trails exactly restores the no-trails view",
+      "passed": true
+    },
+    {
+      "name": "Density zero and restoration are local and preserve all paths",
+      "passed": true
+    },
+    {
+      "name": "Delayed off/on and density restoration preserve the exact paused phase and image",
+      "passed": true
+    },
+    {
+      "name": "Small categorical/control parity: world",
+      "passed": true
+    },
+    {
+      "name": "Small categorical/control parity: tectonics",
+      "passed": true
+    },
+    {
+      "name": "Small categorical/control parity: drainage",
+      "passed": true
+    },
+    {
+      "name": "Small categorical/control parity: sources",
+      "passed": true
+    },
+    {
+      "name": "Small categorical/control parity: biomes",
+      "passed": true
+    },
+    {
+      "name": "Small categorical/control parity: wetlands",
+      "passed": true
+    },
+    {
+      "name": "Small categorical/control parity: elevation",
+      "passed": true
+    },
+    {
+      "name": "Maximum Tectonics parity: image, triangles, native calls and memory",
+      "passed": true
+    },
+    {
+      "name": "All final browser and WebGL error arrays are empty",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "rawReports": [
+    "outputs/atlas-flow-trails-before-qa.json",
+    "outputs/atlas-flow-trails-after-qa.json",
+    "outputs/atlas-flow-trails-final-phase-qa.json",
+    "outputs/atlas-flow-trails-final-visual-qa.json",
+    "outputs/atlas-categorical-before-small-qa.json",
+    "outputs/atlas-categorical-after-small-qa.json",
+    "outputs/atlas-categorical-before-highres-qa.json",
+    "outputs/atlas-categorical-after-highres-qa.json"
+  ]
+}

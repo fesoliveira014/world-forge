@@ -7,9 +7,9 @@ import {
   DialogDescription,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import type { World } from '../core/model';
+import type { CellInspection, WorldHandle } from '../core/view/types';
 import { BIOMES } from '../core/generation/ecology';
-import { classifyLakeSize, riverDestination } from '../core/generation/lake-surfaces';
+import { classifyLakeSize } from '../core/generation/lake-surfaces';
 import { RIVER_HABITATS } from '../core/generation/floodplains';
 import { RIVER_SOURCES, RIVER_REGIMES } from '../core/generation/rivers';
 import { WETLANDS } from '../core/generation/wetlands';
@@ -17,68 +17,35 @@ import { BIOME_COLORS } from '../render/palette';
 import { version as appVersion } from '../../package.json';
 import { downloadWorldConfig, formatNumber } from './controls';
 import { FertilityDetails } from './ResourceInspector';
-import { worldProject } from '../core/project';
-import { lakeAtCell, lakeCoverageAt, lakeWaterDescription } from '../core/generation/lake-state';
+import { lakeWaterDescription } from '../core/generation/lake-state';
+import { salinityClass } from '../core/generation/salinity';
 
 export function CellInspector({
-  world,
-  cell: cellIndex,
-  season,
+  inspection,
   onClose,
 }: {
-  world: World;
-  cell: number;
-  season: number;
+  inspection: CellInspection;
   onClose: () => void;
 }) {
-  const processCell = world.transfer[cellIndex];
-  const grid = world.grid;
-  const latitude = (Math.asin(grid.positions[cellIndex * 3 + 1]) * 180) / Math.PI;
-  const longitude =
-    (Math.atan2(grid.positions[cellIndex * 3 + 2], grid.positions[cellIndex * 3]) * 180) / Math.PI;
-  const temperature =
-    season < 0
-      ? world.water.temperature[cellIndex]
-      : world.water.seasonalTemperature[season][cellIndex];
-  const rain =
-    season < 0 ? world.water.rain[cellIndex] : world.water.seasonalRain[season][cellIndex];
-  let discharge = 0;
-  let catchment = 0;
-  let riverCorner = -1;
-
-  for (
-    let neighborOffset = grid.offsets[cellIndex];
-    neighborOffset < grid.offsets[cellIndex + 1];
-    neighborOffset++
-  ) {
-    const cornerIndex = grid.cellCorners[neighborOffset];
-
-    if (world.rivers.channel[cornerIndex]) {
-      if (riverCorner < 0 || world.drainage.discharge[cornerIndex] > discharge) {
-        riverCorner = cornerIndex;
-      }
-
-      discharge = Math.max(discharge, world.drainage.discharge[cornerIndex]);
-      catchment = Math.max(catchment, world.rivers.catchmentArea[cornerIndex]);
-    }
-  }
-
-  const reservoir = lakeAtCell(grid, world.drainage, cellIndex);
-  const coverage = lakeCoverageAt(world.drainage, cellIndex, season);
+  const {
+    cell: cellIndex,
+    latitude,
+    longitude,
+    temperature,
+    rain,
+    season,
+    river,
+    delta,
+    oxbow,
+    seasonalFlood,
+  } = inspection;
+  const discharge = river?.discharge ?? 0;
+  const catchment = river?.catchmentArea ?? 0;
+  const riverCorner = river?.corner ?? -1;
+  const reservoir = inspection.lake;
+  const coverage = inspection.lakeCoverage;
   const standingWater = coverage >= 1 - 1e-6;
   const lakeSeason = season >= 0 ? reservoir?.seasonal : undefined;
-  const bankReach = riverCorner < 0 ? -1 : world.ecology.floodplains.corner.indexOf(riverCorner);
-  const course = riverCorner < 0 ? -1 : world.rivers.courses.corner.indexOf(riverCorner);
-  const delta = world.rivers.deltas.find((delta) => delta.corner === riverCorner);
-  const pond = world.terrain.oxbows.findIndex((oxbow) => oxbow.cell === cellIndex);
-  const seasonalFlood =
-    bankReach < 0
-      ? 0
-      : Math.max(
-          ...world.ecology.floodplains.seasonalFlood
-            .filter((_, seasonIndex) => season < 0 || season === seasonIndex)
-            .flatMap((field) => [field[bankReach * 2], field[bankReach * 2 + 1]]),
-        );
 
   return (
     <aside className="cell-inspector">
@@ -89,14 +56,12 @@ export function CellInspector({
         </button>
       </div>
       <h3>
-        <span style={{ background: BIOME_COLORS[world.ecology.biome[cellIndex]] }} />
+        <span style={{ background: BIOME_COLORS[inspection.biome] }} />
         {standingWater && reservoir
           ? `${classifyLakeSize(reservoir.area)} ${reservoir.id + 1}`
-          : world.ecology.biome[cellIndex] === 2 &&
-              Math.abs(latitude) < 45 &&
-              world.terrain.height[cellIndex] > 1500
+          : inspection.biome === 2 && Math.abs(latitude) < 45 && inspection.height > 1500
             ? 'Alpine tundra'
-            : BIOMES[world.ecology.biome[cellIndex]]}
+            : BIOMES[inspection.biome]}
       </h3>
       <p className="coordinates">
         {Math.abs(latitude).toFixed(2)}° {latitude < 0 ? 'S' : 'N'} ·{' '}
@@ -104,62 +69,69 @@ export function CellInspector({
       </p>
       <dl>
         {[
-          ['Elevation', `${formatNumber(world.terrain.height[cellIndex])} m`],
+          ['Elevation', `${formatNumber(inspection.height)} m`],
+          ['Bedrock elevation', `${formatNumber(inspection.bedrock)} m`],
+          ['Sediment thickness', `${formatNumber(inspection.sediment, 2)} m`],
           ['Temperature', `${temperature.toFixed(1)} °C`],
           ['Precipitation', `${formatNumber(rain)} mm${season < 0 ? '/yr' : ''}`],
-          ['PET', `${formatNumber(world.water.pet[cellIndex])} mm/yr`],
-          ['Actual ET', `${formatNumber(world.water.aet[cellIndex])} mm/yr`],
+          ['PET', `${formatNumber(inspection.pet)} mm/yr`],
+          ['Actual ET', `${formatNumber(inspection.aet)} mm/yr`],
           ['Annual channel flow', `${formatNumber(discharge, 1)} m³/s`],
           ...(season >= 0
             ? [
                 [
                   'Seasonal channel flow',
-                  `${formatNumber(riverCorner < 0 ? 0 : world.rivers.seasonalDischarge[season][riverCorner], 1)} m³/s`,
+                  `${formatNumber(riverCorner < 0 ? 0 : river!.seasonalDischarge[season], 1)} m³/s`,
                 ],
               ]
             : []),
           ['Upstream catchment', `${formatNumber(catchment / 1e6)} km²`],
-          ['River system', riverCorner < 0 ? '—' : String(world.rivers.system[riverCorner] + 1)],
-          ['Stream order', riverCorner < 0 ? '—' : String(world.rivers.streamOrder[riverCorner])],
-          ['Water supply', riverCorner < 0 ? '—' : RIVER_SOURCES[world.rivers.source[riverCorner]]],
-          ['Flow pattern', riverCorner < 0 ? '—' : RIVER_REGIMES[world.rivers.regime[riverCorner]]],
+          ['River system', riverCorner < 0 ? '—' : String(river!.system + 1)],
+          ['Stream order', riverCorner < 0 ? '—' : String(river!.streamOrder)],
+          ['Water supply', riverCorner < 0 ? '—' : RIVER_SOURCES[river!.source]],
+          ['Flow pattern', riverCorner < 0 ? '—' : RIVER_REGIMES[river!.regime]],
           [
             'Channel sinuosity',
-            course < 0
+            river?.sinuosity == null
               ? '—'
-              : `${formatNumber(world.rivers.courses.sinuosity[course], 2)}× straight distance`,
+              : `${formatNumber(river!.sinuosity!, 2)}× straight distance`,
           ],
-          [
-            'Flows to',
-            riverCorner < 0
-              ? '—'
-              : riverDestination(world.drainage, world.rivers.system[riverCorner]),
-          ],
-          [
-            'Vegetation potential',
-            `${formatNumber(world.ecology.vegetation[cellIndex] * 100, 1)}%`,
-          ],
+          ['Flows to', riverCorner < 0 ? '—' : river!.destination],
+          ...(river?.salinity != null
+            ? [
+                [
+                  'River salinity',
+                  `${formatNumber(river.salinity, 2)} g/L · ${salinityClass(river.salinity)}`,
+                ],
+              ]
+            : []),
+          ['Vegetation potential', `${formatNumber(inspection.vegetation * 100, 1)}%`],
           [
             'River corridor coverage',
-            `${formatNumber(world.ecology.riparianFraction[cellIndex] * 100, 1)}% of cell`,
+            `${formatNumber(inspection.riparianFraction * 100, 1)}% of cell`,
           ],
-          ['Local river habitat', RIVER_HABITATS[world.ecology.riverHabitat[cellIndex]]],
-          [
-            'Bank vegetation potential',
-            `${formatNumber(world.ecology.riparian[cellIndex] * 100, 1)}%`,
-          ],
+          ['Local river habitat', RIVER_HABITATS[inspection.riverHabitat]],
+          ['Bank vegetation potential', `${formatNumber(inspection.riparian * 100, 1)}%`],
           [
             'Flood-accessible land',
-            `${formatNumber(world.ecology.floodplainFraction[cellIndex] * 100, 1)}% of cell`,
+            `${formatNumber(inspection.floodplainFraction * 100, 1)}% of cell`,
           ],
-          ['Wetland habitat', WETLANDS[world.ecology.wetland[cellIndex]]],
-          [
-            'Wetland coverage',
-            `${formatNumber(world.ecology.wetlandFraction[cellIndex] * 100, 1)}% of cell`,
-          ],
+          ['Wetland habitat', WETLANDS[inspection.wetland]],
+          ['Wetland coverage', `${formatNumber(inspection.wetlandFraction * 100, 1)}% of cell`],
+          ...(inspection.soilSalinity != null &&
+          inspection.soilSalinity > 2 &&
+          (inspection.soilSalinityFraction ?? 0) > 0
+            ? [
+                ['Affected-soil salinity', `${formatNumber(inspection.soilSalinity, 2)} g/L`],
+                [
+                  'Salt-affected soil',
+                  `${formatNumber((inspection.soilSalinityFraction ?? 0) * 100, 1)}% of cell`,
+                ],
+              ]
+            : []),
           [
             'Overbank potential',
-            bankReach < 0
+            seasonalFlood === null
               ? '—'
               : seasonalFlood > 0.6
                 ? 'High'
@@ -167,22 +139,14 @@ export function CellInspector({
                   ? 'Moderate'
                   : 'Low',
           ],
-          ['Crust age', `${formatNumber(world.geology.age[processCell])} Ma`],
-          [
-            'Volcanic construction',
-            `${formatNumber(world.geology.crust?.volcanic[processCell] ?? 0)} m`,
-          ],
-          ['Erosion / deposition', `${formatNumber(world.terrain.surfaceChange[cellIndex])} m`],
-          [
-            'River incision',
-            `${formatNumber(world.terrain.fluvialIncision[cellIndex])} m · cell average`,
-          ],
-          ['Mouth sediment', `${formatNumber(world.terrain.deltaSediment[cellIndex], 1)} m`],
-          ['Plate', String(world.geology.plate[processCell] + 1)],
-          [
-            'Cell area',
-            `${formatNumber((grid.areas[cellIndex] * world.config.radius ** 2) / 1e6)} km²`,
-          ],
+          ['Crust age', `${formatNumber(inspection.crustAge)} Ma`],
+          ['Volcanic construction', `${formatNumber(inspection.volcanic)} m`],
+          ['Erosion / deposition', `${formatNumber(inspection.surfaceChange)} m`],
+          ['River incision', `${formatNumber(inspection.fluvialIncision)} m · cell average`],
+          ['Mouth sediment', `${formatNumber(inspection.deltaSediment, 1)} m`],
+          ['Plate', String(inspection.plate + 1)],
+          ['Cell area', `${formatNumber(inspection.areaM2 / 1e6)} km²`],
+          ['Nearest cell center', `${formatNumber(inspection.nearestCenterMetres / 1000, 2)} km`],
         ].map(([label, value]) => (
           <div key={label}>
             <dt>{label}</dt>
@@ -202,17 +166,13 @@ export function CellInspector({
             ].map((label, sourceIndex) => (
               <div key={label}>
                 <dt>{label}</dt>
-                <dd>
-                  {formatNumber(world.rivers.sourceFractions[sourceIndex][riverCorner] * 100, 1)}%
-                </dd>
+                <dd>{formatNumber(river!.sourceFractions[sourceIndex] * 100, 1)}%</dd>
               </div>
             ))}
             {['March', 'June', 'September', 'December'].map((label, seasonIndex) => (
               <div key={label}>
                 <dt>{label}</dt>
-                <dd>
-                  {formatNumber(world.rivers.seasonalDischarge[seasonIndex][riverCorner], 1)} m³/s
-                </dd>
+                <dd>{formatNumber(river!.seasonalDischarge[seasonIndex], 1)} m³/s</dd>
               </div>
             ))}
           </dl>
@@ -227,30 +187,20 @@ export function CellInspector({
           <span className="eyebrow">{delta.lake < 0 ? 'Coastal delta' : 'Lake delta'}</span>
           <p>Seasonal wetland and shallow-water colors mark the mouth cells.</p>
           <p>
-            {delta.branches
+            {delta.fractions
               .map(
-                (branch) =>
-                  `${formatNumber(branch.fraction * 100)}% · ${formatNumber(discharge * branch.fraction, 1)} m³/s`,
+                (fraction) =>
+                  `${formatNumber(fraction * 100)}% · ${formatNumber(discharge * fraction, 1)} m³/s`,
               )
               .join(' / ')}
           </p>
         </div>
       )}
-      {pond >= 0 && (
+      {oxbow && (
         <div className="lake-summary">
           <span className="eyebrow">Cutoff channel / oxbow</span>
           <p>
-            {formatNumber(world.terrain.oxbows[pond].area / 1e6, 2)} km² ·{' '}
-            {formatNumber(
-              season < 0
-                ? world.water.oxbowDepth.reduce(
-                    (sum, seasonStorage) => sum + seasonStorage[pond],
-                    0,
-                  ) / 4
-                : world.water.oxbowDepth[season][pond],
-              2,
-            )}{' '}
-            m water depth
+            {formatNumber(oxbow.area / 1e6, 2)} km² · {formatNumber(oxbow.depth, 2)} m water depth
           </p>
           <p>
             Rain and snowmelt fill the abandoned channel. It becomes a dry scar when its store
@@ -286,14 +236,46 @@ export function CellInspector({
             <br />
             Outflow {formatNumber(lakeSeason?.outflow[season] ?? reservoir.outflow, 1)} m³/s
           </p>
+          {reservoir.salinity && (
+            <>
+              <dl>
+                {reservoir.storage > 0 && (
+                  <div>
+                    <dt>Lake salinity</dt>
+                    <dd>{formatNumber(reservoir.salinity.concentration, 2)} g/L</dd>
+                  </div>
+                )}
+                <div>
+                  <dt>Dissolved salt</dt>
+                  <dd>{formatNumber(reservoir.salinity.dissolvedSalt / 1000)} tonnes</dd>
+                </div>
+                <div>
+                  <dt>Lakebed salt</dt>
+                  <dd>{formatNumber(reservoir.salinity.bedSalt / 1000)} tonnes</dd>
+                </div>
+                <div>
+                  <dt>Salt accumulation interval</dt>
+                  <dd>{formatNumber(reservoir.salinity.elapsedYears)} years</dd>
+                </div>
+              </dl>
+              <p>Salt values use the representative annual water balance.</p>
+            </>
+          )}
         </div>
       )}
-      <FertilityDetails world={world} cell={cellIndex} />
+      <FertilityDetails
+        fertility={inspection.fertility}
+        storedScore={inspection.storedCellFertility}
+        salinityModeled={inspection.soilSalinity != null}
+      />
     </aside>
   );
 }
 
-export function HelpDialog({ world }: { world: World | null }) {
+export function HelpDialog({ handle }: { handle: WorldHandle | null }) {
+  const world = handle?.summary;
+  const spacing = world?.nearestCenterSpacingM;
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -311,13 +293,23 @@ export function HelpDialog({ world }: { world: World | null }) {
         <p>
           Drag the globe to orbit. Scroll or use the zoom controls to move closer. Click any cell
           for its physical fields. World settings take effect when you generate; display controls
-          update immediately.
+          update immediately. Your current world stays visible while you work. Cancel leaves it
+          intact.
         </p>
         <p>
           Four seasons drive climate. River widths show annual discharge; seasonal views animate
           wet-season flow and mute frozen or low-flow channels. Melt-season Arctic rivers remain
           visible. Surface detail and simulation detail are separate, keeping plate definitions and
           circulation centers stable when you refine the terrain.
+        </p>
+        <p>
+          Base surface resolution sets the initial cell count. Adaptive refinement adds smaller
+          cells near coasts and terrain changes before the final world is generated. Minimum target
+          spacing controls the requested local detail; diagnostics report the actual count and
+          center distances. Smaller spacing can increase generation time and memory substantially.
+          Refinement is off by default. Refine evolving terrain can revisit the growing river
+          network and changing relief during landscape evolution. New cells inherit the eroded
+          bedrock and deposited sediment; they do not restart the terrain.
         </p>
         <p>
           Rivers start where enough upstream land supplies soil drainage, overflow, or reservoir
@@ -343,11 +335,13 @@ export function HelpDialog({ world }: { world: World | null }) {
           infiltration and evaporation are not currently simulated.
         </p>
         <p>
-          River evolution duration applies a recent fluvial landscape pass after geological
-          weathering. Rivers lower valleys and transport the removed sediment toward floodplains and
-          receiving waters. The final climate and drainage are rebuilt from that terrain. This
-          duration is a modeled interval, not a birth date for each river. Canyon detail is limited
-          by the surface grid.
+          Landscape evolution duration sets the recent interval after geological weathering.
+          Landscape time steps divide that interval and rebuild drainage as rivers lower valleys and
+          sediment moves downstream. Hillslope transport moves material downslope, while wind
+          redistributes exposed sediment. More steps increase generation time without increasing the
+          modeled duration. Final climate and water are rebuilt from the evolved terrain. This
+          interval is not a birth date for each river; canyon detail remains limited by cell
+          spacing.
         </p>
         <p>
           Riverbank mobility allows bends and geometric cutoffs on broad, gentle plains. Cutoff
@@ -374,7 +368,22 @@ export function HelpDialog({ world }: { world: World | null }) {
           continents with the final world, or inspect Inherited deformation and Volcanic
           construction. Faults build volcanic arcs and rifts; seeded hotspots leave tracks as plates
           move. Plate paths are prescribed; this is not a mantle or plate-force simulation. The
-          separate drift preview is display only. Lake storage is an annual equilibrium estimate.
+          separate plate motion arrow preview is display only. Lake storage is an annual equilibrium
+          estimate.
+        </p>
+        <p>
+          Lake salts come from dissolved catchment minerals and the selected inherited lake
+          salinity. Evaporation removes water while leaving salt behind; outlets carry dissolved
+          salt downstream. Drying leaves lakebed salt that can dissolve again when water returns.
+          The salt accumulation interval is separate from geological age, and refinement does not
+          advance it. Oceanic crust alone does not establish a marine history or make a lake saline.
+        </p>
+        <p>
+          Inspect a lake or river for its dissolved salt concentration in g/L. Freshwater is below
+          0.5 g/L, brackish water is below 5 g/L, saline water is below 50 g/L, and hypersaline
+          water is 50 g/L or more. Local salt exposure reduces soil fertility and vegetation; the
+          climate biome and climatic aridity remain separate. Old saved worlds have no modeled salt
+          state.
         </p>
         <p>
           Rain, slope weathering, wind, and waves reshape terrain over the selected geological
@@ -389,12 +398,30 @@ export function HelpDialog({ world }: { world: World | null }) {
           Click to inspect the same cells in either layout. Polar regions appear enlarged on the
           flat map; use the globe when comparing shapes. Coastlines adds present-day ocean
           boundaries over any layer, independently of plate borders and rivers. Terrain exaggeration
-          and the plate drift preview are available on the globe.
+          and plate motion arrows are available on the globe.
         </p>
         <p>
-          Save a project to download its seed, version, and settings. Load it to regenerate with
-          this version of the code. Older projects receive defaults for the new controls when
-          loaded. Everything is generated in your browser.
+          Automatic feature detail checks the finished terrain for unresolved lake shores, river
+          junctions and outlets, coastlines and sharp relief. Lake district detail also covers broad
+          lake-rich regions and the land between small lakes. Quiet-land controls allow uniform
+          grassland and forest interiors to lose cells, subject to height and spacing limits;
+          waterways, wetlands and terrain features stay protected. The insertion and removal budgets
+          are separate limits shared across final passes. Water and habitats are recalculated
+          without advancing landscape time. These passes only run during generation.
+        </p>
+        <p>
+          Zoom detail adds temporary terrain subdivisions near the view centre in Natural globe and
+          Shaded relief views. It uses the existing heights and slopes, preserving original cell
+          edges, shores, lake surfaces and river corridors. Zooming out releases the extra detail.
+          The physical cell grid, simulation and saved world stay unchanged.
+        </p>
+        <p>
+          Generated and refined worlds start unsaved. Choose Save world to name and keep the exact
+          terrain in this browser. Saved worlds opens it without regeneration; clearing browser
+          storage removes saved worlds. Unsaved terrain is discarded when replaced or closed. Export
+          recipe downloads settings and resolved refinement history for regeneration. Import recipe
+          replays that history with this version of the generator. Select a cell to refine a local
+          region or its whole river-system watershed without advancing landscape time.
         </p>
         <p>
           Minerals &amp; gemstones shows a finite initial endowment. Select a resource and a deposit
@@ -406,7 +433,94 @@ export function HelpDialog({ world }: { world: World | null }) {
             <summary>Generation diagnostics</summary>
             <p>
               Application {appVersion} · Generator {world.version}
+              <br />
+              Climate solve: {world.execution.climateWorkers}{' '}
+              {world.execution.climateWorkers === 1 ? 'worker' : 'workers'} per seasonal stage
             </p>
+            {spacing && (
+              <p>
+                Surface cells: {formatNumber(world.surfaceCells)} · Simulation cells:{' '}
+                {formatNumber(world.processCells)}
+                {world.refinement && (
+                  <>
+                    <br />
+                    Base cells: {formatNumber(world.refinement.baseCount)} · Added:{' '}
+                    {formatNumber(world.refinement.insertedCount)} · Refinement passes:{' '}
+                    {world.refinement.passes}
+                  </>
+                )}
+                <br />
+                Nearest-center spacing: {formatNumber(spacing.min / 1000, 2)}–
+                {formatNumber(spacing.max / 1000, 2)} km
+                <br />
+                10th / median / 90th percentile: {formatNumber(spacing.p10 / 1000, 2)} /{' '}
+                {formatNumber(spacing.median / 1000, 2)} / {formatNumber(spacing.p90 / 1000, 2)} km
+              </p>
+            )}
+            {!!world.featureRefinementStats?.length && (
+              <dl>
+                {world.featureRefinementStats.map((pass, index) => (
+                  <div key={index}>
+                    <dt>Final feature pass {index + 1}</dt>
+                    <dd>
+                      +{formatNumber(pass.afterCells - pass.beforeCells)} cells
+                      {' · '}
+                      {formatNumber(pass.selectedCells)} feature cells selected
+                      {pass.budgetExhausted ? ' · limited by budget' : ''}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+            {!!world.featureCoarseningStats?.length && (
+              <dl>
+                {world.featureCoarseningStats.map((pass) => (
+                  <div key={pass.pass}>
+                    <dt>Quiet-land pass {pass.pass + 1}</dt>
+                    <dd>
+                      −{formatNumber(pass.removedCells)} cells
+                      {' · '}
+                      {formatNumber(pass.candidateCells)} candidates
+                      {' · '}
+                      {formatNumber(pass.budgetCells)} cell limit
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+            {world.evolution && (
+              <>
+                <p>
+                  Recent landscape interval: {formatNumber(world.evolution.durationMyr, 3)} Myr
+                  <br />
+                  Completed time steps: {world.evolution.batches} · Drainage refreshes:{' '}
+                  {world.evolution.drainageRefreshes}
+                  <br />
+                  Hillslope material moved: {formatNumber(
+                    world.evolution.hillslopeMoved / 1e9,
+                    3,
+                  )}{' '}
+                  km³
+                  <br />
+                  Wind material moved: {formatNumber(world.evolution.windMoved / 1e9, 3)} km³
+                </p>
+                {world.evolution.remeshes.length > 0 && (
+                  <dl>
+                    {world.evolution.remeshes.map((remesh, index) => (
+                      <div key={index}>
+                        <dt>Refinement at {formatNumber(remesh.elapsedMyr, 3)} Myr</dt>
+                        <dd>
+                          {formatNumber(remesh.beforeCells)} → {formatNumber(remesh.afterCells)}
+                          {' cells · sediment change '}
+                          {((remesh.sedimentAfter - remesh.sedimentBefore) / 1e9).toExponential(2)}
+                          {' km³'}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
+              </>
+            )}
             <dl>
               {world.timings.map((stage) => (
                 <div key={stage.name}>
@@ -416,22 +530,22 @@ export function HelpDialog({ world }: { world: World | null }) {
               ))}
             </dl>
             <p>
-              Atmospheric water residual: {world.climate.atmosphereResidual.toExponential(2)}{' '}
+              Atmospheric water residual: {world.atmosphereRelativeResidual.toExponential(2)}{' '}
               relative
               <br />
-              Ocean flux divergence: {world.climate.oceanDivergence.toExponential(2)} m²/s
+              Ocean flux divergence: {world.oceanFluxDivergence.toExponential(2)} m²/s
               <br />
-              Ocean river inflow: {formatNumber(world.drainage.oceanDischarge)} m³/s
+              Ocean river inflow: {formatNumber(world.oceanDischarge)} m³/s
               <br />
-              Lake net water exchange: {formatNumber(world.drainage.lakeExchange)} m³/s
+              Lake net water exchange: {formatNumber(world.lakeExchange)} m³/s
               <br />
               Sediment leaving modeled terrain: {(world.sedimentExport / 1e9).toFixed(3)} km³
               <br />
-              Cutoff remnants: {formatNumber(world.terrain.oxbows.length)} · Deltas:{' '}
-              {formatNumber(world.rivers.deltas.length)}
+              Cutoff remnants: {formatNumber(world.oxbowCount)} · Deltas:{' '}
+              {formatNumber(world.deltaCount)}
               <br />
-              Deposits: {formatNumber(world.resources.deposits.length)} · Fertility buffer:{' '}
-              {(world.resources.fertility.byteLength / 1048576).toFixed(2)} MiB
+              Deposits: {formatNumber(world.depositCount)} · Fertility buffer:{' '}
+              {((world.surfaceCells * 4) / 1048576).toFixed(2)} MiB
               <br />
               Typed buffers: {(world.bytes / 1048576).toFixed(1)} MiB, excluding object and GPU
               memory
@@ -440,17 +554,7 @@ export function HelpDialog({ world }: { world: World | null }) {
               className="quiet-button"
               onClick={() =>
                 downloadWorldConfig(
-                  {
-                    ...worldProject(world),
-                    timings: world.timings,
-                    bytes: world.bytes,
-                    depositCount: world.resources.deposits.length,
-                    fertilityBytes: world.resources.fertility.byteLength,
-                    atmosphereRelativeResidual: world.climate.atmosphereResidual,
-                    oceanFluxDivergence: world.climate.oceanDivergence,
-                    lakes: world.drainage.lakes,
-                    sedimentExportM3: world.sedimentExport,
-                  },
+                  { snapshotId: handle?.snapshotId, ...world },
                   'atlas-diagnostics.json',
                 )
               }

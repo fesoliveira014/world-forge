@@ -9,14 +9,22 @@ import {
   createSeededRandom,
 } from '../math';
 
-const nextHalfEdge = (halfEdgeIndex: number) =>
-  halfEdgeIndex - (halfEdgeIndex % 3) + ((halfEdgeIndex + 1) % 3);
-
-const previousHalfEdge = (halfEdgeIndex: number) =>
-  halfEdgeIndex - (halfEdgeIndex % 3) + ((halfEdgeIndex + 2) % 3);
+import {
+  type SphericalMesh,
+  nextHalfEdge,
+  previousHalfEdge,
+  pairHalfEdges,
+  undirectedEdgeKey,
+  legalizeEdges,
+} from './mesh';
 
 /** Jittered icosphere -> locally legalized spherical Delaunay -> circumcentric dual. */
 export function buildGrid(level: number, seed: string, irregularity: number): Grid {
+  return finalizeGrid(buildSeedMesh(level, seed, irregularity));
+}
+
+/** Build and legalize the seed sites without allocating dual geometry. */
+export function buildSeedMesh(level: number, seed: string, irregularity: number): SphericalMesh {
   const goldenRatio = (1 + Math.sqrt(5)) / 2;
   const initialPoints = [
     -1,
@@ -74,10 +82,9 @@ export function buildGrid(level: number, seed: string, irregularity: number): Gr
   for (let subdivisionLevel = 0; subdivisionLevel < level; subdivisionLevel++) {
     const mids = new Map<number, number>();
     const result = new Uint32Array(triangles.length * 4);
-    const base = pointCount;
 
     const midpoint = (firstVertex: number, secondVertex: number) => {
-      const key = Math.min(firstVertex, secondVertex) * base + Math.max(firstVertex, secondVertex);
+      const key = undirectedEdgeKey(firstVertex, secondVertex);
       let midpointIndex = mids.get(key);
 
       if (midpointIndex !== undefined) {
@@ -125,24 +132,7 @@ export function buildGrid(level: number, seed: string, irregularity: number): Gr
     triangles = result;
   }
 
-  const half = new Int32Array(triangles.length).fill(-1);
-  // Numeric keys remain exact at level 9: count² is below Number.MAX_SAFE_INTEGER.
-  const edgeMap = new Map<number, number>();
-
-  for (let halfEdgeIndex = 0; halfEdgeIndex < triangles.length; halfEdgeIndex++) {
-    const firstCell = triangles[halfEdgeIndex];
-    const secondCell = triangles[nextHalfEdge(halfEdgeIndex)];
-    const key = Math.min(firstCell, secondCell) * count + Math.max(firstCell, secondCell);
-    const other = edgeMap.get(key);
-
-    if (other === undefined) {
-      edgeMap.set(key, halfEdgeIndex);
-    } else {
-      half[halfEdgeIndex] = other;
-      half[other] = halfEdgeIndex;
-      edgeMap.delete(key);
-    }
-  }
+  const half = pairHalfEdges(triangles);
 
   const randomNumber = createSeededRandom(seed + '/grid/' + level);
   const spacing = Math.sqrt((4 * Math.PI) / count);
@@ -185,7 +175,36 @@ export function buildGrid(level: number, seed: string, irregularity: number): Gr
     }
   }
 
-  const flips = legalizeEdges(positions, triangles, half);
+  const mesh: SphericalMesh = {
+    count,
+    level,
+    positions,
+    triangles,
+    halfEdges: half,
+    triangleCount: triangles.length / 3,
+    flips: 0,
+  };
+  mesh.flips = legalizeEdges(mesh);
+
+  return mesh;
+}
+
+/** Finalize the packed circumcentric dual once all site insertion has finished. */
+export function finalizeGrid(mesh: SphericalMesh): Grid {
+  const { count, level, flips } = mesh;
+  const positions =
+    mesh.positions.length === count * 3 ? mesh.positions : mesh.positions.slice(0, count * 3);
+  const triangles =
+    mesh.triangles.length === mesh.triangleCount * 3
+      ? mesh.triangles
+      : mesh.triangles.slice(0, mesh.triangleCount * 3);
+  const half = mesh.halfEdges;
+  // acos loses short dual edges to rounded dot products on fine local meshes.
+  // Preserve the established arithmetic exactly for the unrefined builder.
+  const measureAngle = mesh.insertedCount
+    ? (first: ArrayLike<number>, second: ArrayLike<number>) =>
+        Math.atan2(Math.hypot(...cross(first, second)), dot(first, second))
+    : angle;
   const corners = new Float64Array(triangles.length);
   const cornerNeighbors = new Uint32Array(triangles.length);
   const cornerEdges = new Uint32Array(triangles.length);
@@ -240,8 +259,8 @@ export function buildGrid(level: number, seed: string, irregularity: number): Gr
         edgeIndex * 2,
       );
       edgeNormal.set(normal, edgeIndex * 3);
-      edgeLength[edgeIndex] = angle(firstCornerPosition, secondCornerPosition);
-      edgeDistance[edgeIndex] = angle(
+      edgeLength[edgeIndex] = measureAngle(firstCornerPosition, secondCornerPosition);
+      edgeDistance[edgeIndex] = measureAngle(
         readVector(positions, firstCell),
         readVector(positions, secondCell),
       );
@@ -340,70 +359,6 @@ export function buildGrid(level: number, seed: string, irregularity: number): Gr
     cornerEdges,
     flips,
   };
-}
-
-function legalizeEdges(positions: Float64Array, triangles: Uint32Array, halfEdges: Int32Array) {
-  const queue: number[] = [];
-
-  for (let halfEdgeIndex = 0; halfEdgeIndex < halfEdges.length; halfEdgeIndex++) {
-    if (halfEdgeIndex < halfEdges[halfEdgeIndex]) {
-      queue.push(halfEdgeIndex);
-    }
-  }
-
-  const linkHalfEdges = (firstHalfEdge: number, secondHalfEdge: number) => {
-    halfEdges[firstHalfEdge] = secondHalfEdge;
-    halfEdges[secondHalfEdge] = firstHalfEdge;
-  };
-
-  let flips = 0;
-
-  while (queue.length) {
-    const firstHalfEdge = queue.pop()!;
-    const secondHalfEdge = halfEdges[firstHalfEdge];
-    const firstNext = nextHalfEdge(firstHalfEdge);
-    const firstPrevious = previousHalfEdge(firstHalfEdge);
-    const secondNext = nextHalfEdge(secondHalfEdge);
-    const secondPrevious = previousHalfEdge(secondHalfEdge);
-    const firstVertex = triangles[firstHalfEdge];
-    const secondVertex = triangles[firstNext];
-    const thirdVertex = triangles[firstPrevious];
-    const oppositeVertex = triangles[secondPrevious];
-    const firstPosition = readVector(positions, firstVertex);
-    const secondPosition = readVector(positions, secondVertex);
-    const thirdPosition = readVector(positions, thirdVertex);
-    const oppositePosition = readVector(positions, oppositeVertex);
-    const faceNormal = cross(
-      subtractVectors(secondPosition, firstPosition),
-      subtractVectors(thirdPosition, firstPosition),
-    );
-    // A fourth point outside the outward hull face violates the spherical empty-circle predicate.
-    const tolerance = 1e-12 * Math.hypot(...faceNormal);
-
-    if (dot(faceNormal, subtractVectors(oppositePosition, firstPosition)) <= tolerance) {
-      continue;
-    }
-
-    const firstNextTwin = halfEdges[firstNext];
-    const firstPreviousTwin = halfEdges[firstPrevious];
-    const secondNextTwin = halfEdges[secondNext];
-    const secondPreviousTwin = halfEdges[secondPrevious];
-    triangles[firstHalfEdge] = thirdVertex;
-    triangles[firstNext] = oppositeVertex;
-    triangles[firstPrevious] = secondVertex;
-    triangles[secondHalfEdge] = oppositeVertex;
-    triangles[secondNext] = thirdVertex;
-    triangles[secondPrevious] = firstVertex;
-    linkHalfEdges(firstHalfEdge, secondHalfEdge);
-    linkHalfEdges(firstNext, secondPreviousTwin);
-    linkHalfEdges(firstPrevious, firstNextTwin);
-    linkHalfEdges(secondNext, firstPreviousTwin);
-    linkHalfEdges(secondPrevious, secondNextTwin);
-    queue.push(firstNext, firstPrevious, secondNext, secondPrevious);
-    flips++;
-  }
-
-  return flips;
 }
 
 /** On a spherical Delaunay graph, walking toward larger dot products finds the Voronoi cell. */

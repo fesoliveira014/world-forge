@@ -1,0 +1,33 @@
+{
+  "description": "Same existing 2.16.0 snapshot, without the optional river ranking sidecar; identical worldwide request before and after the rendering fix. Each latitude band spans 30 degrees, from south to north.",
+  "before": {
+    "snapshotId": "6f370c62-fb19-4db0-90d7-241ea8bd141d",
+    "worldVersion": "2.16.0",
+    "hasRiverRank": false,
+    "segments": 8192,
+    "bands": [976, 6643, 573, 0, 0, 0],
+    "truncated": true,
+    "paging": {
+      "cachedPageBytes": 3205088,
+      "cachedMetadataBytes": 51598,
+      "cachedPages": 30,
+      "pageReads": 30,
+      "activePageReads": 0
+    }
+  },
+  "after": {
+    "snapshotId": "6f370c62-fb19-4db0-90d7-241ea8bd141d",
+    "worldVersion": "2.16.0",
+    "hasRiverRank": false,
+    "segments": 8192,
+    "bands": [241, 1652, 1313, 1665, 3079, 242],
+    "truncated": true,
+    "paging": {
+      "cachedPageBytes": 4615660,
+      "cachedMetadataBytes": 87266,
+      "cachedPages": 62,
+      "pageReads": 62,
+      "activePageReads": 0
+    }
+  }
+}

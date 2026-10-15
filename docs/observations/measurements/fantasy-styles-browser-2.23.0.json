@@ -1,0 +1,957 @@
+{
+  "version": "2.23.0",
+  "baseline": "7176b1f3dadb5d703b499d87799cac027dd22646",
+  "environment": {
+    "browser": "System Chromium",
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "webgl2": true,
+    "nativeMultiDrawSupported": true,
+    "smallViewport": [1440, 1000],
+    "nativeUiViewport": [1720, 1120],
+    "maximumViewport": [2048, 1140]
+  },
+  "fixtures": {
+    "locallyRefined": {
+      "seed": "AETHER-6389",
+      "cells": 15049,
+      "sourceCells": 10242,
+      "physicalTriangles": 30094
+    },
+    "maximum": {
+      "snapshot": "8e9bd04e-2510-494f-a8cd-5dec9d87f5be",
+      "cells": 2621442,
+      "savedVersion": "2.16.1",
+      "snapshotBytes": 3427513728
+    }
+  },
+  "methodology": [
+    "Current production reader/renderer through a QA-only camera/props harness, plus actual WorldStudio native menu selections. Existing saved worlds reused; maximum World never regenerated or fully restored.",
+    "Six flatness, grid/picking and eighteen categorical pixel comparisons were completed before the mountain-only placement/art revision; these unaffected integration checks are retained. Final three-style matrix, camera checks and maximum smoke use the final ridge modules.",
+    "Maximum smoke is after-only. No comparative load-time or FPS claim. CPU preparation is timed around production FantasySymbols.addPacket/finish with QA-only wrappers; frame completion waits for a WebGL2 fence on software SwiftShader.",
+    "Symbol geometry CPU bytes count unique retained ArrayBuffers; GPU geometry bytes count uploaded attribute/index views. Atlas CPU RGBA bitmap and full mip-chain GPU bytes are estimates excluding browser/driver overhead. Native buffer accounting excludes textures.",
+    "The terrain-following illustrations are bounded cartographic reconstruction, not additional simulated terrain. Flat geometry preserves the original physical heights and lake data used by inspection."
+  ],
+  "finalVisualMatrix": {
+    "captures": 18,
+    "views": [
+      {
+        "name": "mountain",
+        "longitude": -1.9878048100451788,
+        "latitude": -0.46454168022011716,
+        "distance": 2.2,
+        "globeZoom": 2,
+        "mapZoom": 7
+      },
+      {
+        "name": "forest",
+        "longitude": -1.1680519087565164,
+        "latitude": -0.7034713702636488,
+        "distance": 2.2,
+        "globeZoom": 2,
+        "mapZoom": 7
+      },
+      {
+        "name": "refined-lake",
+        "longitude": 1.5332495865534825,
+        "latitude": 0.8447013388748529,
+        "distance": 2.5,
+        "globeZoom": 3,
+        "mapZoom": 8
+      }
+    ],
+    "styles": ["parchment", "engraved", "painted"],
+    "projections": ["globe", "map"],
+    "allFlat": true,
+    "singleSymbolDraw": true,
+    "symbolsRange": [948, 948],
+    "accountedSymbolBytesRange": [9855085.333333334, 9856093.333333334],
+    "visualReview": "Overlapping peaks follow connected reconstructed crests; high shoulders use rocky peaks. Three palettes remain legible, rivers/grid above symbols, and no new sea or lake stamps/holes observed in inspected views. Prior evenly binned mountain-stamp layout was rejected and replaced."
+  },
+  "nativeUi": {
+    "selections": ["parchment", "engraved", "painted"],
+    "checks": [
+      {
+        "name": "native-select-parchment",
+        "passed": true
+      },
+      {
+        "name": "native-select-engraved",
+        "passed": true
+      },
+      {
+        "name": "native-select-painted",
+        "passed": true
+      }
+    ],
+    "errors": []
+  },
+  "poleOverviews": {
+    "captures": 2,
+    "images": [
+      "atlas-fantasy-final-pole-overview-north-pole-overview.png",
+      "atlas-fantasy-final-pole-overview-south-pole-overview.png"
+    ],
+    "glErrors": [[], []]
+  },
+  "cameraStability": {
+    "captures": 8,
+    "globeAnchorBuffersIdentical": true,
+    "globeAtlasPixelsIdentical": true,
+    "roundtripChangedPixels": 0,
+    "requestsBefore": {
+      "physicalManifest": 1,
+      "riverRender": 12,
+      "physicalBatch": 8,
+      "overlays": 2
+    },
+    "requestsAfter": {
+      "physicalManifest": 1,
+      "riverRender": 12,
+      "physicalBatch": 8,
+      "overlays": 10
+    },
+    "firstPick": {
+      "anchor": [-0.36210517067594017, -0.4480130982600753, -0.8174130590816105],
+      "cell": 2325,
+      "height": 9484.8544921875,
+      "lakeCoverage": 0
+    },
+    "lastPick": {
+      "anchor": [-0.36210517067594017, -0.4480130982600753, -0.8174130590816105],
+      "cell": 2325,
+      "height": 9484.8544921875,
+      "lakeCoverage": 0
+    }
+  },
+  "flatnessAndPicking": {
+    "reliefComparisons": [
+      {
+        "projection": "globe",
+        "style": "parchment",
+        "changedPixels": 0,
+        "positionRadiusOrZ": {
+          "min": 0.9999999591412855,
+          "max": 1.0000000429640847
+        }
+      },
+      {
+        "projection": "globe",
+        "style": "engraved",
+        "changedPixels": 0,
+        "positionRadiusOrZ": {
+          "min": 0.9999999591412855,
+          "max": 1.0000000429640847
+        }
+      },
+      {
+        "projection": "globe",
+        "style": "painted",
+        "changedPixels": 0,
+        "positionRadiusOrZ": {
+          "min": 0.9999999591412855,
+          "max": 1.0000000429640847
+        }
+      },
+      {
+        "projection": "map",
+        "style": "parchment",
+        "changedPixels": 0,
+        "positionRadiusOrZ": {
+          "min": 0,
+          "max": 0
+        }
+      },
+      {
+        "projection": "map",
+        "style": "engraved",
+        "changedPixels": 0,
+        "positionRadiusOrZ": {
+          "min": 0,
+          "max": 0
+        }
+      },
+      {
+        "projection": "map",
+        "style": "painted",
+        "changedPixels": 0,
+        "positionRadiusOrZ": {
+          "min": 0,
+          "max": 0
+        }
+      }
+    ],
+    "physicalPickFlat": {
+      "anchor": [-0.36210517067594017, -0.4480130982600753, -0.8174130590816105],
+      "cell": 2325,
+      "height": 9484.8544921875,
+      "lakeCoverage": 0
+    },
+    "physicalPickNatural": {
+      "anchor": [-0.36210516108322643, -0.44801309703555986, -0.8174130640022195],
+      "cell": 2325,
+      "height": 9484.8544921875,
+      "lakeCoverage": 0
+    },
+    "restoredNaturalCameraRadius": 1.0387276152561415,
+    "terrainHashInvariant": true,
+    "lakeHashInvariant": true
+  },
+  "grid": {
+    "segments": 45141,
+    "requestsAfterInitialEnable": 7,
+    "cachedToggleAdditionalRequests": 0,
+    "cachedToggleChangedPixels": 0
+  },
+  "categoricalParity": [
+    {
+      "name": "tectonics-globe-parchment",
+      "changedPixels": 0,
+      "relief": "0",
+      "style": "natural"
+    },
+    {
+      "name": "tectonics-globe-engraved",
+      "changedPixels": 0,
+      "relief": "0",
+      "style": "natural"
+    },
+    {
+      "name": "tectonics-globe-painted",
+      "changedPixels": 0,
+      "relief": "0",
+      "style": "natural"
+    },
+    {
+      "name": "tectonics-map-parchment",
+      "changedPixels": 0,
+      "relief": "0",
+      "style": "natural"
+    },
+    {
+      "name": "tectonics-map-engraved",
+      "changedPixels": 0,
+      "relief": "0",
+      "style": "natural"
+    },
+    {
+      "name": "tectonics-map-painted",
+      "changedPixels": 0,
+      "relief": "0",
+      "style": "natural"
+    },
+    {
+      "name": "drainage-globe-parchment",
+      "changedPixels": 0,
+      "relief": "26",
+      "style": "natural"
+    },
+    {
+      "name": "drainage-globe-engraved",
+      "changedPixels": 0,
+      "relief": "26",
+      "style": "natural"
+    },
+    {
+      "name": "drainage-globe-painted",
+      "changedPixels": 0,
+      "relief": "26",
+      "style": "natural"
+    },
+    {
+      "name": "drainage-map-parchment",
+      "changedPixels": 0,
+      "relief": "26",
+      "style": "natural"
+    },
+    {
+      "name": "drainage-map-engraved",
+      "changedPixels": 0,
+      "relief": "26",
+      "style": "natural"
+    },
+    {
+      "name": "drainage-map-painted",
+      "changedPixels": 0,
+      "relief": "26",
+      "style": "natural"
+    },
+    {
+      "name": "biomes-globe-parchment",
+      "changedPixels": 0,
+      "relief": "26",
+      "style": "natural"
+    },
+    {
+      "name": "biomes-globe-engraved",
+      "changedPixels": 0,
+      "relief": "26",
+      "style": "natural"
+    },
+    {
+      "name": "biomes-globe-painted",
+      "changedPixels": 0,
+      "relief": "26",
+      "style": "natural"
+    },
+    {
+      "name": "biomes-map-parchment",
+      "changedPixels": 0,
+      "relief": "26",
+      "style": "natural"
+    },
+    {
+      "name": "biomes-map-engraved",
+      "changedPixels": 0,
+      "relief": "26",
+      "style": "natural"
+    },
+    {
+      "name": "biomes-map-painted",
+      "changedPixels": 0,
+      "relief": "26",
+      "style": "natural"
+    }
+  ],
+  "maximumSmoke": {
+    "openToReadyMs": 94491,
+    "peakCamera": {
+      "height": 15888.7626953125,
+      "longitude": -0.08420477712057454,
+      "latitude": -0.13991229960766105,
+      "distance": 2.2,
+      "zoom": 2
+    },
+    "captures": [
+      {
+        "name": "painted-globe-wide",
+        "physicalTriangles": 5242880,
+        "storedHeightStats": {
+          "min": -7380.8427734375,
+          "max": 15888.7626953125,
+          "positive": 879543,
+          "negative": 1927518,
+          "zero": 49
+        },
+        "effectiveRelief": "0",
+        "symbols": "359",
+        "preparation": {
+          "assets": [
+            {
+              "id": "b86a7a5d-fb65-4349-9412-99881cd4ef3b",
+              "addPacketCalls": 1280,
+              "addPacketCpuMs": 19438.899999976158,
+              "finishCalls": 1,
+              "finishCpuMs": 142,
+              "peakCollectorBytes": 3173068,
+              "collectorReleased": true,
+              "symbolCount": 359
+            }
+          ]
+        },
+        "symbolMemory": [
+          {
+            "id": "b86a7a5d-fb65-4349-9412-99881cd4ef3b",
+            "ready": true,
+            "count": 359,
+            "collectorReleased": true,
+            "geometryCpuBytes": 12984,
+            "geometryGpuBytes": 12984,
+            "textureCpuBytes": 4194304,
+            "textureGpuBytesEstimate": 5592404,
+            "accountedBytes": 9812677.333333334,
+            "instanceCount": 359
+          }
+        ],
+        "gpuCompleteMs": 2433.7999999821186,
+        "cpuSubmitMs": 1.0999999940395355,
+        "nativeCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 61,
+          "multiDrawLogical": 746,
+          "drawElementsInstanced": 1
+        },
+        "renderTriangles": 3056334,
+        "allocatedWebGLBufferBytes": 177469456,
+        "peakAllocatedWebGLBufferBytes": 179400172,
+        "accountedDisplayBytes": "755854282.3333334",
+        "requests": {
+          "physicalManifest": 1,
+          "riverRender": 181,
+          "physicalBatch": 1280,
+          "overlays": 2,
+          "releaseRiverRender": 1
+        },
+        "glErrors": [],
+        "image": "atlas-fantasy-final-highres-painted-globe-wide.png"
+      },
+      {
+        "name": "painted-globe-mountain",
+        "physicalTriangles": 5242880,
+        "storedHeightStats": {
+          "min": -7380.8427734375,
+          "max": 15888.7626953125,
+          "positive": 879543,
+          "negative": 1927518,
+          "zero": 49
+        },
+        "effectiveRelief": "0",
+        "symbols": "359",
+        "preparation": {
+          "assets": [
+            {
+              "id": "b86a7a5d-fb65-4349-9412-99881cd4ef3b",
+              "addPacketCalls": 1280,
+              "addPacketCpuMs": 19438.899999976158,
+              "finishCalls": 1,
+              "finishCpuMs": 142,
+              "peakCollectorBytes": 3173068,
+              "collectorReleased": true,
+              "symbolCount": 359
+            }
+          ]
+        },
+        "symbolMemory": [
+          {
+            "id": "b86a7a5d-fb65-4349-9412-99881cd4ef3b",
+            "ready": true,
+            "count": 359,
+            "collectorReleased": true,
+            "geometryCpuBytes": 12984,
+            "geometryGpuBytes": 12984,
+            "textureCpuBytes": 4194304,
+            "textureGpuBytesEstimate": 5592404,
+            "accountedBytes": 9812677.333333334,
+            "instanceCount": 359
+          }
+        ],
+        "gpuCompleteMs": 753.6999999880791,
+        "cpuSubmitMs": 1.0999999940395355,
+        "nativeCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 38,
+          "multiDrawLogical": 117,
+          "drawElementsInstanced": 1
+        },
+        "renderTriangles": 479950,
+        "allocatedWebGLBufferBytes": 177469456,
+        "peakAllocatedWebGLBufferBytes": 179400172,
+        "accountedDisplayBytes": "755854282.3333334",
+        "requests": {
+          "physicalManifest": 1,
+          "riverRender": 181,
+          "physicalBatch": 1280,
+          "overlays": 3,
+          "releaseRiverRender": 1
+        },
+        "glErrors": [],
+        "image": "atlas-fantasy-final-highres-painted-globe-mountain.png"
+      }
+    ]
+  },
+  "errors": {
+    "finalMatrix": [],
+    "camera": [],
+    "nativeUi": [],
+    "maximum": []
+  },
+  "sourceSha256": {
+    "src/render/FantasyRidges.ts": "72fa17ad8bf41594858adfa00f20c9f2577e6cbdb01bde851a217bd8b0a301e4",
+    "src/render/FantasySymbols.ts": "848640e94f115c62bb00fe265804f086dc410f00607311b606d8e47dcab1f9ea",
+    "src/render/FantasySymbolAtlas.ts": "48cf1b2f262fd83393d8e94c08e4c7f76782d02352beb6a473bdead60b81e3f4",
+    "src/render/FantasyStyle.ts": "afd13f4a70c378bffa2e2ea7be3e63baef16a717b431d59c8f07ac7d71e45274",
+    "src/render/MapStyle.ts": "39dd10667f7e7e55b5c24c24ef78f92d4fcae2a9f57d9b2de044bfdc2c6ffc13",
+    "src/render/PagedWorldView.tsx": "c083d17e18a88da42ac85a4cbaddf5ec13dedcba40ddf27ecc50bbda84e5a7d5"
+  },
+  "rawReports": [
+    "outputs/atlas-fantasy-final-matrix-qa.json",
+    "outputs/atlas-fantasy-final-pole-overview-qa.json",
+    "outputs/atlas-fantasy-final-camera-qa.json",
+    "outputs/atlas-fantasy-final-studio-qa.json",
+    "outputs/atlas-fantasy-final-highres-qa.json",
+    "outputs/atlas-fantasy-after-controls-qa.json",
+    "outputs/atlas-fantasy-categorical-comparisons.json",
+    "outputs/atlas-fantasy-final-cache-qa.json",
+    "outputs/atlas-fantasy-cache-pixel-comparisons.json",
+    "outputs/atlas-fantasy-final-cache-highres-qa.json"
+  ],
+  "checks": [
+    {
+      "name": "final-eighteen-view-matrix",
+      "passed": true
+    },
+    {
+      "name": "native-three-style-menu",
+      "passed": true
+    },
+    {
+      "name": "camera-anchor-atlas-stability",
+      "passed": true
+    },
+    {
+      "name": "exact-camera-return",
+      "passed": true
+    },
+    {
+      "name": "no-camera-terrain-river-reads",
+      "passed": true
+    },
+    {
+      "name": "six-flat-relief-pairs",
+      "passed": true
+    },
+    {
+      "name": "eighteen-categorical-pairs",
+      "passed": true
+    },
+    {
+      "name": "actual-maximum-world-complete",
+      "passed": true
+    },
+    {
+      "name": "runtime-errors-empty",
+      "passed": true
+    },
+    {
+      "name": "cache-preserves-six-accepted-views",
+      "passed": true
+    },
+    {
+      "name": "style-projection-cache-skips-collector",
+      "passed": true
+    },
+    {
+      "name": "season-source-cache-invalidation",
+      "passed": true
+    },
+    {
+      "name": "maximum-cache-reuses-placements",
+      "passed": true
+    },
+    {
+      "name": "maximum-cache-no-terrain-river-reads",
+      "passed": true
+    },
+    {
+      "name": "maximum-cache-exact-initial-image",
+      "passed": true
+    }
+  ],
+  "placementCache": {
+    "methodology": "Targeted fresh production-module verification after adding compact completed-placement reuse. Actual FantasySymbolCandidates methods are instrumented separately from asset calls; no-op asset addPacket invocations are not counted as reconstruction. Existing full visual matrix retained after six exact image comparisons. Timing observations use SwiftShader; no comparative FPS claim. The style switch issues one existing generic overlay refresh; terrain and river source-read counts stay fixed. The 30.794s end-to-end switch includes rebuilding the terrain display and software-GPU work; placement reuse is not an instant-switch guarantee. Collector-release status is meaningful only on the owning asset and is verified there.",
+    "smallSteps": [
+      {
+        "name": "painted-globe-initial",
+        "placementIdentity": [
+          {
+            "id": 1,
+            "count": 948,
+            "reused": false,
+            "collectorPresent": false
+          }
+        ],
+        "placementBytes": 46452,
+        "collectorInstances": 1,
+        "actualCollectorPacketCalls": 8,
+        "actualCollectorFinishCalls": 1,
+        "requests": {
+          "physicalManifest": 1,
+          "riverRender": 12,
+          "physicalBatch": 8,
+          "overlays": 2
+        }
+      },
+      {
+        "name": "engraved-globe-cached",
+        "placementIdentity": [
+          {
+            "id": 1,
+            "count": 948,
+            "reused": true,
+            "collectorPresent": false
+          }
+        ],
+        "placementBytes": 46452,
+        "collectorInstances": 1,
+        "actualCollectorPacketCalls": 8,
+        "actualCollectorFinishCalls": 1,
+        "requests": {
+          "physicalManifest": 1,
+          "riverRender": 12,
+          "physicalBatch": 8,
+          "overlays": 3
+        }
+      },
+      {
+        "name": "parchment-globe-cached",
+        "placementIdentity": [
+          {
+            "id": 1,
+            "count": 948,
+            "reused": true,
+            "collectorPresent": false
+          }
+        ],
+        "placementBytes": 46452,
+        "collectorInstances": 1,
+        "actualCollectorPacketCalls": 8,
+        "actualCollectorFinishCalls": 1,
+        "requests": {
+          "physicalManifest": 1,
+          "riverRender": 12,
+          "physicalBatch": 8,
+          "overlays": 4
+        }
+      },
+      {
+        "name": "parchment-map-cached",
+        "placementIdentity": [
+          {
+            "id": 1,
+            "count": 948,
+            "reused": true,
+            "collectorPresent": false
+          }
+        ],
+        "placementBytes": 46452,
+        "collectorInstances": 1,
+        "actualCollectorPacketCalls": 8,
+        "actualCollectorFinishCalls": 1,
+        "requests": {
+          "physicalManifest": 1,
+          "riverRender": 12,
+          "physicalBatch": 8,
+          "overlays": 6
+        }
+      },
+      {
+        "name": "painted-map-cached",
+        "placementIdentity": [
+          {
+            "id": 1,
+            "count": 948,
+            "reused": true,
+            "collectorPresent": false
+          }
+        ],
+        "placementBytes": 46452,
+        "collectorInstances": 1,
+        "actualCollectorPacketCalls": 8,
+        "actualCollectorFinishCalls": 1,
+        "requests": {
+          "physicalManifest": 1,
+          "riverRender": 12,
+          "physicalBatch": 8,
+          "overlays": 7
+        }
+      },
+      {
+        "name": "painted-globe-roundtrip",
+        "placementIdentity": [
+          {
+            "id": 1,
+            "count": 948,
+            "reused": true,
+            "collectorPresent": false
+          }
+        ],
+        "placementBytes": 46452,
+        "collectorInstances": 1,
+        "actualCollectorPacketCalls": 8,
+        "actualCollectorFinishCalls": 1,
+        "requests": {
+          "physicalManifest": 1,
+          "riverRender": 12,
+          "physicalBatch": 8,
+          "overlays": 9
+        }
+      },
+      {
+        "name": "season0-new",
+        "placementIdentity": [
+          {
+            "id": 2,
+            "count": 1006,
+            "reused": false,
+            "collectorPresent": false
+          }
+        ],
+        "placementBytes": 49294,
+        "collectorInstances": 2,
+        "actualCollectorPacketCalls": 16,
+        "actualCollectorFinishCalls": 2,
+        "requests": {
+          "physicalManifest": 2,
+          "riverRender": 24,
+          "physicalBatch": 16,
+          "overlays": 10
+        }
+      },
+      {
+        "name": "season0-engraved-cached",
+        "placementIdentity": [
+          {
+            "id": 2,
+            "count": 1006,
+            "reused": true,
+            "collectorPresent": false
+          }
+        ],
+        "placementBytes": 49294,
+        "collectorInstances": 2,
+        "actualCollectorPacketCalls": 16,
+        "actualCollectorFinishCalls": 2,
+        "requests": {
+          "physicalManifest": 2,
+          "riverRender": 24,
+          "physicalBatch": 16,
+          "overlays": 11
+        }
+      },
+      {
+        "name": "world-original-new",
+        "placementIdentity": [
+          {
+            "id": 3,
+            "count": 1033,
+            "reused": false,
+            "collectorPresent": false
+          }
+        ],
+        "placementBytes": 50617,
+        "collectorInstances": 3,
+        "actualCollectorPacketCalls": 21,
+        "actualCollectorFinishCalls": 3,
+        "requests": {
+          "physicalManifest": 3,
+          "riverRender": 31,
+          "physicalBatch": 21,
+          "overlays": 13
+        }
+      },
+      {
+        "name": "world-after-new",
+        "placementIdentity": [
+          {
+            "id": 4,
+            "count": 1006,
+            "reused": false,
+            "collectorPresent": false
+          }
+        ],
+        "placementBytes": 49294,
+        "collectorInstances": 4,
+        "actualCollectorPacketCalls": 29,
+        "actualCollectorFinishCalls": 4,
+        "requests": {
+          "physicalManifest": 4,
+          "riverRender": 43,
+          "physicalBatch": 29,
+          "overlays": 15
+        }
+      }
+    ],
+    "pixelComparisons": [
+      {
+        "name": "painted-globe-initial",
+        "changedPixels": 0,
+        "reference": "atlas-fantasy-final-matrix-mountain-globe-painted.png"
+      },
+      {
+        "name": "engraved-globe-cached",
+        "changedPixels": 0,
+        "reference": "atlas-fantasy-final-matrix-mountain-globe-engraved.png"
+      },
+      {
+        "name": "parchment-globe-cached",
+        "changedPixels": 0,
+        "reference": "atlas-fantasy-final-matrix-mountain-globe-parchment.png"
+      },
+      {
+        "name": "parchment-map-cached",
+        "changedPixels": 0,
+        "reference": "atlas-fantasy-final-matrix-mountain-map-parchment.png"
+      },
+      {
+        "name": "painted-map-cached",
+        "changedPixels": 0,
+        "reference": "atlas-fantasy-final-matrix-mountain-map-painted.png"
+      },
+      {
+        "name": "painted-globe-roundtrip",
+        "changedPixels": 0,
+        "reference": "atlas-fantasy-final-matrix-mountain-globe-painted.png"
+      }
+    ],
+    "maximum": {
+      "openToReadyMs": 91277,
+      "styleSwitchToReadyMs": 30794,
+      "initialPaintedChangedPixelsVersusPreCache": 0,
+      "steps": [
+        {
+          "name": "painted-globe-wide",
+          "placementIdentity": [
+            {
+              "id": 1,
+              "count": 359,
+              "reused": false,
+              "collectorPresent": false
+            }
+          ],
+          "placementBytes": 17591,
+          "collectorInstances": 1,
+          "actualCollectorPacketCalls": 1280,
+          "actualCollectorFinishCalls": 1,
+          "requests": {
+            "physicalManifest": 1,
+            "riverRender": 181,
+            "physicalBatch": 1280,
+            "overlays": 2,
+            "releaseRiverRender": 1
+          },
+          "preparation": {
+            "assets": [
+              {
+                "id": 1,
+                "addPacketCalls": 1280,
+                "addPacketCpuMs": 18750.49999937415,
+                "finishCalls": 1,
+                "finishCpuMs": 141.19999998807907,
+                "peakCollectorBytes": 3173068,
+                "collectorReleased": true,
+                "symbolCount": 359
+              }
+            ],
+            "collectors": [
+              {
+                "id": 2,
+                "addPacketCalls": 1280,
+                "addPacketCpuMs": 18743.899999439716,
+                "finishCalls": 1,
+                "finishCpuMs": 132.7000000178814,
+                "peakCollectorBytes": 3173068
+              }
+            ]
+          },
+          "symbolMemory": [
+            {
+              "id": "126ec19e-b686-46cf-90be-e325a2abe9ea",
+              "ready": true,
+              "count": 359,
+              "collectorReleased": true,
+              "geometryCpuBytes": 12984,
+              "geometryGpuBytes": 12984,
+              "textureCpuBytes": 4194304,
+              "textureGpuBytesEstimate": 5592404,
+              "accountedBytes": 9812677.333333334,
+              "instanceCount": 359
+            }
+          ],
+          "gpuCompleteMs": 2586.0999999940395,
+          "cpuSubmitMs": 0.8999999761581421,
+          "nativeCalls": {
+            "drawElements": 0,
+            "multiDrawElementsWEBGL": 61,
+            "multiDrawLogical": 746,
+            "drawElementsInstanced": 1
+          },
+          "accountedDisplayBytes": 755871873.3333334,
+          "glErrors": [],
+          "image": "atlas-fantasy-final-cache-highres-painted-globe-wide.png"
+        },
+        {
+          "name": "engraved-globe-cached",
+          "placementIdentity": [
+            {
+              "id": 1,
+              "count": 359,
+              "reused": true,
+              "collectorPresent": false
+            }
+          ],
+          "placementBytes": 17591,
+          "collectorInstances": 1,
+          "actualCollectorPacketCalls": 1280,
+          "actualCollectorFinishCalls": 1,
+          "requests": {
+            "physicalManifest": 1,
+            "riverRender": 181,
+            "physicalBatch": 1280,
+            "overlays": 3,
+            "releaseRiverRender": 1
+          },
+          "preparation": {
+            "assets": [
+              {
+                "id": 1,
+                "addPacketCalls": 1280,
+                "addPacketCpuMs": 18750.49999937415,
+                "finishCalls": 1,
+                "finishCpuMs": 141.19999998807907,
+                "peakCollectorBytes": 3173068,
+                "collectorReleased": true,
+                "symbolCount": 359
+              },
+              {
+                "id": 3,
+                "addPacketCalls": 1280,
+                "addPacketCpuMs": 1.300000011920929,
+                "finishCalls": 1,
+                "finishCpuMs": 4.5,
+                "peakCollectorBytes": 0,
+                "collectorReleased": true,
+                "symbolCount": 359
+              }
+            ],
+            "collectors": [
+              {
+                "id": 2,
+                "addPacketCalls": 1280,
+                "addPacketCpuMs": 18743.899999439716,
+                "finishCalls": 1,
+                "finishCpuMs": 132.7000000178814,
+                "peakCollectorBytes": 3173068
+              }
+            ]
+          },
+          "symbolMemory": [
+            {
+              "id": "681f9f71-2dab-4b5c-bc38-f13e24ce6e39",
+              "ready": true,
+              "count": 359,
+              "collectorReleased": true,
+              "geometryCpuBytes": 12984,
+              "geometryGpuBytes": 12984,
+              "textureCpuBytes": 4194304,
+              "textureGpuBytesEstimate": 5592404,
+              "accountedBytes": 9812677.333333334,
+              "instanceCount": 359
+            }
+          ],
+          "gpuCompleteMs": 2489.5999999940395,
+          "cpuSubmitMs": 1.0999999940395355,
+          "nativeCalls": {
+            "drawElements": 0,
+            "multiDrawElementsWEBGL": 61,
+            "multiDrawLogical": 746,
+            "drawElementsInstanced": 1
+          },
+          "accountedDisplayBytes": 755871873.3333334,
+          "glErrors": [],
+          "image": "atlas-fantasy-final-cache-highres-engraved-globe-cached.png"
+        }
+      ]
+    },
+    "errors": {
+      "small": [],
+      "maximum": []
+    }
+  },
+  "visualSourceSha256": {
+    "src/render/FantasyRidges.ts": "72fa17ad8bf41594858adfa00f20c9f2577e6cbdb01bde851a217bd8b0a301e4",
+    "src/render/FantasySymbols.ts": "c6ca4c8fd647b38e420dd883d6032b403ed536b79048313e6e14d9ec30688439",
+    "src/render/FantasySymbolAtlas.ts": "48cf1b2f262fd83393d8e94c08e4c7f76782d02352beb6a473bdead60b81e3f4",
+    "src/render/FantasyStyle.ts": "afd13f4a70c378bffa2e2ea7be3e63baef16a717b431d59c8f07ac7d71e45274",
+    "src/render/MapStyle.ts": "39dd10667f7e7e55b5c24c24ef78f92d4fcae2a9f57d9b2de044bfdc2c6ffc13",
+    "src/render/PagedWorldView.tsx": "0256138fdf113e5ecd7dc281cdbb610399955b5a449de86ad584974ae0adb626"
+  }
+}

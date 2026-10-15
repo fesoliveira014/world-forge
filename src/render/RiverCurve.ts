@@ -20,19 +20,48 @@ export function curveRiverPath(
   const firstControl = first.clone().addScaledVector(chord, 1 / 3);
   const lastControl = last.clone().addScaledVector(chord, -1 / 3);
   const tangent = new THREE.Vector3();
-  if (previous) {
-    tangent.copy(last).sub(previous).addScaledVector(first, -tangent.dot(first)).normalize();
-    if (tangent.dot(chord) > 0) {
-      firstControl
-        .copy(first)
-        .addScaledVector(tangent, Math.min(length, first.distanceTo(previous)) / 3);
+  const controlAt = (
+    junction: THREE.Vector3,
+    before: THREE.Vector3,
+    after: THREE.Vector3,
+    control: THREE.Vector3,
+    sign: number,
+  ) => {
+    const incoming = junction.clone().sub(before);
+    const outgoing = after.clone().sub(junction);
+    const incomingLength = incoming.length();
+    const outgoingLength = outgoing.length();
+    const shorter = Math.min(incomingLength, outgoingLength);
+    if (shorter < 1e-12) {
+      return;
     }
+    tangent.copy(after).sub(before).addScaledVector(junction, -tangent.dot(junction)).normalize();
+    const uneven = THREE.MathUtils.smoothstep(
+      Math.max(incomingLength, outgoingLength) / shorter,
+      4,
+      8,
+    );
+    if (uneven > 0) {
+      // A near-coincident pair of routing nodes can lie between long reaches.
+      // A length-weighted secant forces that tiny reach to absorb both turns.
+      // Inverse-length weighting lets the long neighbors turn gradually; both
+      // sides of the junction evaluate this same symmetric tangent direction.
+      incoming
+        .multiplyScalar(1 / incomingLength ** 2)
+        .addScaledVector(outgoing, 1 / outgoingLength ** 2);
+      incoming.addScaledVector(junction, -incoming.dot(junction)).normalize();
+      tangent.lerp(incoming, uneven).normalize();
+    }
+    if (tangent.dot(chord) > 0) {
+      const handle = THREE.MathUtils.lerp(shorter, length, uneven) / 3;
+      control.copy(junction).addScaledVector(tangent, sign * handle);
+    }
+  };
+  if (previous) {
+    controlAt(first, previous, last, firstControl, 1);
   }
   if (next) {
-    tangent.copy(next).sub(first).addScaledVector(last, -tangent.dot(last)).normalize();
-    if (tangent.dot(chord) > 0) {
-      lastControl.copy(last).addScaledVector(tangent, -Math.min(length, last.distanceTo(next)) / 3);
-    }
+    controlAt(last, first, next, lastControl, -1);
   }
 
   const count = points.length / 3;

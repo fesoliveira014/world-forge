@@ -7,7 +7,9 @@ import {
   lakeAtCell,
   lakeCoverageAt,
   lakeFreshwaterSuitability,
+  soilSalinityLimit,
 } from './lake-state';
+import { salinityFreshwaterSuitability } from './salinity';
 
 export type FertilityEnvironment = Pick<
   World,
@@ -38,6 +40,9 @@ export interface FertilityEvaluation {
   slopeLimit: number;
   wetnessLimit: number;
   freshCoverLimit: number;
+  soilSalinity: number;
+  salineFraction: number;
+  salinityLimit: number;
   limitations: string[];
 }
 
@@ -58,6 +63,9 @@ export function createFertilityEvaluation(): FertilityEvaluation {
     slopeLimit: 1,
     wetnessLimit: 1,
     freshCoverLimit: 1,
+    soilSalinity: 0,
+    salineFraction: 0,
+    salinityLimit: 1,
     limitations: [],
   };
 }
@@ -119,6 +127,9 @@ export function evaluateFertilityCell(
   result.slopeLimit = 1;
   result.wetnessLimit = 1;
   result.freshCoverLimit = 1;
+  result.soilSalinity = 0;
+  result.salineFraction = 0;
+  result.salinityLimit = 1;
   result.limitations.length = 0;
 
   if (isStandingWater(environment, cell)) {
@@ -135,6 +146,13 @@ export function evaluateFertilityCell(
   const area = grid.areas[cell] * config.radius ** 2;
   const landFraction = exposedLandFraction(terrain, drainage, cell);
   result.landFraction = landFraction;
+  result.soilSalinity = drainage.soilSalinity?.[cell] ?? 0;
+  result.salineFraction = clamp(drainage.soilSalinityFraction?.[cell] ?? 0, 0, landFraction);
+  result.salinityLimit = soilSalinityLimit(
+    result.soilSalinity,
+    result.salineFraction,
+    landFraction,
+  );
   const floodplains = ecology.floodplains;
   let slope = 0;
   let corridorSlope = 0;
@@ -187,7 +205,11 @@ export function evaluateFertilityCell(
     if (reach < 0 || floodplains.width[reach * 2 + bank] <= 0) {
       continue;
     }
-    riverAccess = Math.max(riverAccess, 1 - Math.exp(-rivers.supportFlow[channelCorner] / 5));
+    riverAccess = Math.max(
+      riverAccess,
+      (1 - Math.exp(-rivers.supportFlow[channelCorner] / 5)) *
+        salinityFreshwaterSuitability(drainage.riverSalinity?.[channelCorner] ?? 0),
+    );
     const receiver = drainage.receiver[channelCorner];
     corridorSlope = Math.max(
       corridorSlope,
@@ -203,7 +225,7 @@ export function evaluateFertilityCell(
       ? Math.max(riverAccess, shoreFraction > 0 ? shoreWater / shoreFraction : 0)
       : 0;
   if (shoreFraction > 0 && shoreWater / shoreFraction < 0.5 && riverAccess < 0.5) {
-    result.limitations.push('Uncertain lake freshwater');
+    result.limitations.push('Limited lake freshwater');
   }
   result.sediment = 1 - Math.exp(-Math.max(0, terrain.sediment[cell]) / preset.sedimentScaleMetres);
   // Seasonal alluvial context is a capped benefit inside the existing footprint.
@@ -236,7 +258,10 @@ export function evaluateFertilityCell(
     Math.exp(-Math.max(0, terrain.sediment[cell]) / 5);
   result.freshCoverLimit = 1 - 0.9 * exposedCover * (1 - maturation);
 
-  const sharedSuitability = result.growingSeason * result.wetnessLimit * result.freshCoverLimit;
+  // Soil stress is independent of the freshwater bonus: even rainy ground can
+  // lose fertility, but only in proportion to the exposed salt-affected footprint.
+  const sharedSuitability =
+    result.growingSeason * result.wetnessLimit * result.freshCoverLimit * result.salinityLimit;
   result.regionalScore = potential(
     result.sediment,
     0,
@@ -279,6 +304,9 @@ export function evaluateFertilityCell(
   }
   if (result.freshCoverLimit < 0.85) {
     result.limitations.push('Fresh volcanic cover');
+  }
+  if (result.salinityLimit < 0.98) {
+    result.limitations.push('Saline soil');
   }
   return result;
 }

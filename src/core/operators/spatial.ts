@@ -1,6 +1,7 @@
 import type { Grid } from '../model';
 import { MinHeap } from '../math';
 import { nearestCell } from '../grid/build';
+import type { OverlapTransfer } from './transfer';
 
 export function buildTransfer(processGrid: Grid, surfaceGrid: Grid): Uint32Array {
   const surfaceToProcess = new Uint32Array(surfaceGrid.count);
@@ -87,6 +88,7 @@ export function restrictSurface(
   surfaceToProcess: Uint32Array,
   height: Float32Array,
   ocean: Uint8Array,
+  overlaps?: OverlapTransfer,
 ) {
   const area = new Float64Array(processGrid.count);
   const landArea = new Float64Array(processGrid.count);
@@ -94,9 +96,7 @@ export function restrictSurface(
   const depth = new Float64Array(processGrid.count);
   const barrier = new Float32Array(processGrid.count);
 
-  for (let cellIndex = 0; cellIndex < grid.count; cellIndex++) {
-    const processCell = surfaceToProcess[cellIndex];
-    const cellArea = grid.areas[cellIndex];
+  const accumulate = (cellIndex: number, processCell: number, cellArea: number) => {
     area[processCell] += cellArea;
 
     if (ocean[cellIndex]) {
@@ -105,6 +105,19 @@ export function restrictSurface(
       landArea[processCell] += cellArea;
       landHeight[processCell] += height[cellIndex] * cellArea;
       barrier[processCell] = Math.max(barrier[processCell], height[cellIndex]);
+    }
+  };
+  for (let cellIndex = 0; cellIndex < grid.count; cellIndex++) {
+    if (overlaps) {
+      for (
+        let overlap = overlaps.offsets[cellIndex];
+        overlap < overlaps.offsets[cellIndex + 1];
+        overlap++
+      ) {
+        accumulate(cellIndex, overlaps.sources[overlap], overlaps.areas[overlap]);
+      }
+    } else {
+      accumulate(cellIndex, surfaceToProcess[cellIndex], grid.areas[cellIndex]);
     }
   }
 
@@ -123,43 +136,70 @@ export function restrictSurface(
   return { height: meanHeight, ocean: oceanMask, landFraction: fraction, barrier, childArea: area };
 }
 
-/** Scalar least-squares tangent gradient, metres / metre. */
+/** Inverse-distance weighted 2x2 least-squares fit in each cell's tangent plane.
+ * A rank-deficient stencil uses the resolved direction's pseudoinverse; it does
+ * not amplify an unconstrained transverse slope. Units are field units / metre.
+ */
 export function calculateHeightGradient(
   grid: Grid,
-  height: Float32Array,
+  height: ArrayLike<number>,
   radius: number,
 ): Float32Array {
   const heightGradient = new Float32Array(grid.count * 3);
-
-  for (let edgeIndex = 0; edgeIndex < grid.edgeLength.length; edgeIndex++) {
-    const firstCell = grid.edgeCells[2 * edgeIndex];
-    const secondCell = grid.edgeCells[2 * edgeIndex + 1];
-    const edgeSlope =
-      (height[secondCell] - height[firstCell]) / (radius * grid.edgeDistance[edgeIndex]);
-
-    for (let axisIndex = 0; axisIndex < 3; axisIndex++) {
-      const value = grid.edgeNormal[edgeIndex * 3 + axisIndex] * edgeSlope;
-      heightGradient[firstCell * 3 + axisIndex] += value;
-      heightGradient[secondCell * 3 + axisIndex] += value;
-    }
+  if (!(radius > 0) || !Number.isFinite(radius)) {
+    throw new Error('Gradient radius must be positive and finite.');
   }
-
   for (let cellIndex = 0; cellIndex < grid.count; cellIndex++) {
-    const gradientScale = 2 / (grid.offsets[cellIndex + 1] - grid.offsets[cellIndex]);
-    let radial = 0;
-
-    for (let axisIndex = 0; axisIndex < 3; axisIndex++) {
-      radial +=
-        heightGradient[cellIndex * 3 + axisIndex] * grid.positions[cellIndex * 3 + axisIndex];
+    const x = grid.positions[3 * cellIndex];
+    const y = grid.positions[3 * cellIndex + 1];
+    const z = grid.positions[3 * cellIndex + 2];
+    const axisLength = Math.abs(y) < 0.9 ? Math.hypot(x, z) : Math.hypot(y, z);
+    const firstX = Math.abs(y) < 0.9 ? -z / axisLength : 0;
+    const firstY = Math.abs(y) < 0.9 ? 0 : z / axisLength;
+    const firstZ = Math.abs(y) < 0.9 ? x / axisLength : -y / axisLength;
+    const secondX = y * firstZ - z * firstY;
+    const secondY = z * firstX - x * firstZ;
+    const secondZ = x * firstY - y * firstX;
+    let firstSquared = 0;
+    let crossTerm = 0;
+    let secondSquared = 0;
+    let firstDifference = 0;
+    let secondDifference = 0;
+    for (let offset = grid.offsets[cellIndex]; offset < grid.offsets[cellIndex + 1]; offset++) {
+      const neighbor = grid.neighbors[offset];
+      const deltaX = grid.positions[3 * neighbor] - x;
+      const deltaY = grid.positions[3 * neighbor + 1] - y;
+      const deltaZ = grid.positions[3 * neighbor + 2] - z;
+      const firstDistance = deltaX * firstX + deltaY * firstY + deltaZ * firstZ;
+      const secondDistance = deltaX * secondX + deltaY * secondY + deltaZ * secondZ;
+      const squaredDistance = firstDistance ** 2 + secondDistance ** 2;
+      if (squaredDistance <= 1e-24) {
+        continue;
+      }
+      const weight = 1 / squaredDistance;
+      const difference = height[neighbor] - height[cellIndex];
+      firstSquared += weight * firstDistance ** 2;
+      crossTerm += weight * firstDistance * secondDistance;
+      secondSquared += weight * secondDistance ** 2;
+      firstDifference += weight * firstDistance * difference;
+      secondDifference += weight * secondDistance * difference;
     }
-
-    for (let axisIndex = 0; axisIndex < 3; axisIndex++) {
-      heightGradient[cellIndex * 3 + axisIndex] =
-        (heightGradient[cellIndex * 3 + axisIndex] -
-          radial * grid.positions[cellIndex * 3 + axisIndex]) *
-        gradientScale;
+    const trace = firstSquared + secondSquared;
+    if (trace === 0) {
+      continue;
     }
+    const determinant = firstSquared * secondSquared - crossTerm ** 2;
+    const firstSlope =
+      determinant > 1e-12 * trace ** 2
+        ? (secondSquared * firstDifference - crossTerm * secondDifference) / determinant
+        : (firstSquared * firstDifference + crossTerm * secondDifference) / trace ** 2;
+    const secondSlope =
+      determinant > 1e-12 * trace ** 2
+        ? (firstSquared * secondDifference - crossTerm * firstDifference) / determinant
+        : (crossTerm * firstDifference + secondSquared * secondDifference) / trace ** 2;
+    heightGradient[3 * cellIndex] = (firstSlope * firstX + secondSlope * secondX) / radius;
+    heightGradient[3 * cellIndex + 1] = (firstSlope * firstY + secondSlope * secondY) / radius;
+    heightGradient[3 * cellIndex + 2] = (firstSlope * firstZ + secondSlope * secondZ) / radius;
   }
-
   return heightGradient;
 }

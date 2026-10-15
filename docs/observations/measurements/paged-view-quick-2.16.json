@@ -1,0 +1,58 @@
+{
+  "measurement": "atlas-paged-view/v1",
+  "storage": "fake-indexeddb in-memory implementation; not browser disk I/O",
+  "recipe": "examples/AETHER-EVOLVED.json",
+  "version": "2.16.0",
+  "climateWorkers": 4,
+  "surfaceCells": 27227,
+  "worldTypedBytes": 25159899,
+  "sidecarTypedBytes": 10780214,
+  "snapshotBytes": 36143873,
+  "timingsMs": {
+    "generate": 4483.852299,
+    "prepareView": 141.43768199999977,
+    "saveSnapshot": 1202.0513739999997,
+    "openSnapshot": 1.871012000000519,
+    "openView": 11.730241000000206,
+    "coldTile16384": 340.8382069999998,
+    "warmTile16384": 399.5009199999995,
+    "coldInspection": 11.993655999999646,
+    "tileOverlays": 154.28847099999984
+  },
+  "samplePacketBytes": 1769472,
+  "overlayPacketBytes": 124400,
+  "overlayTruncated": true,
+  "pages": {
+    "cachedPageBytes": 15453530,
+    "cachedMetadataBytes": 198938,
+    "cachedPages": 61,
+    "pageReads": 61,
+    "activePageReads": 0
+  },
+  "viewCaches": {
+    "nodes": 173,
+    "leaves": 65,
+    "renderBlocks": 8,
+    "faceBlocks": 6,
+    "startBlocks": 8,
+    "positionBlocks": 8
+  },
+  "limits": {
+    "rawPageCacheBytes": 33554432,
+    "metadataCacheBytes": 4194304,
+    "renderBlocks": 16,
+    "bytesPerRenderBlock": 483328,
+    "spatialLeaves": 128,
+    "spatialNodes": 4096,
+    "surfaceFaceBlocks": 16,
+    "bytesPerSurfaceFaceBlock": 196608,
+    "surfaceStartBlocks": 16,
+    "surfacePositionBlocks": 32,
+    "bytesPerSurfacePositionBlock": 49152
+  },
+  "queries": {
+    "coldLayer": "biomes",
+    "warmLayer": "world",
+    "naturalAttributes": "primal barycentric interpolation"
+  }
+}

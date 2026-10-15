@@ -1,5 +1,6 @@
 import type { Drainage, Grid } from '../model';
 import { clamp } from '../math';
+import { computeCornerSupport } from '../operators/corner-fields';
 
 /** Give the annual height/area model an explicit shoreline on unresolved flat floors.
  * Lower samples are fully wet. The remaining area grows contiguously across the level
@@ -220,18 +221,18 @@ export function resolveLakeSurfaces(
  * sill terrace when floating-point water level differs by a few billionths of a metre.
  */
 export function updateLakeCoverage(grid: Grid, drainage: Drainage, area: Float64Array): void {
+  const support = computeCornerSupport(grid);
   drainage.lakeCoverage.fill(0);
   const seasonalCoverage = Array.from({ length: 4 }, () => new Float32Array(grid.count));
   drainage.seasonalLakeCoverage = seasonalCoverage;
   if (drainage.lakes.some((lake) => !lake.seasonal)) {
     for (let cell = 0; cell < grid.count; cell++) {
-      const degree = grid.offsets[cell + 1] - grid.offsets[cell];
       for (let offset = grid.offsets[cell]; offset < grid.offsets[cell + 1]; offset++) {
         const corner = grid.cellCorners[offset];
         const lake = drainage.lakes[drainage.lakeId[corner]];
         if (lake && !lake.seasonal) {
           for (const field of seasonalCoverage) {
-            field[cell] += drainage.lakeFraction[corner] / degree;
+            field[cell] += drainage.lakeFraction[corner] * support.cellCornerFraction[offset];
           }
         }
       }
@@ -265,8 +266,8 @@ export function updateLakeCoverage(grid: Grid, drainage: Drainage, area: Float64
           const corner = sorted[index];
           for (let incident = 0; incident < 3; incident++) {
             const cell = grid.triangles[corner * 3 + incident];
-            const degree = grid.offsets[cell + 1] - grid.offsets[cell];
-            seasonalCoverage[season][cell] += share / degree;
+            seasonalCoverage[season][cell] +=
+              (share * support.cornerCellArea[corner * 3 + incident]) / grid.areas[cell];
           }
         }
         remaining[season] = Math.max(0, remaining[season] - groupArea);

@@ -1,10 +1,11 @@
 import type { Grid, Terrain } from '../model';
 import { MinHeap } from '../math';
+import { reconstructCornerField } from '../operators/corner-fields';
 
 /** Geometric escape topology shared by outlet erosion and the final water router. */
 export function floodCorners(grid: Grid, terrain: Terrain) {
   const cornerCount = grid.corners.length / 3;
-  const height = new Float32Array(cornerCount);
+  const height = reconstructCornerField(grid, terrain.height);
   const filled = new Float32Array(cornerCount);
   const parent = new Int32Array(cornerCount).fill(-1);
   const rank = new Uint32Array(cornerCount);
@@ -14,18 +15,13 @@ export function floodCorners(grid: Grid, terrain: Terrain) {
   const heap = new MinHeap();
 
   for (let cornerIndex = 0; cornerIndex < cornerCount; cornerIndex++) {
-    let meanHeight = 0;
-
     for (let neighborSlot = 0; neighborSlot < 3; neighborSlot++) {
       const cellIndex = grid.triangles[cornerIndex * 3 + neighborSlot];
-      meanHeight += terrain.height[cellIndex] / 3;
 
       if (terrain.ocean[cellIndex]) {
         outlet[cornerIndex] = 1;
       }
     }
-
-    height[cornerIndex] = meanHeight;
 
     if (outlet[cornerIndex]) {
       filled[cornerIndex] = 0;

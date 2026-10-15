@@ -2,7 +2,7 @@ import type { Grid, LandWater, Terrain, Drainage, Ecology, Rivers, WorldConfig }
 import { clamp } from '../math';
 import { buildFloodplains } from './floodplains';
 import { classifyWetlands } from './wetlands';
-import { exposedLandFraction } from './lake-state';
+import { exposedLandFraction, soilSalinityLimit } from './lake-state';
 
 export const BIOMES = [
   'Ocean',
@@ -129,7 +129,13 @@ export function classifyEcology(
     vegetation[cellIndex] =
       biomeIndex === 0 || biomeIndex === 1 || biomeIndex === 12
         ? 0
-        : (1 - Math.exp(-3 * waterAvailability)) * growingSeason;
+        : (1 - Math.exp(-3 * waterAvailability)) *
+          growingSeason *
+          soilSalinityLimit(
+            drainage.soilSalinity?.[cellIndex] ?? 0,
+            drainage.soilSalinityFraction?.[cellIndex] ?? 0,
+            exposedLandFraction(terrain, drainage, cellIndex),
+          );
   }
 
   const ecology: Ecology = {

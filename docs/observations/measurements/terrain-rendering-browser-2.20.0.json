@@ -1,0 +1,912 @@
+{
+  "version": "2.20.0",
+  "baseline": "c83c8b9d6c0e0974906c64da6cfeb7a09ee4af70",
+  "environment": {
+    "browser": "System Chromium",
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "webgl2": true,
+    "nativeMultiDrawSupported": true,
+    "fallback": "Fresh context; WEBGL_multi_draw removed from getSupportedExtensions and getExtension returns null.",
+    "smallViewport": [1440, 1000],
+    "maximumViewport": [2048, 1140]
+  },
+  "fixtures": {
+    "small": {
+      "seed": "AETHER-6389",
+      "originalCells": 10242,
+      "locallyRefinedCells": 15049
+    },
+    "maximumSavedWorld": {
+      "id": "8e9bd04e-2510-494f-a8cd-5dec9d87f5be",
+      "cells": 2621442,
+      "version": "2.16.1",
+      "bytes": 3427513728
+    },
+    "maximumNote": "Preserved uniform 2,621,442-cell snapshot; no generation or full simulation World restoration."
+  },
+  "coverage": [
+    "Natural, Shaded relief and Illustrated",
+    "Globe and flat map",
+    "North and south poles at relief26",
+    "Locally refined terrain and connected rivers",
+    "Active zoom subdivision and three on/off rebuilds",
+    "Physical picking",
+    "Snapshot replacement",
+    "Tectonic categorical dual geometry on globe/map",
+    "Elevation analytical shader on map",
+    "Native multi-draw and forced fallback"
+  ],
+  "maximum": {
+    "before": [
+      {
+        "name": "globe-wide",
+        "actualWebGLCalls": 1280,
+        "apiCalls": {
+          "drawElements": 1280
+        },
+        "submittedTriangles": 5242880,
+        "retainedPhysicalTriangles": 5242880,
+        "horizonCulledBatches": 0,
+        "horizonCulledTriangles": 0,
+        "drawSlabs": 0,
+        "retainedPhysicalVertices": 2621442,
+        "retainedCpuPositionBytes": null,
+        "accountedDisplayBytes": 768463597,
+        "terrainBatchMetadataCpuBytes": 0,
+        "uniqueSceneAndTerrainCacheCpuBytes": null,
+        "geometryArrayCpuBytes": 321996536,
+        "gpuSlabBytes": null,
+        "actualAllocatedWebGLBufferBytes": null,
+        "peakAllocatedWebGLBufferBytes": null,
+        "completedGpuFrameMs": 2700.300000011921,
+        "glErrors": [],
+        "camera": {
+          "position": [2.523979218038812, 2.020667218593133e-16, 2.1259183678843807],
+          "target": [0, 0, 0],
+          "zoom": 1
+        },
+        "image": "atlas-render-batching-before-highres-globe-wide.png"
+      },
+      {
+        "name": "globe-close",
+        "actualWebGLCalls": 97,
+        "apiCalls": {
+          "drawElements": 97
+        },
+        "submittedTriangles": 397312,
+        "retainedPhysicalTriangles": 5242880,
+        "horizonCulledBatches": 0,
+        "horizonCulledTriangles": 0,
+        "drawSlabs": 0,
+        "retainedPhysicalVertices": 2621442,
+        "retainedCpuPositionBytes": null,
+        "accountedDisplayBytes": 768463597,
+        "terrainBatchMetadataCpuBytes": 0,
+        "uniqueSceneAndTerrainCacheCpuBytes": null,
+        "geometryArrayCpuBytes": 321996536,
+        "gpuSlabBytes": null,
+        "actualAllocatedWebGLBufferBytes": null,
+        "peakAllocatedWebGLBufferBytes": null,
+        "completedGpuFrameMs": 270.90000000596046,
+        "glErrors": [],
+        "camera": {
+          "position": [0.02972052647370152, 1.149343302279518, 0.025033254110044128],
+          "target": [0, 0, 0],
+          "zoom": 3
+        },
+        "image": "atlas-render-batching-before-highres-globe-close.png"
+      },
+      {
+        "name": "map-wide",
+        "actualWebGLCalls": 1280,
+        "apiCalls": {
+          "drawElements": 1280
+        },
+        "submittedTriangles": 5249568,
+        "retainedPhysicalTriangles": 5242880,
+        "horizonCulledBatches": 0,
+        "horizonCulledTriangles": 0,
+        "drawSlabs": 0,
+        "retainedPhysicalVertices": 2621442,
+        "retainedCpuPositionBytes": null,
+        "accountedDisplayBytes": 776908013,
+        "terrainBatchMetadataCpuBytes": 0,
+        "uniqueSceneAndTerrainCacheCpuBytes": null,
+        "geometryArrayCpuBytes": 323249960,
+        "gpuSlabBytes": null,
+        "actualAllocatedWebGLBufferBytes": null,
+        "peakAllocatedWebGLBufferBytes": null,
+        "completedGpuFrameMs": 5456.9000000059605,
+        "glErrors": [],
+        "camera": {
+          "position": [0, 3.3677786976552215e-16, 5.5],
+          "target": [0, 0, 0],
+          "zoom": 1
+        },
+        "image": "atlas-render-batching-before-highres-map-wide.png"
+      }
+    ],
+    "after": [
+      {
+        "name": "globe-wide",
+        "actualWebGLCalls": 61,
+        "apiCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 61,
+          "multiDrawLogical": 753
+        },
+        "submittedTriangles": 3084288,
+        "retainedPhysicalTriangles": 5242880,
+        "horizonCulledBatches": 527,
+        "horizonCulledTriangles": 2158592,
+        "drawSlabs": 80,
+        "retainedPhysicalVertices": 2621442,
+        "retainedCpuPositionBytes": 33685320,
+        "accountedDisplayBytes": 746041533,
+        "terrainBatchMetadataCpuBytes": 34816,
+        "uniqueSceneAndTerrainCacheCpuBytes": 310768096,
+        "geometryArrayCpuBytes": 133341096,
+        "gpuSlabBytes": 177427000,
+        "actualAllocatedWebGLBufferBytes": 177456472,
+        "peakAllocatedWebGLBufferBytes": 179400172,
+        "completedGpuFrameMs": 2516.2000000029802,
+        "glErrors": [],
+        "camera": {
+          "position": [2.523979218038812, 2.020667218593133e-16, 2.1259183678843807],
+          "target": [0, 0, 0],
+          "zoom": 1
+        },
+        "image": "atlas-render-batching-after-highres-globe-wide.png"
+      },
+      {
+        "name": "globe-close",
+        "actualWebGLCalls": 10,
+        "apiCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 10,
+          "multiDrawLogical": 11
+        },
+        "submittedTriangles": 45056,
+        "retainedPhysicalTriangles": 5242880,
+        "horizonCulledBatches": 969,
+        "horizonCulledTriangles": 3969024,
+        "drawSlabs": 80,
+        "retainedPhysicalVertices": 2621442,
+        "retainedCpuPositionBytes": 33685320,
+        "accountedDisplayBytes": 746041533,
+        "terrainBatchMetadataCpuBytes": 34816,
+        "uniqueSceneAndTerrainCacheCpuBytes": 310768096,
+        "geometryArrayCpuBytes": 133341096,
+        "gpuSlabBytes": 177427000,
+        "actualAllocatedWebGLBufferBytes": 177456472,
+        "peakAllocatedWebGLBufferBytes": 179400172,
+        "completedGpuFrameMs": 232.70000000298023,
+        "glErrors": [],
+        "camera": {
+          "position": [0.02972052647370152, 1.149343302279518, 0.025033254110044128],
+          "target": [0, 0, 0],
+          "zoom": 3
+        },
+        "image": "atlas-render-batching-after-highres-globe-close.png"
+      },
+      {
+        "name": "map-wide",
+        "actualWebGLCalls": 80,
+        "apiCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 80,
+          "multiDrawLogical": 1280
+        },
+        "submittedTriangles": 5249568,
+        "retainedPhysicalTriangles": 5242880,
+        "horizonCulledBatches": 0,
+        "horizonCulledTriangles": 0,
+        "drawSlabs": 80,
+        "retainedPhysicalVertices": 2621442,
+        "retainedCpuPositionBytes": 33926088,
+        "accountedDisplayBytes": 753897329,
+        "terrainBatchMetadataCpuBytes": 37012,
+        "uniqueSceneAndTerrainCacheCpuBytes": 317448528,
+        "geometryArrayCpuBytes": 133430808,
+        "gpuSlabBytes": 178510456,
+        "actualAllocatedWebGLBufferBytes": 178510456,
+        "peakAllocatedWebGLBufferBytes": 180454156,
+        "completedGpuFrameMs": 5613.800000011921,
+        "glErrors": [],
+        "camera": {
+          "position": [0, 3.3677786976552215e-16, 5.5],
+          "target": [0, 0, 0],
+          "zoom": 1
+        },
+        "image": "atlas-render-batching-after-highres-map-wide.png"
+      }
+    ],
+    "wholeGlobeAccountedSavingBytes": 22422064,
+    "wholeGlobeMaterialAttributeCpuSavingBytes": 11228440,
+    "wholeGlobeMaterialAttributeGpuSavingBytes": 11228440,
+    "wholeGlobeBatchMetadataCpuBytes": 34816
+  },
+  "smallMemory": [
+    {
+      "name": "globe-wide",
+      "beforeSceneAndCacheCpuBytes": 5636876,
+      "afterSceneAndCacheCpuBytes": 5593124,
+      "batchMetadataCpuBytes": 24704,
+      "beforeActualWebGLBufferBytes": 764880,
+      "afterActualWebGLBufferBytes": 721128,
+      "afterPeakWebGLBufferBytes": 4223724,
+      "beforeAccountedDisplayBytes": 91238041,
+      "afterAccountedDisplayBytes": 91175241
+    },
+    {
+      "name": "globe-close",
+      "beforeSceneAndCacheCpuBytes": 5636876,
+      "afterSceneAndCacheCpuBytes": 5593124,
+      "batchMetadataCpuBytes": 24704,
+      "beforeActualWebGLBufferBytes": 764880,
+      "afterActualWebGLBufferBytes": 721128,
+      "afterPeakWebGLBufferBytes": 4223724,
+      "beforeAccountedDisplayBytes": 91238041,
+      "afterAccountedDisplayBytes": 91175241
+    },
+    {
+      "name": "globe-north",
+      "beforeSceneAndCacheCpuBytes": 5636876,
+      "afterSceneAndCacheCpuBytes": 5593124,
+      "batchMetadataCpuBytes": 24704,
+      "beforeActualWebGLBufferBytes": 764880,
+      "afterActualWebGLBufferBytes": 721128,
+      "afterPeakWebGLBufferBytes": 4223724,
+      "beforeAccountedDisplayBytes": 91238041,
+      "afterAccountedDisplayBytes": 91175241
+    },
+    {
+      "name": "globe-south",
+      "beforeSceneAndCacheCpuBytes": 5636876,
+      "afterSceneAndCacheCpuBytes": 5593124,
+      "batchMetadataCpuBytes": 24704,
+      "beforeActualWebGLBufferBytes": 764880,
+      "afterActualWebGLBufferBytes": 721128,
+      "afterPeakWebGLBufferBytes": 4223724,
+      "beforeAccountedDisplayBytes": 91238041,
+      "afterAccountedDisplayBytes": 91175241
+    },
+    {
+      "name": "map-wide",
+      "beforeSceneAndCacheCpuBytes": 6077852,
+      "afterSceneAndCacheCpuBytes": 6002684,
+      "batchMetadataCpuBytes": 25976,
+      "beforeActualWebGLBufferBytes": 808488,
+      "afterActualWebGLBufferBytes": 759696,
+      "afterPeakWebGLBufferBytes": 4194252,
+      "beforeAccountedDisplayBytes": 91756129,
+      "afterAccountedDisplayBytes": 91658145
+    },
+    {
+      "name": "relief-map-close",
+      "beforeSceneAndCacheCpuBytes": 7910912,
+      "afterSceneAndCacheCpuBytes": 7835744,
+      "batchMetadataCpuBytes": 25976,
+      "beforeActualWebGLBufferBytes": 808488,
+      "afterActualWebGLBufferBytes": 759696,
+      "afterPeakWebGLBufferBytes": 4194252,
+      "beforeAccountedDisplayBytes": 95422249,
+      "afterAccountedDisplayBytes": 95324265
+    },
+    {
+      "name": "illustrated-angle",
+      "beforeSceneAndCacheCpuBytes": 5659180,
+      "afterSceneAndCacheCpuBytes": 5615428,
+      "batchMetadataCpuBytes": 24704,
+      "beforeActualWebGLBufferBytes": 757712,
+      "afterActualWebGLBufferBytes": 713960,
+      "afterPeakWebGLBufferBytes": 4202940,
+      "beforeAccountedDisplayBytes": 110165105,
+      "afterAccountedDisplayBytes": 110102305
+    },
+    {
+      "name": "refined-rivers",
+      "beforeSceneAndCacheCpuBytes": 9144402,
+      "afterSceneAndCacheCpuBytes": 9080194,
+      "batchMetadataCpuBytes": 24704,
+      "beforeActualWebGLBufferBytes": 9144402,
+      "afterActualWebGLBufferBytes": 9080194,
+      "afterPeakWebGLBufferBytes": 12259178,
+      "beforeAccountedDisplayBytes": 118228654,
+      "afterAccountedDisplayBytes": 118124942
+    },
+    {
+      "name": "refined-zoom",
+      "beforeSceneAndCacheCpuBytes": 10651098,
+      "afterSceneAndCacheCpuBytes": 10450762,
+      "batchMetadataCpuBytes": 24704,
+      "beforeActualWebGLBufferBytes": 10651098,
+      "afterActualWebGLBufferBytes": 10679354,
+      "afterPeakWebGLBufferBytes": 12259178,
+      "beforeAccountedDisplayBytes": 122500126,
+      "afterAccountedDisplayBytes": 122352750
+    }
+  ],
+  "pixelComparisons": [
+    {
+      "size": "small",
+      "name": "globe-wide",
+      "changedPixels": 0,
+      "maximumChannelDifference": 0,
+      "beforeCalls": {
+        "drawElements": 5
+      },
+      "afterCalls": {
+        "drawElements": 0,
+        "multiDrawElementsWEBGL": 1,
+        "multiDrawLogical": 5
+      },
+      "beforeTriangles": 20480,
+      "afterTriangles": 20480
+    },
+    {
+      "size": "small",
+      "name": "globe-close",
+      "changedPixels": 0,
+      "maximumChannelDifference": 0,
+      "beforeCalls": {
+        "drawElements": 5
+      },
+      "afterCalls": {
+        "drawElements": 0,
+        "multiDrawElementsWEBGL": 1,
+        "multiDrawLogical": 5
+      },
+      "beforeTriangles": 20480,
+      "afterTriangles": 20480
+    },
+    {
+      "size": "small",
+      "name": "globe-north",
+      "changedPixels": 0,
+      "maximumChannelDifference": 0,
+      "beforeCalls": {
+        "drawElements": 5
+      },
+      "afterCalls": {
+        "drawElements": 0,
+        "multiDrawElementsWEBGL": 1,
+        "multiDrawLogical": 5
+      },
+      "beforeTriangles": 20480,
+      "afterTriangles": 20480
+    },
+    {
+      "size": "small",
+      "name": "globe-south",
+      "changedPixels": 0,
+      "maximumChannelDifference": 0,
+      "beforeCalls": {
+        "drawElements": 5
+      },
+      "afterCalls": {
+        "drawElements": 0,
+        "multiDrawElementsWEBGL": 1,
+        "multiDrawLogical": 5
+      },
+      "beforeTriangles": 20480,
+      "afterTriangles": 20480
+    },
+    {
+      "size": "small",
+      "name": "map-wide",
+      "changedPixels": 0,
+      "maximumChannelDifference": 0,
+      "beforeCalls": {
+        "drawElements": 5
+      },
+      "afterCalls": {
+        "drawElements": 0,
+        "multiDrawElementsWEBGL": 1,
+        "multiDrawLogical": 5
+      },
+      "beforeTriangles": 20900,
+      "afterTriangles": 20900
+    },
+    {
+      "size": "small",
+      "name": "relief-map-close",
+      "changedPixels": 0,
+      "maximumChannelDifference": 0,
+      "beforeCalls": {
+        "drawElements": 5
+      },
+      "afterCalls": {
+        "drawElements": 0,
+        "multiDrawElementsWEBGL": 1,
+        "multiDrawLogical": 5
+      },
+      "beforeTriangles": 20900,
+      "afterTriangles": 20900
+    },
+    {
+      "size": "small",
+      "name": "illustrated-angle",
+      "changedPixels": 0,
+      "maximumChannelDifference": 0,
+      "beforeCalls": {
+        "drawElements": 5,
+        "drawArrays": 5
+      },
+      "afterCalls": {
+        "drawElements": 0,
+        "multiDrawElementsWEBGL": 1,
+        "multiDrawLogical": 5,
+        "drawArrays": 5
+      },
+      "beforeTriangles": 20480,
+      "afterTriangles": 20480
+    },
+    {
+      "size": "small",
+      "name": "refined-rivers",
+      "changedPixels": 0,
+      "maximumChannelDifference": 0,
+      "beforeCalls": {
+        "drawElements": 15,
+        "drawArrays": 0
+      },
+      "afterCalls": {
+        "drawElements": 7,
+        "multiDrawElementsWEBGL": 1,
+        "multiDrawLogical": 7,
+        "drawArrays": 0
+      },
+      "beforeTriangles": 279464,
+      "afterTriangles": 275368
+    },
+    {
+      "size": "small",
+      "name": "refined-zoom",
+      "changedPixels": 0,
+      "maximumChannelDifference": 0,
+      "beforeCalls": {
+        "drawElements": 16,
+        "drawArrays": 0
+      },
+      "afterCalls": {
+        "drawElements": 10,
+        "multiDrawElementsWEBGL": 1,
+        "multiDrawLogical": 5,
+        "drawArrays": 0
+      },
+      "beforeTriangles": 295508,
+      "afterTriangles": 291412
+    },
+    {
+      "size": "highres",
+      "name": "globe-wide",
+      "changedPixels": 2,
+      "maximumChannelDifference": 27,
+      "beforeCalls": {
+        "drawElements": 1280
+      },
+      "afterCalls": {
+        "drawElements": 0,
+        "multiDrawElementsWEBGL": 61,
+        "multiDrawLogical": 753
+      },
+      "beforeTriangles": 5242880,
+      "afterTriangles": 3084288
+    },
+    {
+      "size": "highres",
+      "name": "globe-close",
+      "changedPixels": 0,
+      "maximumChannelDifference": 0,
+      "beforeCalls": {
+        "drawElements": 97
+      },
+      "afterCalls": {
+        "drawElements": 0,
+        "multiDrawElementsWEBGL": 10,
+        "multiDrawLogical": 11
+      },
+      "beforeTriangles": 397312,
+      "afterTriangles": 45056
+    },
+    {
+      "size": "highres",
+      "name": "map-wide",
+      "changedPixels": 0,
+      "maximumChannelDifference": 0,
+      "beforeCalls": {
+        "drawElements": 1280
+      },
+      "afterCalls": {
+        "drawElements": 0,
+        "multiDrawElementsWEBGL": 80,
+        "multiDrawLogical": 1280
+      },
+      "beforeTriangles": 5249568,
+      "afterTriangles": 5249568
+    }
+  ],
+  "fallbackComparisons": [
+    {
+      "name": "globe-wide",
+      "changedPixels": 0,
+      "glErrors": [],
+      "multiDrawSupported": false,
+      "glCalls": {
+        "drawElements": 5
+      }
+    },
+    {
+      "name": "globe-close",
+      "changedPixels": 0,
+      "glErrors": [],
+      "multiDrawSupported": false,
+      "glCalls": {
+        "drawElements": 5
+      }
+    },
+    {
+      "name": "globe-north",
+      "changedPixels": 0,
+      "glErrors": [],
+      "multiDrawSupported": false,
+      "glCalls": {
+        "drawElements": 5
+      }
+    },
+    {
+      "name": "globe-south",
+      "changedPixels": 0,
+      "glErrors": [],
+      "multiDrawSupported": false,
+      "glCalls": {
+        "drawElements": 5
+      }
+    },
+    {
+      "name": "map-wide",
+      "changedPixels": 0,
+      "glErrors": [],
+      "multiDrawSupported": false,
+      "glCalls": {
+        "drawElements": 5
+      }
+    },
+    {
+      "name": "relief-map-close",
+      "changedPixels": 0,
+      "glErrors": [],
+      "multiDrawSupported": false,
+      "glCalls": {
+        "drawElements": 5
+      }
+    },
+    {
+      "name": "illustrated-angle",
+      "changedPixels": 0,
+      "glErrors": [],
+      "multiDrawSupported": false,
+      "glCalls": {
+        "drawElements": 5,
+        "drawArrays": 5
+      }
+    },
+    {
+      "name": "refined-rivers",
+      "changedPixels": 0,
+      "glErrors": [],
+      "multiDrawSupported": false,
+      "glCalls": {
+        "drawElements": 14,
+        "drawArrays": 0
+      }
+    },
+    {
+      "name": "refined-zoom",
+      "changedPixels": 0,
+      "glErrors": [],
+      "multiDrawSupported": false,
+      "glCalls": {
+        "drawElements": 15,
+        "drawArrays": 0
+      }
+    }
+  ],
+  "layerComparisons": [
+    {
+      "name": "categorical-globe",
+      "changedPixels": 0,
+      "maximumChannelDifference": 0,
+      "beforeCalls": {
+        "drawElements": 8
+      },
+      "afterCalls": {
+        "drawElements": 0,
+        "multiDrawElementsWEBGL": 1,
+        "multiDrawLogical": 8
+      },
+      "beforeTriangles": 90282,
+      "afterTriangles": 90282,
+      "glErrors": []
+    },
+    {
+      "name": "categorical-map",
+      "changedPixels": 0,
+      "maximumChannelDifference": 0,
+      "beforeCalls": {
+        "drawElements": 8
+      },
+      "afterCalls": {
+        "drawElements": 0,
+        "multiDrawElementsWEBGL": 1,
+        "multiDrawLogical": 8
+      },
+      "beforeTriangles": 91010,
+      "afterTriangles": 91010,
+      "glErrors": []
+    },
+    {
+      "name": "analytical-map",
+      "changedPixels": 0,
+      "maximumChannelDifference": 0,
+      "beforeCalls": {
+        "drawElements": 8
+      },
+      "afterCalls": {
+        "drawElements": 0,
+        "multiDrawElementsWEBGL": 1,
+        "multiDrawLogical": 8
+      },
+      "beforeTriangles": 30514,
+      "afterTriangles": 30514,
+      "glErrors": []
+    }
+  ],
+  "picking": {
+    "before": {
+      "count": 1,
+      "anchor": [0.014411680541100712, 0.6419202355828402, 0.7666359726840716]
+    },
+    "after": {
+      "count": 1,
+      "anchor": [0.014411680541100712, 0.6419202355828402, 0.7666359726840716]
+    },
+    "exact": true
+  },
+  "zoomRecovery": {
+    "steps": [
+      {
+        "name": "off-initial",
+        "allocatedWebGLBufferBytes": 9080194,
+        "peakAllocatedWebGLBufferBytes": 9080194,
+        "originalCpuPositionBytes": 192624,
+        "zoomVertices": 0,
+        "zoomBytes": 0
+      },
+      {
+        "name": "on-1",
+        "allocatedWebGLBufferBytes": 10679354,
+        "peakAllocatedWebGLBufferBytes": 10679354,
+        "originalCpuPositionBytes": 192624,
+        "zoomVertices": 8508,
+        "zoomBytes": 4227808
+      },
+      {
+        "name": "off-1",
+        "allocatedWebGLBufferBytes": 9080194,
+        "peakAllocatedWebGLBufferBytes": 10679354,
+        "originalCpuPositionBytes": 192624,
+        "zoomVertices": 0,
+        "zoomBytes": 0
+      },
+      {
+        "name": "on-2",
+        "allocatedWebGLBufferBytes": 10679354,
+        "peakAllocatedWebGLBufferBytes": 10679354,
+        "originalCpuPositionBytes": 192624,
+        "zoomVertices": 8508,
+        "zoomBytes": 4227808
+      },
+      {
+        "name": "off-2",
+        "allocatedWebGLBufferBytes": 9080194,
+        "peakAllocatedWebGLBufferBytes": 10679354,
+        "originalCpuPositionBytes": 192624,
+        "zoomVertices": 0,
+        "zoomBytes": 0
+      },
+      {
+        "name": "on-3",
+        "allocatedWebGLBufferBytes": 10679354,
+        "peakAllocatedWebGLBufferBytes": 10679354,
+        "originalCpuPositionBytes": 192624,
+        "zoomVertices": 8508,
+        "zoomBytes": 4227808
+      },
+      {
+        "name": "off-3",
+        "allocatedWebGLBufferBytes": 9080194,
+        "peakAllocatedWebGLBufferBytes": 10679354,
+        "originalCpuPositionBytes": 192624,
+        "zoomVertices": 0,
+        "zoomBytes": 0
+      }
+    ],
+    "pixelComparisons": [
+      {
+        "before": "off-initial",
+        "after": "off-1",
+        "changedPixels": 0
+      },
+      {
+        "before": "off-initial",
+        "after": "off-2",
+        "changedPixels": 0
+      },
+      {
+        "before": "off-initial",
+        "after": "off-3",
+        "changedPixels": 0
+      },
+      {
+        "before": "on-1",
+        "after": "on-2",
+        "changedPixels": 0
+      },
+      {
+        "before": "on-1",
+        "after": "on-3",
+        "changedPixels": 0
+      }
+    ]
+  },
+  "checks": [
+    {
+      "name": "nine-small-native-views-pixel-identical",
+      "passed": true
+    },
+    {
+      "name": "nine-forced-fallback-views-pixel-identical-to-native",
+      "passed": true
+    },
+    {
+      "name": "categorical-globe-map-and-analytical-map-pixel-identical",
+      "passed": true
+    },
+    {
+      "name": "maximum-close-globe-and-wide-map-pixel-identical",
+      "passed": true
+    },
+    {
+      "name": "physical-picking-exactly-matches-baseline",
+      "passed": true
+    },
+    {
+      "name": "all-final-browser-and-webgl-error-checks-clean",
+      "passed": true
+    },
+    {
+      "name": "all-maximum-physical-topology-retained",
+      "passed": true
+    },
+    {
+      "name": "material5-removed-from-fixed-and-zoom-geometry",
+      "passed": true
+    },
+    {
+      "name": "maximum-camera-projection-reuses-physical-and-river-source",
+      "passed": true,
+      "counts": [1462, 1462, 1462]
+    },
+    {
+      "name": "off-initial-webgl-errors-empty",
+      "passed": true
+    },
+    {
+      "name": "on-1-webgl-errors-empty",
+      "passed": true
+    },
+    {
+      "name": "off-1-webgl-errors-empty",
+      "passed": true
+    },
+    {
+      "name": "on-2-webgl-errors-empty",
+      "passed": true
+    },
+    {
+      "name": "off-2-webgl-errors-empty",
+      "passed": true
+    },
+    {
+      "name": "on-3-webgl-errors-empty",
+      "passed": true
+    },
+    {
+      "name": "off-3-webgl-errors-empty",
+      "passed": true
+    },
+    {
+      "name": "repeated-zoom-off-restores-exact-steady-webgl-buffer-bytes",
+      "passed": true,
+      "values": [9080194, 9080194, 9080194, 9080194]
+    },
+    {
+      "name": "repeated-zoom-on-uses-same-steady-webgl-buffer-bytes",
+      "passed": true,
+      "values": [10679354, 10679354, 10679354]
+    },
+    {
+      "name": "no-additional-physical-river-or-sample-reads",
+      "passed": true
+    },
+    {
+      "name": "physical-picking-stable-across-three-rebuilds",
+      "passed": true
+    },
+    {
+      "name": "cpu-positions-retained-after-batching-and-mask-recovery",
+      "passed": true
+    },
+    {
+      "name": "categorical-globe-webgl-errors-empty",
+      "passed": true
+    },
+    {
+      "name": "categorical-map-webgl-errors-empty",
+      "passed": true
+    },
+    {
+      "name": "analytical-map-webgl-errors-empty",
+      "passed": true
+    },
+    {
+      "name": "repeated-zoom-rebuilds-restore-exact-images",
+      "passed": true
+    }
+  ],
+  "errors": {
+    "finalBrowserErrors": [],
+    "finalWebGLErrors": [],
+    "warnings": "Only screenshot ReadPixels GPU-stall warnings were observed in final runs.",
+    "resolvedDuringQA": "Initial index buffers allocated through COPY_WRITE_BUFFER produced INVALID_OPERATION1282 and blank terrain. The owned-VAO initial ELEMENT_ARRAY_BUFFER bind correction was verified with real pixels and gl.getError before acceptance. The failed diagnostic report is preserved separately."
+  },
+  "largestGlobePixelException": {
+    "changedPixels": 2,
+    "imagePixels": 2334720,
+    "maximumChannelDifference": 27,
+    "positions": [
+      [1468, 614],
+      [1375, 890]
+    ],
+    "note": "Two isolated interior color flecks differ; no contiguous gap or silhouette change was observed. Cause is not established. Whole-globe pixel parity is not claimed; close globe and map are exact. No extra maximum-world reload was performed to isolate the cause."
+  },
+  "measurementNotes": [
+    "Real WebGL method wrappers count native multiDraw calls separately from logical ranges; Three renderer.info is not used as the authoritative API-call count.",
+    "Actual bufferData/deleteBuffer instrumentation counts allocated WebGL buffer bytes by native buffer identity. It excludes textures, framebuffers, driver/runtime overhead and allocator behavior. Peak is buffer allocation peak within each context, not total process peak.",
+    "CPU ownership audit deduplicates scene ArrayBuffers plus retained original terrain handles and packet caches. Batching metadata/scratch arrays are reported separately from that audit and included in the application displayBytes accounting. GPU-only GLBufferAttribute storage is measured without assuming an array property.",
+    "The maximum baseline predates allocation-hook instrumentation; its direct native buffer-allocation fields are null. Its accounted displayBytes and geometry arrays remain comparable. The small baseline and all final runs have actual allocation instrumentation.",
+    "CPU displaced positions remain resident for picking and zoom reconstruction. Original CPU handles are removed only from rendering; the native slab allocation equals the replacement terrain GPU bytes.",
+    "An active zoom patch needs private ordinary-mask GPU wrappers: the small refined zoom view allocates28,256 more GPU buffer bytes than baseline while retaining200,336 fewer CPU array bytes. Three cycles recover the exact original steady allocation and images.",
+    "Completed GPU-frame timings use real WebGL fences on SwiftShader. They are single observations, not hardware GPU speed claims or a statistical benchmark.",
+    "The full physical topology stays resident. Horizon/frustum culling changes only submitted hidden work, and multi-draw keeps packet ranges in original order."
+  ],
+  "rawReports": [
+    "atlas-render-batching-before-small-qa.json",
+    "atlas-render-batching-before-highres-qa.json",
+    "atlas-render-batching-after-small-qa.json",
+    "atlas-render-batching-after-small-fallback-qa.json",
+    "atlas-render-batching-after-highres-qa.json",
+    "atlas-render-batching-lifecycle-qa.json",
+    "atlas-render-batching-layer-comparison.json"
+  ],
+  "passed": true,
+  "cleanup": {
+    "qaBrowserClosed": true,
+    "qa5176Stopped": true,
+    "root5175Preserved": true,
+    "profilesPreserved": true,
+    "inspector9229Closed": true
+  }
+}

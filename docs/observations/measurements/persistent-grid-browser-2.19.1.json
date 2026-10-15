@@ -1,0 +1,486 @@
+{
+  "version": "2.19.1",
+  "baseline": "980af7cf8dda6d98405db2d2bb563afa4894ab58",
+  "scope": "Frozen baseline and browser renderer on generated AETHER-6389 (10,242 cells), its locally refined 15,049-cell snapshot, and the preserved 2,621,442-cell uniform saved world. The maximum world was neither regenerated nor restored into a full simulation World object.",
+  "environment": {
+    "browser": "System Chromium",
+    "renderer": "ANGLE / SwiftShader software rendering",
+    "smallViewport": [1440, 1000],
+    "largeViewport": [2048, 1140]
+  },
+  "small": {
+    "report": "atlas-persistent-grid-final-small-qa.json",
+    "baselineReport": "atlas-persistent-grid-before-small-qa.json",
+    "checkpoints": 19,
+    "cases": [
+      "whole globe",
+      "close globe",
+      "camera angle",
+      "north and south pole",
+      "whole flat map",
+      "close flat map",
+      "locally refined terrain",
+      "Natural/Shaded relief/Illustrated",
+      "season",
+      "analytical layer",
+      "relief 1 and 26",
+      "toggle cache reuse",
+      "projection cache reuse",
+      "snapshot replacement"
+    ],
+    "originalEdges": 30720,
+    "refinedEdges": 45141,
+    "originalGridRpcCalls": 5,
+    "refinedGridRpcCalls": 7,
+    "firstEnableObservedMs": 648,
+    "errors": [],
+    "provenance": "Geometry/lifecycle matrix before the final progress-redraw throttle and ink restoration. Geometry, source packets and cache behavior remained unchanged."
+  },
+  "maximumWorld": {
+    "report": "atlas-persistent-grid-final-highres-qa.json",
+    "baselineReport": "atlas-persistent-grid-before-highres-qa.json",
+    "snapshot": {
+      "id": "8e9bd04e-2510-494f-a8cd-5dec9d87f5be",
+      "cells": 2621442,
+      "version": "2.16.1",
+      "bytes": 3427513728
+    },
+    "retainedPhysicalVertices": 2621442,
+    "retainedGridEdges": 7864320,
+    "initialGridRequests": 961,
+    "steps": [
+      {
+        "name": "globe-wide-off",
+        "logicalEdges": 0,
+        "allEdges": 0,
+        "loadedBatches": 0,
+        "renderedBatches": null,
+        "visibleBatches": 0,
+        "culledBatches": 0,
+        "gridDrawCalls": 0,
+        "totalSceneDrawCalls": 1280,
+        "submittedLineSegments": 0,
+        "gridSourceCpuBytes": 0,
+        "gridAdditionalCpuBytes": 0,
+        "gridGpuBytes": 0,
+        "gridAccountedBytes": 0,
+        "auditedGridCpuBytes": 0,
+        "auditedGridGpuBytes": 0,
+        "displayAccountedBytes": 768463597,
+        "lastGpuCompletedFrameMs": 3054.9,
+        "gridRpcCalls": 0,
+        "gridWorkerReleased": false
+      },
+      {
+        "name": "globe-wide-on",
+        "logicalEdges": 7864320,
+        "allEdges": 7864320,
+        "loadedBatches": 960,
+        "renderedBatches": null,
+        "visibleBatches": 516,
+        "culledBatches": 444,
+        "gridDrawCalls": 516,
+        "totalSceneDrawCalls": 1796,
+        "submittedLineSegments": 4227072,
+        "gridSourceCpuBytes": 118429440,
+        "gridAdditionalCpuBytes": 0,
+        "gridGpuBytes": 118429440,
+        "gridAccountedBytes": 236858880,
+        "auditedGridCpuBytes": 118429440,
+        "auditedGridGpuBytes": 118429440,
+        "displayAccountedBytes": 1005322477,
+        "lastGpuCompletedFrameMs": 5992.1,
+        "gridRpcCalls": 961,
+        "gridWorkerReleased": true
+      },
+      {
+        "name": "globe-close-on",
+        "logicalEdges": 7864320,
+        "allEdges": 7864320,
+        "loadedBatches": 960,
+        "renderedBatches": null,
+        "visibleBatches": 24,
+        "culledBatches": 936,
+        "gridDrawCalls": 24,
+        "totalSceneDrawCalls": 121,
+        "submittedLineSegments": 196608,
+        "gridSourceCpuBytes": 118429440,
+        "gridAdditionalCpuBytes": 0,
+        "gridGpuBytes": 118429440,
+        "gridAccountedBytes": 236858880,
+        "auditedGridCpuBytes": 118429440,
+        "auditedGridGpuBytes": 118429440,
+        "displayAccountedBytes": 1005322477,
+        "lastGpuCompletedFrameMs": 299.2,
+        "gridRpcCalls": 961,
+        "gridWorkerReleased": true
+      },
+      {
+        "name": "globe-close-off",
+        "logicalEdges": 7864320,
+        "allEdges": 7864320,
+        "loadedBatches": 960,
+        "renderedBatches": null,
+        "visibleBatches": 0,
+        "culledBatches": 960,
+        "gridDrawCalls": 0,
+        "totalSceneDrawCalls": 97,
+        "submittedLineSegments": 0,
+        "gridSourceCpuBytes": 118429440,
+        "gridAdditionalCpuBytes": 0,
+        "gridGpuBytes": 118429440,
+        "gridAccountedBytes": 236858880,
+        "auditedGridCpuBytes": 118429440,
+        "auditedGridGpuBytes": 118429440,
+        "displayAccountedBytes": 1005322477,
+        "lastGpuCompletedFrameMs": 272.3,
+        "gridRpcCalls": 961,
+        "gridWorkerReleased": true
+      },
+      {
+        "name": "globe-close-restored",
+        "logicalEdges": 7864320,
+        "allEdges": 7864320,
+        "loadedBatches": 960,
+        "renderedBatches": null,
+        "visibleBatches": 24,
+        "culledBatches": 936,
+        "gridDrawCalls": 24,
+        "totalSceneDrawCalls": 121,
+        "submittedLineSegments": 196608,
+        "gridSourceCpuBytes": 118429440,
+        "gridAdditionalCpuBytes": 0,
+        "gridGpuBytes": 118429440,
+        "gridAccountedBytes": 236858880,
+        "auditedGridCpuBytes": 118429440,
+        "auditedGridGpuBytes": 118429440,
+        "displayAccountedBytes": 1005322477,
+        "lastGpuCompletedFrameMs": 310.4,
+        "gridRpcCalls": 961,
+        "gridWorkerReleased": true
+      },
+      {
+        "name": "map-wide-off",
+        "logicalEdges": 0,
+        "allEdges": 7864320,
+        "loadedBatches": 0,
+        "renderedBatches": null,
+        "visibleBatches": 0,
+        "culledBatches": 0,
+        "gridDrawCalls": 0,
+        "totalSceneDrawCalls": 1280,
+        "submittedLineSegments": 0,
+        "gridSourceCpuBytes": 118429440,
+        "gridAdditionalCpuBytes": 0,
+        "gridGpuBytes": 0,
+        "gridAccountedBytes": 118429440,
+        "auditedGridCpuBytes": 118429440,
+        "auditedGridGpuBytes": 0,
+        "displayAccountedBytes": 895337453,
+        "lastGpuCompletedFrameMs": 5751.5,
+        "gridRpcCalls": 961,
+        "gridWorkerReleased": true
+      },
+      {
+        "name": "map-wide-on",
+        "logicalEdges": 7864320,
+        "allEdges": 7864320,
+        "loadedBatches": 960,
+        "renderedBatches": null,
+        "visibleBatches": 960,
+        "culledBatches": 0,
+        "gridDrawCalls": 960,
+        "totalSceneDrawCalls": 2240,
+        "submittedLineSegments": 7865993,
+        "gridSourceCpuBytes": 118429440,
+        "gridAdditionalCpuBytes": 66717756,
+        "gridGpuBytes": 96733244,
+        "gridAccountedBytes": 281880440,
+        "auditedGridCpuBytes": 185147196,
+        "auditedGridGpuBytes": 96733244,
+        "displayAccountedBytes": 1058788453,
+        "lastGpuCompletedFrameMs": 10999.79999999702,
+        "gridRpcCalls": 961,
+        "gridWorkerReleased": true
+      },
+      {
+        "name": "map-close-on",
+        "logicalEdges": 7864320,
+        "allEdges": 7864320,
+        "loadedBatches": 960,
+        "renderedBatches": null,
+        "visibleBatches": 61,
+        "culledBatches": 899,
+        "gridDrawCalls": 61,
+        "totalSceneDrawCalls": 122,
+        "submittedLineSegments": 501385,
+        "gridSourceCpuBytes": 118429440,
+        "gridAdditionalCpuBytes": 66717756,
+        "gridGpuBytes": 96733244,
+        "gridAccountedBytes": 281880440,
+        "auditedGridCpuBytes": 185147196,
+        "auditedGridGpuBytes": 96733244,
+        "displayAccountedBytes": 1058788453,
+        "lastGpuCompletedFrameMs": 354.2,
+        "gridRpcCalls": 961,
+        "gridWorkerReleased": true
+      }
+    ],
+    "baselineSteps": [
+      {
+        "name": "globe-wide-off",
+        "logicalGridEdges": 0,
+        "gridStatus": "",
+        "sceneDrawCalls": 1280,
+        "displayAccountedBytes": 768463597
+      },
+      {
+        "name": "globe-wide-on",
+        "logicalGridEdges": 0,
+        "gridStatus": "zoom-in",
+        "sceneDrawCalls": 1280,
+        "displayAccountedBytes": 768463597
+      },
+      {
+        "name": "globe-close-on",
+        "logicalGridEdges": 3377,
+        "gridStatus": "visible",
+        "sceneDrawCalls": 98,
+        "displayAccountedBytes": 768679725
+      },
+      {
+        "name": "globe-close-off",
+        "logicalGridEdges": 0,
+        "gridStatus": "",
+        "sceneDrawCalls": 97,
+        "displayAccountedBytes": 768463597
+      },
+      {
+        "name": "globe-close-restored",
+        "logicalGridEdges": 3377,
+        "gridStatus": "visible",
+        "sceneDrawCalls": 98,
+        "displayAccountedBytes": 768679725
+      },
+      {
+        "name": "map-wide-off",
+        "logicalGridEdges": 0,
+        "gridStatus": "",
+        "sceneDrawCalls": 1280,
+        "displayAccountedBytes": 776908013
+      },
+      {
+        "name": "map-wide-on",
+        "logicalGridEdges": 0,
+        "gridStatus": "zoom-in",
+        "sceneDrawCalls": 1280,
+        "displayAccountedBytes": 776908013
+      },
+      {
+        "name": "map-close-on",
+        "logicalGridEdges": 241,
+        "gridStatus": "visible",
+        "sceneDrawCalls": 62,
+        "displayAccountedBytes": 776938861
+      }
+    ],
+    "errors": [],
+    "provenance": "Initial grid loading and map cache replay used diagnostic suppression of intermediate draws to isolate redraw pressure. Normal rendering was restored for final screenshots and geometry/culling/cache checks. These loading intervals are excluded from production readiness claims. The global-map completed-frame value comes from a normal explicit render and WebGL fence, replacing the dataset value contaminated by suppressed frames."
+  },
+  "finalProductionLoad": {
+    "report": "atlas-persistent-grid-cold-release-highres-qa.json",
+    "provenance": "Fresh browser renderer on the unchanged preserved snapshot after the progress and props fixes and final original full-grid ink restoration. Normal production rendering throughout; no draw suppression or runtime patch. This is a cold grid packet cache, with filesystem/IndexedDB OS cache warmth uncontrolled. A later error-transition-only redraw change is not exercised by this successful-load capture; the normal successful path is unchanged.",
+    "firstGridReadyMs": 67726,
+    "stableConfirmationMs": 68648,
+    "steps": [
+      {
+        "name": "globe-wide-off",
+        "logicalEdges": 0,
+        "allEdges": 0,
+        "loadedBatches": 0,
+        "renderedBatches": 0,
+        "visibleBatches": 0,
+        "culledBatches": 0,
+        "gridDrawCalls": 0,
+        "totalSceneDrawCalls": 1280,
+        "submittedLineSegments": 0,
+        "gridSourceCpuBytes": 0,
+        "gridAdditionalCpuBytes": 0,
+        "gridGpuBytes": 0,
+        "gridAccountedBytes": 0,
+        "auditedGridCpuBytes": 0,
+        "auditedGridGpuBytes": 0,
+        "displayAccountedBytes": 768463597,
+        "lastGpuCompletedFrameMs": 2990.5,
+        "gridRpcCalls": 0,
+        "gridWorkerReleased": false
+      },
+      {
+        "name": "globe-wide-on",
+        "logicalEdges": 7864320,
+        "allEdges": 7864320,
+        "loadedBatches": 960,
+        "renderedBatches": 960,
+        "visibleBatches": 516,
+        "culledBatches": 444,
+        "gridDrawCalls": 516,
+        "totalSceneDrawCalls": 1796,
+        "submittedLineSegments": 4227072,
+        "gridSourceCpuBytes": 118429440,
+        "gridAdditionalCpuBytes": 0,
+        "gridGpuBytes": 118429440,
+        "gridAccountedBytes": 236858880,
+        "auditedGridCpuBytes": 118429440,
+        "auditedGridGpuBytes": 118429440,
+        "displayAccountedBytes": 1005322477,
+        "lastGpuCompletedFrameMs": 6228.0,
+        "gridRpcCalls": 961,
+        "gridWorkerReleased": true
+      }
+    ],
+    "errors": [],
+    "image": "atlas-persistent-grid-cold-release-highres-globe-wide-on.png"
+  },
+  "redrawDiagnosis": {
+    "report": "atlas-persistent-grid-render-suppression-diagnostic.json",
+    "normalBeforeFix": {
+      "packetsReceived": 7,
+      "intervalMs": 19156.8
+    },
+    "diagnosticSuppressedDraws": {
+      "packetsReceived": 634,
+      "intervalMs": 15000.8
+    },
+    "unblockedGridBatchRpcMs": [5.4, 12.7],
+    "conclusion": "Per-packet full-scene redraw pressure dominated preparation. Production now bounds progress frames and ignores callback-only input changes. Diagnostic timings are not release load timings."
+  },
+  "gridInk": {
+    "finalColor": "#a0c6ca",
+    "finalOpacity": 0.13,
+    "comparisonImage": "atlas-persistent-grid-highres-map-legacy-grid-ink.png",
+    "previousDenseImage": "atlas-persistent-grid-final-highres-map-wide-on.png",
+    "note": "Restores the original full-grid styling. The comparison changed uniforms only and restored them afterward; final production cold capture uses the source change."
+  },
+  "pixelChecks": {
+    "gridOff": [
+      {
+        "before": "atlas-persistent-grid-before-small-globe-wide-off.png",
+        "after": "atlas-persistent-grid-final-small-globe-wide-off.png",
+        "changedPixels": 0,
+        "maximumChannelDifference": 0
+      },
+      {
+        "before": "atlas-persistent-grid-before-highres-globe-wide-off.png",
+        "after": "atlas-persistent-grid-final-highres-globe-wide-off.png",
+        "changedPixels": 0,
+        "maximumChannelDifference": 0
+      },
+      {
+        "before": "atlas-persistent-grid-before-highres-globe-close-off.png",
+        "after": "atlas-persistent-grid-final-highres-globe-close-off.png",
+        "changedPixels": 0,
+        "maximumChannelDifference": 0
+      },
+      {
+        "before": "atlas-persistent-grid-before-highres-map-wide-off.png",
+        "after": "atlas-persistent-grid-final-highres-map-wide-off.png",
+        "changedPixels": 0,
+        "maximumChannelDifference": 0
+      },
+      {
+        "before": "atlas-persistent-grid-before-highres-globe-wide-off.png",
+        "after": "atlas-persistent-grid-cold-release-highres-globe-wide-off.png",
+        "changedPixels": 0,
+        "maximumChannelDifference": 0
+      }
+    ],
+    "cachedReenable": {
+      "before": "atlas-persistent-grid-final-highres-globe-close-on.png",
+      "after": "atlas-persistent-grid-final-highres-globe-close-restored.png",
+      "changedPixels": 0,
+      "maximumChannelDifference": 0
+    }
+  },
+  "checks": [
+    {
+      "name": "camera-toggle-style-season-layer-relief-projection-reuse-grid-source",
+      "passed": true,
+      "before": 12,
+      "after": 12
+    },
+    {
+      "name": "off-on-retains-compact-grid-cache",
+      "passed": true
+    },
+    {
+      "name": "grid-off-hides-draws",
+      "passed": true
+    },
+    {
+      "name": "original-camera-grid-request-count-stays-fixed",
+      "passed": true
+    },
+    {
+      "name": "actual-saved-2621442-world",
+      "passed": true
+    },
+    {
+      "name": "camera-and-projection-no-grid-source-reads",
+      "passed": true,
+      "before": 961,
+      "after": 961
+    },
+    {
+      "name": "off-on-and-projection-reuse-grid-packet-cache",
+      "passed": true
+    },
+    {
+      "name": "all-physical-edges-resident-and-worker-released",
+      "passed": true
+    },
+    {
+      "name": "off-hides-grid-draws",
+      "passed": true
+    },
+    {
+      "name": "actual-saved-2621442-world",
+      "passed": true
+    },
+    {
+      "name": "full-grid-ready-with-normal-production-rendering",
+      "passed": true
+    },
+    {
+      "name": "source-replacement-uses-new-grid-cache-and-refined-topology",
+      "passed": true
+    },
+    {
+      "name": "all-five-grid-off-images-exactly-match-baseline",
+      "passed": true
+    },
+    {
+      "name": "cached-grid-reenable-exactly-reproduces-on-image",
+      "passed": true
+    }
+  ],
+  "measurementLimits": [
+    "Readiness is a single observational run with approximately 150 ms polling and a separate 900 ms stability confirmation. It includes required GPU completion and is not a statistical benchmark.",
+    "GPU frame numbers are completed fence timings on software rendering, not CPU submission times or hardware FPS claims.",
+    "Accounted grid memory includes one compact packet copy, additional map projection arrays where needed, and estimated geometry GPU storage. Culled buffers may not yet be uploaded, so GPU figures can be an upper bound. Worker/runtime/driver overhead, allocator overhead and peak memory are excluded. The independent CPU audit deduplicates ArrayBuffer ownership; the GPU audit deduplicates BufferAttribute objects.",
+    "All physical grid edges remain resident. Camera culling suppresses only invisible batches; submitted lines can include offscreen/back-facing fragments inside a visible batch.",
+    "Camera motion performs no additional grid packet, physical terrain, river or sample requests. The existing generic overlays path can still issue an empty overlay request per camera change.",
+    "Grid-ON images can differ from the old local overlay at water because saved lake corners now use the recorded water surface. Grid-OFF images match exactly.",
+    "Whole-world high-density grids naturally become dense; visible physical edges are not removed or coarsened.",
+    "Packet reuse is browser-session memory reuse, not a new persisted disk cache.",
+    "The complete small and maximum geometry matrices predate the final ink/progress-only changes. The final production maximum-world load verifies the actual final source, style, console and complete edge count; the matrix was not redundantly repeated."
+  ],
+  "passed": true,
+  "cleanup": {
+    "qaBrowserClosed": true,
+    "qa5176Stopped": true,
+    "root5175Preserved": true,
+    "preservedHighResolutionProfile": true,
+    "preservedSmallFixtureProfile": true,
+    "inspector9229Closed": true
+  }
+}

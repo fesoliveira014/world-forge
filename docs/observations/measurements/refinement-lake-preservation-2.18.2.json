@@ -1,0 +1,76 @@
+{
+  "fixture": "Controlled 598m sediment-filled lake with a650m island; not the user saved world",
+  "sourceSeed": "flat-lake-route",
+  "radiusMetres": 3000000,
+  "thresholds": {
+    "interiorAngles": [
+      0.2,
+      0.31
+    ],
+    "wetCoverage": 0.999,
+    "componentCoverage": 0.1,
+    "componentRadius": 0.5
+  },
+  "reports": {
+    "original": {
+      "cells": 642,
+      "interiorSamples": 10,
+      "dryInteriorSamples": 0,
+      "interiorHeightRange": [
+        598,
+        598
+      ],
+      "maxDeviationFromExistingContinuousSurfaceMetres": 0,
+      "wetComponentsWithinHalfRadian": [
+        37
+      ],
+      "islandHeight": 650,
+      "islandCoverage": 0.17570336163043976,
+      "maxSeasonalLedgerRelativeResidual": 2.4756895248522857e-16,
+      "maxStorageGeometryRelativeResidual": 1.3036354090443094e-14,
+      "routingRelativeResidual": 4.3203708662279717e-16
+    },
+    "baseline": {
+      "cells": 5567,
+      "interiorSamples": 573,
+      "dryInteriorSamples": 367,
+      "interiorHeightRange": [
+        518.7465209960938,
+        683.543212890625
+      ],
+      "maxDeviationFromExistingContinuousSurfaceMetres": 106.87017822265625,
+      "wetComponentsWithinHalfRadian": [
+        1927,
+        15,
+        9,
+        2,
+        1,
+        1,
+        1
+      ],
+      "islandHeight": 650,
+      "islandCoverage": 0.5080356597900391,
+      "maxSeasonalLedgerRelativeResidual": 1.2756082772497263e-15,
+      "maxStorageGeometryRelativeResidual": 2.729581240723515e-13,
+      "routingRelativeResidual": 2.5368287547391523e-16
+    },
+    "fixed": {
+      "cells": 5567,
+      "interiorSamples": 573,
+      "dryInteriorSamples": 0,
+      "interiorHeightRange": [
+        598,
+        598.1535034179688
+      ],
+      "maxDeviationFromExistingContinuousSurfaceMetres": 0,
+      "wetComponentsWithinHalfRadian": [
+        2468
+      ],
+      "islandHeight": 650,
+      "islandCoverage": 0,
+      "maxSeasonalLedgerRelativeResidual": 1.1218303566330439e-15,
+      "maxStorageGeometryRelativeResidual": 5.052526281379242e-13,
+      "routingRelativeResidual": 2.3406934730606727e-16
+    }
+  }
+}

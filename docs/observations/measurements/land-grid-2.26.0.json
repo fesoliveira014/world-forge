@@ -1,0 +1,154 @@
+{
+  "version": "2.26.0",
+  "baselineCommit": "68fa209",
+  "scope": "Isolated physical-cell grid rendering; not complete-world frame time",
+  "fixture": {
+    "seed": "land-grid-benchmark",
+    "subdivisions": 6,
+    "cells": 40962,
+    "physicalEdges": 122880,
+    "irregularity": 0.65,
+    "planetRadiusMetres": 6371000,
+    "heightMetres": 300,
+    "landMask": "corner.x > -0.3",
+    "projection": "map",
+    "relief": 0,
+    "viewport": [900, 600],
+    "mapSeamSegments": 216
+  },
+  "renderer": {
+    "browser": "Chromium",
+    "backend": "ANGLE SwiftShader (software)",
+    "antialias": true,
+    "preserveDrawingBuffer": true
+  },
+  "implementation": {
+    "submission": "One ordinary indexed triangle draw per existing bounded batch; four shared vertex IDs and two triangles per edge; gl_VertexID fetches edge/corner textures",
+    "source": "RGBA32F(direction.xyz,height), normalized R8 dry-land coverage, RG16UI endpoint pairs; texture-row padding retained in canonical packets",
+    "sharedQuadIndexBytes": 196608,
+    "sharedPlaceholderBytes": 12,
+    "drawCallsBefore": 15,
+    "drawCallsAfter": 15,
+    "landWidthPixels": 2.2,
+    "waterWidthPixels": 1.0,
+    "landColor": "#24382d",
+    "landOpacity": 0.55,
+    "waterColor": "#a0c6ca",
+    "waterOpacity": 0.13,
+    "maximumPacketFallback": {
+      "trigger": "16,384 rendered segments (all 8,192 source edges split at the map seam)",
+      "indexType": "Uint32",
+      "sharedBufferBytes": 393216,
+      "allocation": "Lazy; shared across all maximum-capacity batches and counted once. Avoids WebGL2 Uint16 primitive restart at index65535. Common benchmark byte counts remain unchanged."
+    }
+  },
+  "memoryBytes": [
+    {
+      "projection": "map",
+      "native": {
+        "sourceBytes": 1848000,
+        "additionalCpuBytes": 1220016,
+        "gpuBytes": 1514928,
+        "retainedBytes": 4582944,
+        "batches": 15,
+        "physicalEdges": 122880,
+        "renderSegments": 123096
+      },
+      "current": {
+        "sourceBytes": 1949440,
+        "additionalCpuBytes": 1809420,
+        "gpuBytes": 2155660,
+        "retainedBytes": 5914520,
+        "batches": 15,
+        "physicalEdges": 122880,
+        "renderSegments": 123096
+      }
+    },
+    {
+      "projection": "globe",
+      "native": {
+        "sourceBytes": 1848000,
+        "additionalCpuBytes": 0,
+        "gpuBytes": 1848000,
+        "retainedBytes": 3696000,
+        "batches": 15,
+        "physicalEdges": 122880,
+        "renderSegments": 122880
+      },
+      "current": {
+        "sourceBytes": 1949440,
+        "additionalCpuBytes": 196620,
+        "gpuBytes": 2146060,
+        "retainedBytes": 4292120,
+        "batches": 15,
+        "physicalEdges": 122880,
+        "renderSegments": 122880
+      }
+    }
+  ],
+  "timing": {
+    "method": "Two warmup renders, then six frames per round; synchronous full-frame readPixels included; alternating baseline/current/baseline/current",
+    "rounds": [
+      {
+        "mode": "native",
+        "medianMs": 152.4,
+        "p90Ms": 347.3,
+        "calls": 15,
+        "segments": 123096,
+        "triangles": 0
+      },
+      {
+        "mode": "quad",
+        "medianMs": 342.3,
+        "p90Ms": 818,
+        "calls": 15,
+        "segments": 0,
+        "triangles": 246192
+      },
+      {
+        "mode": "native",
+        "medianMs": 215.7,
+        "p90Ms": 441.6,
+        "calls": 15,
+        "segments": 123096,
+        "triangles": 0
+      },
+      {
+        "mode": "quad",
+        "medianMs": 498.6,
+        "p90Ms": 2050.2,
+        "calls": 15,
+        "segments": 0,
+        "triangles": 246192
+      }
+    ],
+    "limitation": "Cloud software rasterization, synchronous readback, short sample, and concurrent QA load produce noisy tails. These are not interactive FPS estimates or hardware GPU measurements. Thicker triangle strokes cost about 2.3 times the baseline median in these rounds; unchanged draw-call count does not imply unchanged GPU cost."
+  },
+  "visualCheck": {
+    "shaderErrors": [],
+    "landChangedPixels": 5538,
+    "waterChangedPixels": 2976,
+    "image": "outputs/atlas-land-grid-shader.png"
+  },
+  "verification": {
+    "targetedTests": 20,
+    "passed": 20,
+    "typecheck": "passed",
+    "coverage": [
+      "canonical-buffer sharing and exact bytes",
+      "projection rebuild ownership and texture disposal",
+      "map seam/pole edge splitting and identical interpolated shoreline masks",
+      "globe relief bounds and independent chord-visibility oracle",
+      "worker transfer packets and snapshot compatibility",
+      "screen-pixel width and one draw per batch",
+      "maximum all-seam packet primitive-restart safety, fallback reuse and exact allocation accounting"
+    ]
+  },
+  "reproduction": {
+    "harness": "/tmp/atlas-render-qa/land-grid-shader.ts",
+    "browserDriver": "/tmp/world-forge-browser/land-grid-shader-qa.mjs",
+    "memoryDriver": "/tmp/land-grid-bytes.ts",
+    "localServerPort": 5177,
+    "note": "Temporary session harnesses; fixture and method above specify the comparison independently of these local paths."
+  }
+}

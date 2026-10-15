@@ -1,0 +1,485 @@
+{
+  "version": "2.21.0",
+  "baseline": "cb004c1d51a5b8892ce7283127750720f2113083",
+  "environment": {
+    "browser": "System Chromium",
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "webgl2": true,
+    "nativeMultiDrawSupported": true,
+    "smallViewport": [1440, 1000],
+    "maximumViewport": [2048, 1140]
+  },
+  "fixtures": {
+    "coarse": {
+      "seed": "AETHER-6389",
+      "cells": 10242,
+      "note": "The fixed 1-degree edge limit prevents collapses here; these captures check height-independent display, colors and controls."
+    },
+    "locallyRefined": {
+      "seed": "AETHER-6389",
+      "cells": 15049,
+      "sourceTriangles": 90282,
+      "simplifiedTriangles": 76436
+    },
+    "maximum": {
+      "snapshot": "8e9bd04e-2510-494f-a8cd-5dec9d87f5be",
+      "cells": 2621442,
+      "savedVersion": "2.16.1",
+      "snapshotBytes": 3427513728
+    }
+  },
+  "methodology": [
+    "Independent archived baseline modules and the current production reader/renderer, accessed through a QA-only props/camera harness. The maximum snapshot is reused without regenerating or restoring its full simulation World.",
+    "The intended display is height-independent. Fidelity is compared with baseline relief 0, while baseline relief 26 remains the normal-view performance reference.",
+    "Final three-pass simplification is exercised on the locally refined and maximum fixtures, plus fresh overlay/picking/layer-switch checks. Coarse integration captures have no collapses under the fixed angular bound.",
+    "Fresh Chromium/reader for each maximum opening; same saved data, no OS-cache flush. These are single observations, not statistical benchmarks. Completed frame time uses a WebGL2 fence.",
+    "Native WebGL draw calls and buffer allocation are instrumented; source triangles are counted from actual packet indices rather than the manifest upper bound. Geometry stays fixed as the camera moves."
+  ],
+  "coarsePixelComparisons": {
+    "referenceComparisons": {
+      "globe-wide": 0,
+      "globe-close": 0,
+      "globe-close-borders": 0,
+      "globe-pole": 0,
+      "map-wide": 0,
+      "map-close": 0,
+      "map-close-borders-grid": 0
+    },
+    "reliefInvariance": {
+      "globe-wide": 0,
+      "map-wide": 0
+    },
+    "picking": {
+      "anchor": [0.6712121661565642, 0.47942553860269643, 0.5653542083852634],
+      "count": 1
+    },
+    "errors": []
+  },
+  "refinedComparisons": [
+    {
+      "name": "globe-refined",
+      "changedPixels": 0,
+      "before": {
+        "packets": 8,
+        "triangles": 90282,
+        "vertices": 56530
+      },
+      "after": {
+        "packets": 8,
+        "triangles": 76436,
+        "vertices": 53235
+      },
+      "beforeGpuBytes": 2380124,
+      "afterGpuBytes": 2191608,
+      "boundingBox": null
+    },
+    {
+      "name": "globe-refined-overlays",
+      "changedPixels": 167,
+      "before": {
+        "packets": 8,
+        "triangles": 90282,
+        "vertices": 56530
+      },
+      "after": {
+        "packets": 8,
+        "triangles": 76436,
+        "vertices": 53235
+      },
+      "beforeGpuBytes": 3114992,
+      "afterGpuBytes": 2926476,
+      "boundingBox": [185, 31, 1200, 779]
+    },
+    {
+      "name": "map-refined-overlays",
+      "changedPixels": 0,
+      "before": {
+        "packets": 8,
+        "triangles": 90282,
+        "vertices": 56530
+      },
+      "after": {
+        "packets": 8,
+        "triangles": 76436,
+        "vertices": 53235
+      },
+      "beforeGpuBytes": 3035244,
+      "afterGpuBytes": 2846728,
+      "boundingBox": null
+    }
+  ],
+  "refinedOverlayDifference": {
+    "changedPixels": 167,
+    "scope": "Globe with dashed plate borders and cell grid; corresponding globe surface-only and map-with-overlays images are exact.",
+    "gridSegmentsBeforeAndAfter": 45141,
+    "cameraUnchanged": true,
+    "interpretation": "Sparse overlay pixel differences are consistent with changed chord depth under depth-tested dashed borders. No missing grid segments or visible discontinuities were observed; this is not claimed to be pixel-identical."
+  },
+  "lifecycle": {
+    "peakPhysicalCell": {
+      "cell": 2325,
+      "height": 9484.8544921875,
+      "longitude": -1.9878048100451788,
+      "latitude": -0.46454168022011716
+    },
+    "pickedCell": 2325,
+    "pickedPhysicalHeight": 9484.8544921875,
+    "plateCameraRadius": 1.001,
+    "restoredNaturalCamera": {
+      "radius": 1.0387276152561415,
+      "minimumRadius": 1.038727615256141,
+      "peakRadius": 1.0387076152561412,
+      "relief": 26
+    },
+    "mapPick": {
+      "anchor": [0.7884732286981352, -0.29552020666133955, -0.5394235581444115],
+      "cell": 7965,
+      "physicalHeight": -4616.4521484375
+    },
+    "globeOverlaysRelief26Versus100ChangedPixels": 0,
+    "mapOverlaysRelief100Versus1ChangedPixels": 0,
+    "enabledOverlays": ["physical cell grid", "plate boundaries", "coastlines", "rivers"],
+    "errors": []
+  },
+  "maximum": {
+    "beforeOpenToReadyMs": 130816,
+    "afterOpenToReadyMs": 142556,
+    "before": [
+      {
+        "name": "tectonics-globe-wide",
+        "projection": "globe",
+        "requestedRelief": 26,
+        "packetGeometry": {
+          "packets": 1280,
+          "triangles": 15728640,
+          "vertices": 8234256
+        },
+        "submittedTriangles": 8896512,
+        "actualWebGLCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 88,
+          "multiDrawLogical": 724
+        },
+        "completedGpuFrameMs": 3165.399999976158,
+        "accountedDisplayBytes": 1106978893,
+        "uniqueSceneAndTerrainCacheCpuBytes": 491209128,
+        "allocatedWebGLBufferBytes": 357897504,
+        "peakAllocatedWebGLBufferBytes": 357985216,
+        "camera": {
+          "position": [2.523979218038812, 2.020667218593133e-16, 2.1259183678843807],
+          "target": [0, 0, 0],
+          "zoom": 1
+        },
+        "sourceCalls": {
+          "physicalManifest": 1,
+          "riverRender": 181,
+          "physicalBatch": 1280,
+          "overlays": 2,
+          "releaseRiverRender": 1
+        },
+        "glErrors": [],
+        "image": "atlas-plates-before-highres-tectonics-globe-wide.png"
+      },
+      {
+        "name": "tectonics-globe-wide-relief0",
+        "projection": "globe",
+        "requestedRelief": 0,
+        "packetGeometry": {
+          "packets": 1280,
+          "triangles": 15728640,
+          "vertices": 8234256
+        },
+        "submittedTriangles": 8847360,
+        "actualWebGLCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 88,
+          "multiDrawLogical": 720
+        },
+        "completedGpuFrameMs": 4414.300000011921,
+        "accountedDisplayBytes": 1106978965,
+        "uniqueSceneAndTerrainCacheCpuBytes": 491209164,
+        "allocatedWebGLBufferBytes": 357897504,
+        "peakAllocatedWebGLBufferBytes": 357985216,
+        "camera": {
+          "position": [2.523979218038812, 2.020667218593133e-16, 2.1259183678843807],
+          "target": [0, 0, 0],
+          "zoom": 1
+        },
+        "sourceCalls": {
+          "physicalManifest": 1,
+          "riverRender": 181,
+          "physicalBatch": 1280,
+          "overlays": 3,
+          "releaseRiverRender": 1
+        },
+        "glErrors": [],
+        "image": "atlas-plates-before-highres-tectonics-globe-wide-relief0.png"
+      }
+    ],
+    "after": [
+      {
+        "name": "tectonics-globe-wide",
+        "projection": "globe",
+        "requestedRelief": 26,
+        "packetGeometry": {
+          "packets": 1280,
+          "triangles": 1007856,
+          "vertices": 944400
+        },
+        "submittedTriangles": 559196,
+        "actualWebGLCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 53,
+          "multiDrawLogical": 720
+        },
+        "completedGpuFrameMs": 268.40000000596046,
+        "accountedDisplayBytes": 463707421,
+        "uniqueSceneAndTerrainCacheCpuBytes": 169609068,
+        "allocatedWebGLBufferBytes": 36297408,
+        "peakAllocatedWebGLBufferBytes": 38741896,
+        "camera": {
+          "position": [2.523979218038812, 2.020667218593133e-16, 2.1259183678843807],
+          "target": [0, 0, 0],
+          "zoom": 1
+        },
+        "sourceCalls": {
+          "physicalManifest": 1,
+          "riverRender": 181,
+          "physicalBatch": 1280,
+          "overlays": 2,
+          "releaseRiverRender": 1
+        },
+        "glErrors": [],
+        "image": "atlas-plates-after-highres-tectonics-globe-wide.png"
+      },
+      {
+        "name": "tectonics-globe-wide-relief0",
+        "projection": "globe",
+        "requestedRelief": 0,
+        "packetGeometry": {
+          "packets": 1280,
+          "triangles": 1007856,
+          "vertices": 944400
+        },
+        "submittedTriangles": 559196,
+        "actualWebGLCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 53,
+          "multiDrawLogical": 720
+        },
+        "completedGpuFrameMs": 270.09999999403954,
+        "accountedDisplayBytes": 463707421,
+        "uniqueSceneAndTerrainCacheCpuBytes": 169609068,
+        "allocatedWebGLBufferBytes": 36297408,
+        "peakAllocatedWebGLBufferBytes": 38741896,
+        "camera": {
+          "position": [2.523979218038812, 2.020667218593133e-16, 2.1259183678843807],
+          "target": [0, 0, 0],
+          "zoom": 1
+        },
+        "sourceCalls": {
+          "physicalManifest": 1,
+          "riverRender": 181,
+          "physicalBatch": 1280,
+          "overlays": 2,
+          "releaseRiverRender": 1
+        },
+        "glErrors": [],
+        "image": "atlas-plates-after-highres-tectonics-globe-wide-relief0.png"
+      },
+      {
+        "name": "tectonics-globe-close",
+        "projection": "globe",
+        "requestedRelief": 26,
+        "packetGeometry": {
+          "packets": 1280,
+          "triangles": 1007856,
+          "vertices": 944400
+        },
+        "submittedTriangles": 92842,
+        "actualWebGLCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 14,
+          "multiDrawLogical": 118
+        },
+        "completedGpuFrameMs": 100.09999999403954,
+        "accountedDisplayBytes": 463707421,
+        "uniqueSceneAndTerrainCacheCpuBytes": 169609068,
+        "allocatedWebGLBufferBytes": 36297408,
+        "peakAllocatedWebGLBufferBytes": 38741896,
+        "camera": {
+          "position": [1.678030415397394, 1.1985638465105077, 1.4133855209528592],
+          "target": [0, 0, 0],
+          "zoom": 2
+        },
+        "sourceCalls": {
+          "physicalManifest": 1,
+          "riverRender": 181,
+          "physicalBatch": 1280,
+          "overlays": 3,
+          "releaseRiverRender": 1
+        },
+        "glErrors": [],
+        "image": "atlas-plates-after-highres-tectonics-globe-close.png"
+      },
+      {
+        "name": "tectonics-globe-pole",
+        "projection": "globe",
+        "requestedRelief": 26,
+        "packetGeometry": {
+          "packets": 1280,
+          "triangles": 1007856,
+          "vertices": 944400
+        },
+        "submittedTriangles": 580148,
+        "actualWebGLCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 52,
+          "multiDrawLogical": 728
+        },
+        "completedGpuFrameMs": 265.80000001192093,
+        "accountedDisplayBytes": 463707421,
+        "uniqueSceneAndTerrainCacheCpuBytes": 169609068,
+        "allocatedWebGLBufferBytes": 36297408,
+        "peakAllocatedWebGLBufferBytes": 38741896,
+        "camera": {
+          "position": [0.6751614842981832, 3.1797420118767366, 0.5686806731605655],
+          "target": [0, 0, 0],
+          "zoom": 1
+        },
+        "sourceCalls": {
+          "physicalManifest": 1,
+          "riverRender": 181,
+          "physicalBatch": 1280,
+          "overlays": 4,
+          "releaseRiverRender": 1
+        },
+        "glErrors": [],
+        "image": "atlas-plates-after-highres-tectonics-globe-pole.png"
+      },
+      {
+        "name": "tectonics-map-wide",
+        "projection": "map",
+        "requestedRelief": 26,
+        "packetGeometry": {
+          "packets": 1280,
+          "triangles": 1007856,
+          "vertices": 944400
+        },
+        "submittedTriangles": 1012342,
+        "actualWebGLCalls": {
+          "drawElements": 0,
+          "multiDrawElementsWEBGL": 80,
+          "multiDrawLogical": 1280
+        },
+        "completedGpuFrameMs": 678.5999999940395,
+        "accountedDisplayBytes": 466037249,
+        "uniqueSceneAndTerrainCacheCpuBytes": 171391612,
+        "allocatedWebGLBufferBytes": 36725508,
+        "peakAllocatedWebGLBufferBytes": 39169996,
+        "camera": {
+          "position": [0, 3.3677786976552215e-16, 5.5],
+          "target": [0, 0, 0],
+          "zoom": 1
+        },
+        "sourceCalls": {
+          "physicalManifest": 1,
+          "riverRender": 181,
+          "physicalBatch": 1280,
+          "overlays": 5,
+          "releaseRiverRender": 1
+        },
+        "glErrors": [],
+        "image": "atlas-plates-after-highres-tectonics-map-wide.png"
+      }
+    ],
+    "triangleReductionPercent": 93.59222412109375,
+    "nativeBufferReductionPercent": 89.85815559082523,
+    "displayBytesReductionPercent": 58.11054538327136,
+    "relief0Versus26ChangedPixels": 0,
+    "physicalAndRiverRequestsStable": true,
+    "pixelComparisonToReliefZeroBaseline": {
+      "changedPixels": 303,
+      "silhouetteOrAntialiasingPixels": 296,
+      "isolatedInteriorColorMixPixels": 7,
+      "allChangesWithinPixelsOfExistingColorOrSilhouetteEdge": 5,
+      "changesWithinTwoPixelsOfExistingEdge": 300,
+      "note": "Not pixel-identical: larger interior facets intentionally approximate the unit sphere. No broad color-region shift or background-colored hole was detected."
+    },
+    "interiorBackgroundPixelCounts": {
+      "globeWide": 0,
+      "globePole": 0,
+      "flatMap": 0
+    },
+    "visualReview": "Wide globe, near-boundary close-up, near-pole globe and global map inspected; no holes, dateline streaks or pole gaps observed."
+  },
+  "limitations": [
+    "Initial maximum opening became slower in this observation: 130.816 to 142.556 seconds. The improvement is reduced resident geometry, GPU buffer storage and drawing work; this is not a load-time improvement.",
+    "Single software-GPU completed-frame observations were 3.165 seconds before and 0.268 seconds after for the normal wide-globe view. No hardware-GPU FPS claim is made.",
+    "Display bytes include estimates for retained assets and may include GPU resources not uploaded while hidden. Native buffer counts exclude textures; neither measure is total process RSS.",
+    "The unchanged river asset accounts for a substantial part of remaining display memory even with rivers hidden.",
+    "Maximum map/pole captures are inspected final views; no matched maximum baseline map/pole screenshots were taken. Matched map/pole fidelity checks are provided on the smaller fixtures."
+  ],
+  "checks": [
+    {
+      "name": "Coarse plate images match the frozen relief-zero reference in all seven views",
+      "passed": true
+    },
+    {
+      "name": "Coarse globe and map are exactly relief-invariant",
+      "passed": true
+    },
+    {
+      "name": "Locally refined plate topology is simplified",
+      "passed": true
+    },
+    {
+      "name": "Refined globe surface and map overlays remain pixel-identical",
+      "passed": true
+    },
+    {
+      "name": "All overlays remain pixel-identical across relief changes",
+      "passed": true
+    },
+    {
+      "name": "Picking the flattened peak returns its original physical cell and height",
+      "passed": true
+    },
+    {
+      "name": "Returning to Natural restores relief and places camera above the highest terrain",
+      "passed": true
+    },
+    {
+      "name": "Maximum world actual packet triangles and native buffer storage fall",
+      "passed": true
+    },
+    {
+      "name": "Maximum globe images are exactly relief-invariant",
+      "passed": true
+    },
+    {
+      "name": "Maximum orbit and projection changes add no physical or river requests",
+      "passed": true
+    },
+    {
+      "name": "Maximum globe, close boundary view, pole and map have no visible holes or seams",
+      "passed": true
+    },
+    {
+      "name": "All after browser and WebGL error arrays are empty",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "rawReports": [
+    "outputs/atlas-plates-before-small-qa.json",
+    "outputs/atlas-plates-reference-before-small-qa.json",
+    "outputs/atlas-plates-after-small-qa.json",
+    "outputs/atlas-plates-refined-before-small-qa.json",
+    "outputs/atlas-plates-refined-after-small-qa.json",
+    "outputs/atlas-plates-lifecycle-after-small-qa.json",
+    "outputs/atlas-plates-before-highres-qa.json",
+    "outputs/atlas-plates-after-highres-qa.json",
+    "outputs/atlas-plates-highres-pixel-analysis.json"
+  ]
+}

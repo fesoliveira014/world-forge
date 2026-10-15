@@ -1,3 +1,4 @@
+import { denseSurfaceShader } from './DenseSurface';
 import * as THREE from 'three';
 import type { World } from '../core/model';
 import { clamp, createSeededRandom } from '../core/math';
@@ -104,6 +105,8 @@ export function createNaturalMaterial(
   seed: string,
   flat = false,
   bankTexture: THREE.Texture | null = null,
+  paged = false,
+  dense = false,
 ) {
   const randomNumber = createSeededRandom(`${seed}:surface`);
 
@@ -125,29 +128,35 @@ export function createNaturalMaterial(
       shelfColor: color('#287b8c'),
       lakeColor: color('#287388'),
       riverbankMap: { value: bankTexture },
+      surfaceCoastColor: color('#aecbd0'),
     },
     vertexShader: /* glsl */ `
-      ${flat ? 'attribute vec3 spherePosition;' : ''}
+      ${flat || paged ? 'attribute vec3 spherePosition;' : ''}
+      ${dense ? 'varying vec2 vMaterialUv;' : ''}
       attribute vec4 surfaceTerrain;
       attribute vec4 surfaceClimate;
       attribute vec3 surfaceHabitat;
       attribute vec4 surfaceDelta;
       attribute vec2 surfaceWater;
+      ${paged ? 'attribute vec4 surfaceBank;' : ''}
       varying vec4 vTerrain;
       varying vec4 vClimate;
       varying vec3 vHabitat;
       varying vec4 vDelta;
       varying vec2 vWater;
+      ${paged ? 'varying vec4 vBank;' : ''}
       varying vec3 vSphere;
       varying vec3 vSurfaceNormal;
       varying vec3 vSurfacePosition;
       void main() {
+        ${dense ? 'vMaterialUv = uv;' : ''}
         vTerrain = surfaceTerrain;
         vClimate = surfaceClimate;
         vHabitat = surfaceHabitat;
         vDelta = surfaceDelta;
         vWater = surfaceWater;
-        vSphere = normalize(${flat ? 'spherePosition' : 'position'});
+        ${paged ? 'vBank = surfaceBank;' : ''}
+        vSphere = normalize(${flat || paged ? 'spherePosition' : 'position'});
         vSurfaceNormal = ${flat ? 'vec3(0.0, 0.0, 1.0)' : 'normalize(normalMatrix * normal)'};
         vec4 viewPosition = modelViewMatrix * vec4(position, 1.0);
         vSurfacePosition = viewPosition.xyz;
@@ -167,11 +176,18 @@ export function createNaturalMaterial(
       uniform vec3 oceanColor;
       uniform vec3 shelfColor;
       uniform vec3 lakeColor;
+      ${
+        dense
+          ? denseSurfaceShader(flat)
+          : `
       varying vec4 vTerrain;
       varying vec4 vClimate;
       varying vec3 vHabitat;
       varying vec4 vDelta;
       varying vec2 vWater;
+      ${paged ? 'varying vec4 vBank;' : ''}
+      `
+      }
       varying vec3 vSphere;
       varying vec3 vSurfaceNormal;
       varying vec3 vSurfacePosition;
@@ -212,11 +228,20 @@ export function createNaturalMaterial(
         vec3 tangentY = cross(baseNormal, positionDerivativeX);
         float determinant = dot(positionDerivativeX, tangentX);
         vec3 gradient = sign(determinant) * (dFdx(height) * tangentX + dFdy(height) * tangentY);
-        return normalize(abs(determinant) * baseNormal - gradient);
+        vec3 perturbed = abs(determinant) * baseNormal - gradient;
+        return dot(perturbed, perturbed) > 1e-24 ? normalize(perturbed) : baseNormal;
       }
 
       void main() {
         vec3 surfaceDirection = normalize(vSphere);
+        ${
+          dense
+            ? `DenseFields sampled = sampleDenseSurface(surfaceDirection);
+        vec4 vTerrain = sampled.terrain; vec4 vClimate = sampled.climate;
+        vec3 vHabitat = sampled.habitat; vec4 vDelta = sampled.delta;
+        vec2 vWater = sampled.water; vec4 vBank = sampled.bank;`
+            : ''
+        }
         float broad = detailNoise(surfaceDirection, 38.0);
         float grain = detailNoise(surfaceDirection, 220.0);
         float fine = detailNoise(surfaceDirection, 1150.0);
@@ -246,7 +271,7 @@ export function createNaturalMaterial(
         land *= 0.86 + broad * 0.16 + grain * 0.1 + fine * 0.08;
         // One filtered surface mask joins the entire river corridor. There is no
         // raised green geometry, even where reaches bend, merge, or end.
-        vec4 bank = riverbankSample(surfaceDirection);
+        vec4 bank = ${paged ? 'vBank' : 'riverbankSample(surfaceDirection)'};
         land = land * (1.0 - bank.a) + bank.rgb * (0.95 + grain * 0.1);
         land = land * (1.0 - vDelta.a) + vDelta.rgb * (0.92 + grain * 0.16);
         float snow = clamp(vClimate.z + vClimate.w, 0.0, 1.0);
@@ -264,7 +289,20 @@ export function createNaturalMaterial(
         vec3 albedo = mix(water, land, landMask);
 
         float bump = landMask * (mountain * ridges * 0.00013 + canopy * fine * 0.000025);
-        vec3 normal = detailNormal(normalize(vSurfaceNormal), bump);
+        vec3 baseNormal = normalize(vSurfaceNormal);
+        ${
+          paged && !dense
+            ? `// Paged samples carry a geographic radial normal. Recover the displayed
+        // relief slope from the actual view-space triangle, with either winding.
+        vec3 slopeNormal = cross(dFdx(vSurfacePosition), dFdy(vSurfacePosition));
+        if (dot(slopeNormal, slopeNormal) > 1e-20) {
+          slopeNormal = normalize(slopeNormal);
+          slopeNormal *= dot(slopeNormal, baseNormal) < 0.0 ? -1.0 : 1.0;
+          baseNormal = normalize(mix(baseNormal, slopeNormal, landMask));
+        }`
+            : ''
+        }
+        vec3 normal = ${dense ? 'normalize(mix(baseNormal, denseSurfaceNormal(surfaceDirection, vTerrain.x, bump), landMask))' : 'detailNormal(baseNormal, bump)'};
         vec3 light = normalize(mat3(viewMatrix) * sunDirection);
         vec3 viewDirection = normalize(-vSurfacePosition);
         float daylight = max(dot(normal, light), 0.0);
@@ -272,6 +310,14 @@ export function createNaturalMaterial(
         vec3 shaded = albedo * illumination;
         float glint = pow(max(dot(normal, normalize(light + viewDirection)), 0.0), 180.0);
         shaded += vec3(0.38, 0.48, 0.52) * glint * (1.0 - landMask) * (1.0 - vClimate.z) * 0.28;
+        ${
+          dense
+            ? `// Continuous physical ocean boundary; independent of vector segment quotas.
+        float coastDistance = abs(vWater.x - .5) / max(fwidth(vWater.x), .0001);
+        float coastCoverage = (1.0 - smoothstep(.45, 1.25, coastDistance)) * surfaceCoastlines;
+        shaded = mix(shaded, surfaceCoastColor, coastCoverage * .82);`
+            : ''
+        }
         gl_FragColor = vec4(shaded, 1.0);
         #include <colorspace_fragment>
       }

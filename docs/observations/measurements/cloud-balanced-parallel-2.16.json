@@ -1,0 +1,2684 @@
+{
+  "schemaVersion": 2,
+  "measuredAt": "2026-10-12T04:33:53.234Z",
+  "version": "2.16.0",
+  "environment": {
+    "node": "v24.19.0",
+    "platform": "linux",
+    "kernel": "6.18.44",
+    "architecture": "x64",
+    "cpuModel": "AMD EPYC 9V74 80-Core Processor",
+    "availableParallelism": 4,
+    "cpuQuota": 4,
+    "hostMemoryMiB": 18007.9453125,
+    "memoryLimitMiB": 16384,
+    "generatorThreads": 4,
+    "otherStageThreads": 1
+  },
+  "execution": {
+    "climateWorkers": 4
+  },
+  "config": {
+    "seed": "AETHER-0004",
+    "surfaceLevel": 6,
+    "processLevel": 6,
+    "refinementMinSpacing": 50000,
+    "refinementStrength": 0.8,
+    "evolutionRefinements": 2,
+    "landscapeBatches": 12,
+    "hillslopeStrength": 1,
+    "irregularity": 0.65,
+    "plates": 18,
+    "oceanFraction": 0.66,
+    "exposure": 1,
+    "temperature": 15,
+    "obliquity": 23.4,
+    "erosion": 0.35,
+    "radius": 6371000,
+    "continentScale": 1,
+    "reliefScale": 1,
+    "tectonicWidth": 1,
+    "tectonicDuration": 200,
+    "plateSpeed": 3,
+    "volcanicActivity": 1,
+    "hotspotCount": 8,
+    "waveErosion": 1,
+    "windErosion": 1,
+    "lakePersistence": 0.35,
+    "windStrength": 1.8,
+    "circulationScale": 1,
+    "currentStrength": 1,
+    "evaporationScale": 1.5,
+    "moistureLifetime": 18,
+    "moistureMixing": 800000,
+    "orographicStrength": 0.8,
+    "recycling": 0.65,
+    "soilCapacity": 140,
+    "infiltration": 0.85,
+    "riverSourceArea": 8000,
+    "riverSourceFlow": 1,
+    "floodplainExtent": 1,
+    "fluvialDuration": 1,
+    "bankMobility": 1,
+    "depositFrequency": 1,
+    "depositAmount": 1
+  },
+  "recipeSha256": "f8be844591024ae47166642ad524aebbccc9c79b6b8b188dd1d4ffd3c2c2a36b",
+  "replayedRefinementPlans": false,
+  "refinementPlanCount": 3,
+  "refinementPlanBytes": 12864996,
+  "refinementWork": [
+    {
+      "estimatedCells": 40962,
+      "estimatedAddedCells": 0,
+      "estimatedRetainedMiB": 40,
+      "estimatedPeakMiB": 120,
+      "sampledDirections": 122882,
+      "method": "physical-spacing-quadrature",
+      "uncertainty": "order-of-magnitude",
+      "sampledCaps": 0,
+      "totalCaps": 0
+    },
+    {
+      "estimatedCells": 59000,
+      "estimatedAddedCells": 18038,
+      "estimatedRetainedMiB": 58,
+      "estimatedPeakMiB": 170,
+      "sampledDirections": 124930,
+      "method": "physical-spacing-quadrature",
+      "uncertainty": "order-of-magnitude",
+      "sampledCaps": 32,
+      "totalCaps": 15895
+    },
+    {
+      "estimatedCells": 180000,
+      "estimatedAddedCells": 94338,
+      "estimatedRetainedMiB": 180,
+      "estimatedPeakMiB": 530,
+      "sampledDirections": 260054,
+      "method": "physical-spacing-quadrature",
+      "uncertainty": "order-of-magnitude",
+      "sampledCaps": 32,
+      "totalCaps": 15895
+    }
+  ],
+  "geometrySha256": "1a17153efb34413aca2baee575b699cd4d66236d740e974895670bb1fa223636",
+  "topologySha256": "77727a206e8a6c59c53b18a5b385c7b93b0000c6460bab7c5f68a21c70b13990",
+  "heightSha256": "6b53c4fc22d2e337ebf43ce84861f7c6a774fe10cf66e0eb4c45cd7a9a6fcd20",
+  "surfaceCells": 240980,
+  "processCells": 40962,
+  "refinement": {
+    "baseCount": 40962,
+    "insertedCount": 200018,
+    "passes": 3
+  },
+  "nearestCenterSpacingM": {
+    "min": 36109.28391250342,
+    "p10": 36374.27333382818,
+    "median": 37870.37865106264,
+    "p90": 44340.98850569041,
+    "max": 130131.00359054701,
+    "mean": 40711.353101228415
+  },
+  "totalMs": 60271.688402,
+  "runtimeIncludingPoolShutdownMs": 60279.581516,
+  "retainedMiB": 220.04011917114258,
+  "memory": {
+    "processPeakRssMiB": 914.1875,
+    "baselineRssMiB": 52.23828125,
+    "sampledPeakRssMiB": 914.1875,
+    "sampledPeakHeapMiB": 161.5024642944336,
+    "sampledPeakExternalMiB": 395.82501888275146,
+    "sampling": "Fresh child process; OS high-water RSS includes all climate worker threads and transient allocations. Heap/external stage samples describe the orchestrator thread only. Parent RSS sampling runs independently of synchronous generation.",
+    "stages": [
+      {
+        "name": "Simulation grid",
+        "completed": 0,
+        "elapsedMs": 1.918313999999981,
+        "rssMiB": 52.48828125,
+        "heapMiB": 11.406181335449219,
+        "externalMiB": 2.800748825073242
+      },
+      {
+        "name": "Simulation grid",
+        "completed": 1,
+        "elapsedMs": 182.187143,
+        "rssMiB": 88.59765625,
+        "heapMiB": 25.18658447265625,
+        "externalMiB": 20.02058219909668
+      },
+      {
+        "name": "Surface grid",
+        "completed": 1,
+        "elapsedMs": 182.31003699999997,
+        "rssMiB": 88.59765625,
+        "heapMiB": 25.190025329589844,
+        "externalMiB": 20.02058219909668
+      },
+      {
+        "name": "Surface grid",
+        "completed": 2,
+        "elapsedMs": 182.38816399999996,
+        "rssMiB": 88.59765625,
+        "heapMiB": 25.192779541015625,
+        "externalMiB": 20.02058219909668
+      },
+      {
+        "name": "Spatial transfer",
+        "completed": 2,
+        "elapsedMs": 182.403708,
+        "rssMiB": 88.59765625,
+        "heapMiB": 25.193809509277344,
+        "externalMiB": 20.02058219909668
+      },
+      {
+        "name": "Spatial transfer",
+        "completed": 3,
+        "elapsedMs": 183.25057599999997,
+        "rssMiB": 88.59765625,
+        "heapMiB": 25.205108642578125,
+        "externalMiB": 20.17683982849121
+      },
+      {
+        "name": "Plates & tectonics",
+        "completed": 3,
+        "elapsedMs": 183.303225,
+        "rssMiB": 88.59765625,
+        "heapMiB": 25.206146240234375,
+        "externalMiB": 20.17683982849121
+      },
+      {
+        "name": "Plates & tectonics",
+        "completed": 4,
+        "elapsedMs": 369.386635,
+        "rssMiB": 95.515625,
+        "heapMiB": 27.45313262939453,
+        "externalMiB": 22.989465713500977
+      },
+      {
+        "name": "Crust evolution",
+        "completed": 4,
+        "elapsedMs": 369.48743599999995,
+        "rssMiB": 95.515625,
+        "heapMiB": 27.457260131835938,
+        "externalMiB": 22.989465713500977
+      },
+      {
+        "name": "Crust evolution · 22 / 200 Myr",
+        "completed": 4,
+        "elapsedMs": 1360.387037,
+        "rssMiB": 120.9140625,
+        "heapMiB": 30.166160583496094,
+        "externalMiB": 30.76575469970703
+      },
+      {
+        "name": "Crust evolution · 43 / 200 Myr",
+        "completed": 4,
+        "elapsedMs": 2289.531936,
+        "rssMiB": 123.32421875,
+        "heapMiB": 18.10926055908203,
+        "externalMiB": 25.492156982421875
+      },
+      {
+        "name": "Crust evolution · 65 / 200 Myr",
+        "completed": 4,
+        "elapsedMs": 3249.019661,
+        "rssMiB": 155.45703125,
+        "heapMiB": 24.247848510742188,
+        "externalMiB": 26.1171875
+      },
+      {
+        "name": "Crust evolution · 87 / 200 Myr",
+        "completed": 4,
+        "elapsedMs": 4216.540335,
+        "rssMiB": 155.58203125,
+        "heapMiB": 53.14250183105469,
+        "externalMiB": 26.742218017578125
+      },
+      {
+        "name": "Crust evolution · 109 / 200 Myr",
+        "completed": 4,
+        "elapsedMs": 5173.765531,
+        "rssMiB": 160.20703125,
+        "heapMiB": 61.15418243408203,
+        "externalMiB": 26.898475646972656
+      },
+      {
+        "name": "Crust evolution · 130 / 200 Myr",
+        "completed": 4,
+        "elapsedMs": 6210.760730999999,
+        "rssMiB": 165.03125,
+        "heapMiB": 36.048095703125,
+        "externalMiB": 25.492156982421875
+      },
+      {
+        "name": "Crust evolution · 152 / 200 Myr",
+        "completed": 4,
+        "elapsedMs": 7233.195624,
+        "rssMiB": 226.28125,
+        "heapMiB": 31.304611206054688,
+        "externalMiB": 26.1171875
+      },
+      {
+        "name": "Crust evolution · 174 / 200 Myr",
+        "completed": 4,
+        "elapsedMs": 8202.643821000001,
+        "rssMiB": 227.40625,
+        "heapMiB": 44.163414001464844,
+        "externalMiB": 26.1171875
+      },
+      {
+        "name": "Crust evolution · 196 / 200 Myr",
+        "completed": 4,
+        "elapsedMs": 9167.319308,
+        "rssMiB": 231.65625,
+        "heapMiB": 76.88175201416016,
+        "externalMiB": 26.1171875
+      },
+      {
+        "name": "Crust evolution · 200 / 200 Myr",
+        "completed": 4,
+        "elapsedMs": 9362.125739000001,
+        "rssMiB": 233.28125,
+        "heapMiB": 80.76188659667969,
+        "externalMiB": 26.1171875
+      },
+      {
+        "name": "Crust evolution",
+        "completed": 5,
+        "elapsedMs": 9477.975655,
+        "rssMiB": 238.26953125,
+        "heapMiB": 77.36788177490234,
+        "externalMiB": 28.421981811523438
+      },
+      {
+        "name": "Terrain & oceans",
+        "completed": 5,
+        "elapsedMs": 9478.041834000001,
+        "rssMiB": 238.26953125,
+        "heapMiB": 77.36898040771484,
+        "externalMiB": 28.421981811523438
+      },
+      {
+        "name": "Terrain & oceans",
+        "completed": 6,
+        "elapsedMs": 9636.404018000001,
+        "rssMiB": 239.39453125,
+        "heapMiB": 101.9532699584961,
+        "externalMiB": 27.875080108642578
+      },
+      {
+        "name": "Seasonal climate · 4 seasonal workers",
+        "completed": 6,
+        "elapsedMs": 9796.05357,
+        "rssMiB": 241.51953125,
+        "heapMiB": 62.61919403076172,
+        "externalMiB": 31.07836151123047
+      },
+      {
+        "name": "Seasonal climate · 4 seasonal workers",
+        "completed": 7,
+        "elapsedMs": 16385.808773999997,
+        "rssMiB": 444.9609375,
+        "heapMiB": 13.495811462402344,
+        "externalMiB": 29.732644081115723
+      },
+      {
+        "name": "Pilot water & refinement plan",
+        "completed": 7,
+        "elapsedMs": 16385.893249999997,
+        "rssMiB": 444.9609375,
+        "heapMiB": 13.501777648925781,
+        "externalMiB": 29.732644081115723
+      },
+      {
+        "name": "Pilot water & refinement plan",
+        "completed": 8,
+        "elapsedMs": 16757.082576,
+        "rssMiB": 475.39453125,
+        "heapMiB": 38.18651580810547,
+        "externalMiB": 57.01915264129639
+      },
+      {
+        "name": "Refinement cost estimate · 1",
+        "completed": 8,
+        "elapsedMs": 16757.216406,
+        "rssMiB": 475.39453125,
+        "heapMiB": 38.18897247314453,
+        "externalMiB": 57.01915264129639
+      },
+      {
+        "name": "Refinement cost estimate · 1",
+        "completed": 9,
+        "elapsedMs": 16781.102951999997,
+        "rssMiB": 475.89453125,
+        "heapMiB": 56.40818786621094,
+        "externalMiB": 57.64418315887451
+      },
+      {
+        "name": "Adaptive surface mesh · roughly 40,962 cells, 120 MiB surface working memory; cancel to adjust detail",
+        "completed": 9,
+        "elapsedMs": 16792.344714,
+        "rssMiB": 480.14453125,
+        "heapMiB": 56.41040802001953,
+        "externalMiB": 57.64418315887451
+      },
+      {
+        "name": "Adaptive surface mesh · roughly 40,962 cells, 120 MiB surface working memory; cancel to adjust detail",
+        "completed": 10,
+        "elapsedMs": 16892.277958,
+        "rssMiB": 501.80859375,
+        "heapMiB": 29.37787628173828,
+        "externalMiB": 75.37864589691162
+      },
+      {
+        "name": "Conservative spatial transfer",
+        "completed": 10,
+        "elapsedMs": 16892.340141,
+        "rssMiB": 501.80859375,
+        "heapMiB": 29.37938690185547,
+        "externalMiB": 75.37864589691162
+      },
+      {
+        "name": "Conservative spatial transfer",
+        "completed": 11,
+        "elapsedMs": 17162.027040999998,
+        "rssMiB": 509.30859375,
+        "heapMiB": 82.814453125,
+        "externalMiB": 77.09748363494873
+      },
+      {
+        "name": "Refined terrain & oceans",
+        "completed": 11,
+        "elapsedMs": 17162.093471,
+        "rssMiB": 509.30859375,
+        "heapMiB": 82.81558227539062,
+        "externalMiB": 77.09748363494873
+      },
+      {
+        "name": "Refined terrain & oceans",
+        "completed": 12,
+        "elapsedMs": 17436.053292,
+        "rssMiB": 511.55859375,
+        "heapMiB": 36.429725646972656,
+        "externalMiB": 79.2069616317749
+      },
+      {
+        "name": "Land water budget",
+        "completed": 12,
+        "elapsedMs": 17443.058666999998,
+        "rssMiB": 513.43359375,
+        "heapMiB": 40.899169921875,
+        "externalMiB": 80.96485996246338
+      },
+      {
+        "name": "Land water budget",
+        "completed": 13,
+        "elapsedMs": 17592.197559,
+        "rssMiB": 517.3984375,
+        "heapMiB": 54.165672302246094,
+        "externalMiB": 64.34243488311768
+      },
+      {
+        "name": "Landscape weathering & sediment",
+        "completed": 13,
+        "elapsedMs": 17592.294244,
+        "rssMiB": 517.3984375,
+        "heapMiB": 54.16797637939453,
+        "externalMiB": 64.34243488311768
+      },
+      {
+        "name": "Landscape weathering & sediment",
+        "completed": 14,
+        "elapsedMs": 17902.183571999998,
+        "rssMiB": 519.796875,
+        "heapMiB": 61.27229309082031,
+        "externalMiB": 75.94445705413818
+      },
+      {
+        "name": "Rivers & reservoirs",
+        "completed": 14,
+        "elapsedMs": 17902.247167999998,
+        "rssMiB": 519.796875,
+        "heapMiB": 61.27342224121094,
+        "externalMiB": 75.94445705413818
+      },
+      {
+        "name": "Rivers & reservoirs",
+        "completed": 15,
+        "elapsedMs": 18020.863723,
+        "rssMiB": 529.33203125,
+        "heapMiB": 25.135650634765625,
+        "externalMiB": 92.92965602874756
+      },
+      {
+        "name": "River landscape evolution",
+        "completed": 15,
+        "elapsedMs": 18021.009551,
+        "rssMiB": 529.33203125,
+        "heapMiB": 25.139480590820312,
+        "externalMiB": 92.67053890228271
+      },
+      {
+        "name": "River landscape evolution",
+        "completed": 16,
+        "elapsedMs": 18333.290296,
+        "rssMiB": 532.70703125,
+        "heapMiB": 42.331703186035156,
+        "externalMiB": 93.91325283050537
+      },
+      {
+        "name": "Fine hillslope transport · 1 / 12",
+        "completed": 16,
+        "elapsedMs": 18333.381823,
+        "rssMiB": 532.70703125,
+        "heapMiB": 42.332923889160156,
+        "externalMiB": 93.91325283050537
+      },
+      {
+        "name": "Fine hillslope transport · 1 / 12",
+        "completed": 17,
+        "elapsedMs": 18356.248787,
+        "rssMiB": 537.95703125,
+        "heapMiB": 69.7563705444336,
+        "externalMiB": 97.97585964202881
+      },
+      {
+        "name": "Fine wind transport · 1 / 12",
+        "completed": 17,
+        "elapsedMs": 18356.32364,
+        "rssMiB": 537.95703125,
+        "heapMiB": 69.7587661743164,
+        "externalMiB": 97.97585964202881
+      },
+      {
+        "name": "Fine wind transport · 1 / 12",
+        "completed": 18,
+        "elapsedMs": 18392.840036999998,
+        "rssMiB": 538.28125,
+        "heapMiB": 47.042503356933594,
+        "externalMiB": 96.41331386566162
+      },
+      {
+        "name": "Coastal sediment transport · 1 / 12",
+        "completed": 18,
+        "elapsedMs": 18392.912205,
+        "rssMiB": 538.28125,
+        "heapMiB": 47.04414367675781,
+        "externalMiB": 96.41331386566162
+      },
+      {
+        "name": "Coastal sediment transport · 1 / 12",
+        "completed": 19,
+        "elapsedMs": 18421.850196,
+        "rssMiB": 538.40625,
+        "heapMiB": 81.32806396484375,
+        "externalMiB": 98.91343593597412
+      },
+      {
+        "name": "Landscape water & drainage · 1 / 12",
+        "completed": 19,
+        "elapsedMs": 18422.461982999997,
+        "rssMiB": 538.40625,
+        "heapMiB": 81.89701843261719,
+        "externalMiB": 98.91343593597412
+      },
+      {
+        "name": "Landscape water & drainage · 1 / 12",
+        "completed": 20,
+        "elapsedMs": 18678.574107,
+        "rssMiB": 553.4609375,
+        "heapMiB": 67.62667083740234,
+        "externalMiB": 112.57323169708252
+      },
+      {
+        "name": "River landscape evolution · 2 / 12",
+        "completed": 20,
+        "elapsedMs": 18678.759205,
+        "rssMiB": 553.5859375,
+        "heapMiB": 67.62882232666016,
+        "externalMiB": 112.72948932647705
+      },
+      {
+        "name": "River landscape evolution · 2 / 12",
+        "completed": 21,
+        "elapsedMs": 18904.608333,
+        "rssMiB": 557.7109375,
+        "heapMiB": 36.199623107910156,
+        "externalMiB": 113.56627368927002
+      },
+      {
+        "name": "Fine hillslope transport · 2 / 12",
+        "completed": 21,
+        "elapsedMs": 18904.673681,
+        "rssMiB": 557.7109375,
+        "heapMiB": 36.20087432861328,
+        "externalMiB": 113.56627368927002
+      },
+      {
+        "name": "Fine hillslope transport · 2 / 12",
+        "completed": 22,
+        "elapsedMs": 18929.847180999997,
+        "rssMiB": 563.2109375,
+        "heapMiB": 70.68815612792969,
+        "externalMiB": 117.62888050079346
+      },
+      {
+        "name": "Fine wind transport · 2 / 12",
+        "completed": 22,
+        "elapsedMs": 18929.918257999998,
+        "rssMiB": 563.2109375,
+        "heapMiB": 70.68940734863281,
+        "externalMiB": 117.62888050079346
+      },
+      {
+        "name": "Fine wind transport · 2 / 12",
+        "completed": 23,
+        "elapsedMs": 18966.161115,
+        "rssMiB": 562.4921875,
+        "heapMiB": 37.55523681640625,
+        "externalMiB": 75.90897846221924
+      },
+      {
+        "name": "Coastal sediment transport · 2 / 12",
+        "completed": 23,
+        "elapsedMs": 18966.233442999997,
+        "rssMiB": 562.4921875,
+        "heapMiB": 37.55651092529297,
+        "externalMiB": 75.90897846221924
+      },
+      {
+        "name": "Coastal sediment transport · 2 / 12",
+        "completed": 24,
+        "elapsedMs": 18993.088132999997,
+        "rssMiB": 562.4921875,
+        "heapMiB": 72.63552856445312,
+        "externalMiB": 78.40910053253174
+      },
+      {
+        "name": "Landscape water & drainage · 2 / 12",
+        "completed": 24,
+        "elapsedMs": 18995.102821999997,
+        "rssMiB": 562.4921875,
+        "heapMiB": 76.39020538330078,
+        "externalMiB": 78.40910053253174
+      },
+      {
+        "name": "Landscape water & drainage · 2 / 12",
+        "completed": 25,
+        "elapsedMs": 19173.785173,
+        "rssMiB": 565.7109375,
+        "heapMiB": 85.9006576538086,
+        "externalMiB": 95.2625150680542
+      },
+      {
+        "name": "River landscape evolution · 3 / 12",
+        "completed": 25,
+        "elapsedMs": 19173.891943,
+        "rssMiB": 565.7109375,
+        "heapMiB": 85.9027328491211,
+        "externalMiB": 95.41877269744873
+      },
+      {
+        "name": "River landscape evolution · 3 / 12",
+        "completed": 26,
+        "elapsedMs": 19411.330347,
+        "rssMiB": 566.09765625,
+        "heapMiB": 72.97827911376953,
+        "externalMiB": 89.85884380340576
+      },
+      {
+        "name": "Fine hillslope transport · 3 / 12",
+        "completed": 26,
+        "elapsedMs": 19411.402364999998,
+        "rssMiB": 566.09765625,
+        "heapMiB": 72.97953033447266,
+        "externalMiB": 89.85884380340576
+      },
+      {
+        "name": "Fine hillslope transport · 3 / 12",
+        "completed": 27,
+        "elapsedMs": 19425.477636,
+        "rssMiB": 568.22265625,
+        "heapMiB": 87.64220428466797,
+        "externalMiB": 94.23396587371826
+      },
+      {
+        "name": "Fine wind transport · 3 / 12",
+        "completed": 27,
+        "elapsedMs": 19425.540971,
+        "rssMiB": 568.22265625,
+        "heapMiB": 87.6434555053711,
+        "externalMiB": 94.23396587371826
+      },
+      {
+        "name": "Fine wind transport · 3 / 12",
+        "completed": 28,
+        "elapsedMs": 19443.253792,
+        "rssMiB": 566.12890625,
+        "heapMiB": 32.91706848144531,
+        "externalMiB": 92.35890483856201
+      },
+      {
+        "name": "Coastal sediment transport · 3 / 12",
+        "completed": 28,
+        "elapsedMs": 19443.314904,
+        "rssMiB": 566.12890625,
+        "heapMiB": 32.91831970214844,
+        "externalMiB": 92.35890483856201
+      },
+      {
+        "name": "Coastal sediment transport · 3 / 12",
+        "completed": 29,
+        "elapsedMs": 19457.044126,
+        "rssMiB": 566.12890625,
+        "heapMiB": 44.26739501953125,
+        "externalMiB": 94.85902690887451
+      },
+      {
+        "name": "Landscape water & drainage · 3 / 12",
+        "completed": 29,
+        "elapsedMs": 19457.254371,
+        "rssMiB": 566.12890625,
+        "heapMiB": 44.268585205078125,
+        "externalMiB": 94.85902690887451
+      },
+      {
+        "name": "Landscape water & drainage · 3 / 12",
+        "completed": 30,
+        "elapsedMs": 19616.491906,
+        "rssMiB": 566.44140625,
+        "heapMiB": 38.66185760498047,
+        "externalMiB": 102.72105503082275
+      },
+      {
+        "name": "River landscape evolution · 4 / 12",
+        "completed": 30,
+        "elapsedMs": 19616.595992,
+        "rssMiB": 566.44140625,
+        "heapMiB": 38.66393280029297,
+        "externalMiB": 102.87731266021729
+      },
+      {
+        "name": "River landscape evolution · 4 / 12",
+        "completed": 31,
+        "elapsedMs": 19816.161086,
+        "rssMiB": 567.06640625,
+        "heapMiB": 54.601661682128906,
+        "externalMiB": 102.87119388580322
+      },
+      {
+        "name": "Fine hillslope transport · 4 / 12",
+        "completed": 31,
+        "elapsedMs": 19816.229728,
+        "rssMiB": 567.06640625,
+        "heapMiB": 54.60291290283203,
+        "externalMiB": 102.87119388580322
+      },
+      {
+        "name": "Fine hillslope transport · 4 / 12",
+        "completed": 32,
+        "elapsedMs": 19825.335352,
+        "rssMiB": 569.19140625,
+        "heapMiB": 64.19318389892578,
+        "externalMiB": 106.93380069732666
+      },
+      {
+        "name": "Fine wind transport · 4 / 12",
+        "completed": 32,
+        "elapsedMs": 19825.446699,
+        "rssMiB": 569.19140625,
+        "heapMiB": 64.1944351196289,
+        "externalMiB": 106.93380069732666
+      },
+      {
+        "name": "Fine wind transport · 4 / 12",
+        "completed": 33,
+        "elapsedMs": 19842.387634,
+        "rssMiB": 569.19140625,
+        "heapMiB": 75.3296890258789,
+        "externalMiB": 110.05886173248291
+      },
+      {
+        "name": "Coastal sediment transport · 4 / 12",
+        "completed": 33,
+        "elapsedMs": 19842.448265,
+        "rssMiB": 569.19140625,
+        "heapMiB": 75.33094024658203,
+        "externalMiB": 110.05886173248291
+      },
+      {
+        "name": "Coastal sediment transport · 4 / 12",
+        "completed": 34,
+        "elapsedMs": 19864.158175,
+        "rssMiB": 567.17578125,
+        "heapMiB": 37.609954833984375,
+        "externalMiB": 104.43380069732666
+      },
+      {
+        "name": "Landscape water & drainage · 4 / 12",
+        "completed": 34,
+        "elapsedMs": 19864.397453999998,
+        "rssMiB": 567.17578125,
+        "heapMiB": 37.61114501953125,
+        "externalMiB": 104.43380069732666
+      },
+      {
+        "name": "Landscape water & drainage · 4 / 12",
+        "completed": 35,
+        "elapsedMs": 20027.852027999998,
+        "rssMiB": 575.8046875,
+        "heapMiB": 100.02432250976562,
+        "externalMiB": 121.58769130706787
+      },
+      {
+        "name": "Evolved refinement plan · 1",
+        "completed": 35,
+        "elapsedMs": 20027.936534999997,
+        "rssMiB": 575.8046875,
+        "heapMiB": 100.0262222290039,
+        "externalMiB": 121.58769130706787
+      },
+      {
+        "name": "Evolved refinement plan · 1",
+        "completed": 36,
+        "elapsedMs": 20250.11306,
+        "rssMiB": 575.09765625,
+        "heapMiB": 62.776763916015625,
+        "externalMiB": 114.9068250656128
+      },
+      {
+        "name": "Refinement cost estimate · 2",
+        "completed": 36,
+        "elapsedMs": 20250.180921,
+        "rssMiB": 575.09765625,
+        "heapMiB": 62.7779541015625,
+        "externalMiB": 114.9068250656128
+      },
+      {
+        "name": "Refinement cost estimate · 2",
+        "completed": 37,
+        "elapsedMs": 21001.392034,
+        "rssMiB": 575.3984375,
+        "heapMiB": 104.62886810302734,
+        "externalMiB": 116.53393840789795
+      },
+      {
+        "name": "Conservative terrain remesh · 1 · roughly 59,000 cells, 170 MiB surface working memory; cancel to adjust detail",
+        "completed": 37,
+        "elapsedMs": 21002.546324,
+        "rssMiB": 575.3984375,
+        "heapMiB": 106.24949645996094,
+        "externalMiB": 116.53393840789795
+      },
+      {
+        "name": "Conservative terrain remesh · 1 · roughly 59,000 cells, 170 MiB surface working memory; cancel to adjust detail",
+        "completed": 38,
+        "elapsedMs": 23977.00895,
+        "rssMiB": 641.3828125,
+        "heapMiB": 115.1003189086914,
+        "externalMiB": 127.89037799835205
+      },
+      {
+        "name": "Rebuild spatial transfers · 1",
+        "completed": 38,
+        "elapsedMs": 23980.37995,
+        "rssMiB": 641.3828125,
+        "heapMiB": 59.49127960205078,
+        "externalMiB": 127.89037799835205
+      },
+      {
+        "name": "Rebuild spatial transfers · 1",
+        "completed": 39,
+        "elapsedMs": 24516.250638999998,
+        "rssMiB": 666.234375,
+        "heapMiB": 118.92671203613281,
+        "externalMiB": 126.08599185943604
+      },
+      {
+        "name": "Remeshed water & drainage · 1",
+        "completed": 39,
+        "elapsedMs": 24516.317338999997,
+        "rssMiB": 666.234375,
+        "heapMiB": 118.92781829833984,
+        "externalMiB": 126.08599185943604
+      },
+      {
+        "name": "Remeshed water & drainage · 1",
+        "completed": 40,
+        "elapsedMs": 25229.575958999998,
+        "rssMiB": 631.81640625,
+        "heapMiB": 73.00471496582031,
+        "externalMiB": 172.01600742340088
+      },
+      {
+        "name": "River landscape evolution · 5 / 12",
+        "completed": 40,
+        "elapsedMs": 25229.874576,
+        "rssMiB": 632.06640625,
+        "heapMiB": 73.0067138671875,
+        "externalMiB": 172.34278202056885
+      },
+      {
+        "name": "River landscape evolution · 5 / 12",
+        "completed": 41,
+        "elapsedMs": 25617.645741,
+        "rssMiB": 637.94140625,
+        "heapMiB": 57.4351806640625,
+        "externalMiB": 174.1953592300415
+      },
+      {
+        "name": "Fine hillslope transport · 5 / 12",
+        "completed": 41,
+        "elapsedMs": 25617.735204999997,
+        "rssMiB": 637.94140625,
+        "heapMiB": 57.436431884765625,
+        "externalMiB": 174.1953592300415
+      },
+      {
+        "name": "Fine hillslope transport · 5 / 12",
+        "completed": 42,
+        "elapsedMs": 25656.749955,
+        "rssMiB": 650.31640625,
+        "heapMiB": 98.6146011352539,
+        "externalMiB": 183.34495639801025
+      },
+      {
+        "name": "Fine wind transport · 5 / 12",
+        "completed": 42,
+        "elapsedMs": 25656.842414,
+        "rssMiB": 650.31640625,
+        "heapMiB": 98.61585235595703,
+        "externalMiB": 183.34495639801025
+      },
+      {
+        "name": "Fine wind transport · 5 / 12",
+        "completed": 43,
+        "elapsedMs": 25734.897821,
+        "rssMiB": 648.8828125,
+        "heapMiB": 69.34355926513672,
+        "externalMiB": 124.13334560394287
+      },
+      {
+        "name": "Coastal sediment transport · 5 / 12",
+        "completed": 43,
+        "elapsedMs": 25734.987285,
+        "rssMiB": 648.8828125,
+        "heapMiB": 69.34483337402344,
+        "externalMiB": 124.13334560394287
+      },
+      {
+        "name": "Coastal sediment transport · 5 / 12",
+        "completed": 44,
+        "elapsedMs": 25785.941712,
+        "rssMiB": 649.1328125,
+        "heapMiB": 54.092201232910156,
+        "externalMiB": 128.70818996429443
+      },
+      {
+        "name": "Landscape water & drainage · 5 / 12",
+        "completed": 44,
+        "elapsedMs": 25787.146397,
+        "rssMiB": 649.1328125,
+        "heapMiB": 54.72920227050781,
+        "externalMiB": 128.70818996429443
+      },
+      {
+        "name": "Landscape water & drainage · 5 / 12",
+        "completed": 45,
+        "elapsedMs": 26163.397553,
+        "rssMiB": 612.9140625,
+        "heapMiB": 75.69926452636719,
+        "externalMiB": 162.2685136795044
+      },
+      {
+        "name": "River landscape evolution · 6 / 12",
+        "completed": 45,
+        "elapsedMs": 26163.621219,
+        "rssMiB": 612.9140625,
+        "heapMiB": 75.70133972167969,
+        "externalMiB": 162.59528827667236
+      },
+      {
+        "name": "River landscape evolution · 6 / 12",
+        "completed": 46,
+        "elapsedMs": 26541.55042,
+        "rssMiB": 613.88671875,
+        "heapMiB": 91.90054321289062,
+        "externalMiB": 153.06018543243408
+      },
+      {
+        "name": "Fine hillslope transport · 6 / 12",
+        "completed": 46,
+        "elapsedMs": 26541.620354,
+        "rssMiB": 613.88671875,
+        "heapMiB": 91.90179443359375,
+        "externalMiB": 153.06018543243408
+      },
+      {
+        "name": "Fine hillslope transport · 6 / 12",
+        "completed": 47,
+        "elapsedMs": 26576.886068,
+        "rssMiB": 616.69921875,
+        "heapMiB": 59.11810302734375,
+        "externalMiB": 160.24916553497314
+      },
+      {
+        "name": "Fine wind transport · 6 / 12",
+        "completed": 47,
+        "elapsedMs": 26576.957495,
+        "rssMiB": 616.69921875,
+        "heapMiB": 59.119354248046875,
+        "externalMiB": 160.24916553497314
+      },
+      {
+        "name": "Fine wind transport · 6 / 12",
+        "completed": 48,
+        "elapsedMs": 26618.360732999998,
+        "rssMiB": 616.69921875,
+        "heapMiB": 85.6974105834961,
+        "externalMiB": 166.78456592559814
+      },
+      {
+        "name": "Coastal sediment transport · 6 / 12",
+        "completed": 48,
+        "elapsedMs": 26618.437157,
+        "rssMiB": 616.69921875,
+        "heapMiB": 85.69866180419922,
+        "externalMiB": 166.78456592559814
+      },
+      {
+        "name": "Coastal sediment transport · 6 / 12",
+        "completed": 49,
+        "elapsedMs": 26658.238024,
+        "rssMiB": 616.82421875,
+        "heapMiB": 97.26669311523438,
+        "externalMiB": 172.01295948028564
+      },
+      {
+        "name": "Landscape water & drainage · 6 / 12",
+        "completed": 49,
+        "elapsedMs": 26658.481119,
+        "rssMiB": 616.82421875,
+        "heapMiB": 97.26797485351562,
+        "externalMiB": 172.01295948028564
+      },
+      {
+        "name": "Landscape water & drainage · 6 / 12",
+        "completed": 50,
+        "elapsedMs": 27070.982866,
+        "rssMiB": 606.72265625,
+        "heapMiB": 36.82371520996094,
+        "externalMiB": 187.92801189422607
+      },
+      {
+        "name": "River landscape evolution · 7 / 12",
+        "completed": 50,
+        "elapsedMs": 27071.116326,
+        "rssMiB": 606.72265625,
+        "heapMiB": 36.82581329345703,
+        "externalMiB": 129.0348424911499
+      },
+      {
+        "name": "River landscape evolution · 7 / 12",
+        "completed": 51,
+        "elapsedMs": 27523.800717,
+        "rssMiB": 608.97265625,
+        "heapMiB": 36.19947052001953,
+        "externalMiB": 135.08007717132568
+      },
+      {
+        "name": "Fine hillslope transport · 7 / 12",
+        "completed": 51,
+        "elapsedMs": 27523.86954,
+        "rssMiB": 608.97265625,
+        "heapMiB": 36.200721740722656,
+        "externalMiB": 135.08007717132568
+      },
+      {
+        "name": "Fine hillslope transport · 7 / 12",
+        "completed": 52,
+        "elapsedMs": 27550.625054,
+        "rssMiB": 614.47265625,
+        "heapMiB": 64.56128692626953,
+        "externalMiB": 144.22967433929443
+      },
+      {
+        "name": "Fine wind transport · 7 / 12",
+        "completed": 52,
+        "elapsedMs": 27550.710511999998,
+        "rssMiB": 614.47265625,
+        "heapMiB": 64.56253814697266,
+        "externalMiB": 144.22967433929443
+      },
+      {
+        "name": "Fine wind transport · 7 / 12",
+        "completed": 53,
+        "elapsedMs": 27605.641916999997,
+        "rssMiB": 608.98828125,
+        "heapMiB": 48.568748474121094,
+        "externalMiB": 141.61547756195068
+      },
+      {
+        "name": "Coastal sediment transport · 7 / 12",
+        "completed": 53,
+        "elapsedMs": 27605.741235999998,
+        "rssMiB": 608.98828125,
+        "heapMiB": 48.56999969482422,
+        "externalMiB": 141.61547756195068
+      },
+      {
+        "name": "Coastal sediment transport · 7 / 12",
+        "completed": 54,
+        "elapsedMs": 27664.334507,
+        "rssMiB": 609.11328125,
+        "heapMiB": 38.674400329589844,
+        "externalMiB": 140.30847072601318
+      },
+      {
+        "name": "Landscape water & drainage · 7 / 12",
+        "completed": 54,
+        "elapsedMs": 27664.74407,
+        "rssMiB": 609.11328125,
+        "heapMiB": 38.67559051513672,
+        "externalMiB": 140.30847072601318
+      },
+      {
+        "name": "Landscape water & drainage · 7 / 12",
+        "completed": 55,
+        "elapsedMs": 28013.636046,
+        "rssMiB": 609.5859375,
+        "heapMiB": 72.63607025146484,
+        "externalMiB": 171.7758150100708
+      },
+      {
+        "name": "River landscape evolution · 8 / 12",
+        "completed": 55,
+        "elapsedMs": 28013.786511,
+        "rssMiB": 609.5859375,
+        "heapMiB": 72.63814544677734,
+        "externalMiB": 172.10258960723877
+      },
+      {
+        "name": "River landscape evolution · 8 / 12",
+        "completed": 56,
+        "elapsedMs": 28394.729047999997,
+        "rssMiB": 617.0859375,
+        "heapMiB": 70.50360870361328,
+        "externalMiB": 162.69981861114502
+      },
+      {
+        "name": "Fine hillslope transport · 8 / 12",
+        "completed": 56,
+        "elapsedMs": 28394.799714,
+        "rssMiB": 617.0859375,
+        "heapMiB": 70.5048599243164,
+        "externalMiB": 162.69981861114502
+      },
+      {
+        "name": "Fine hillslope transport · 8 / 12",
+        "completed": 57,
+        "elapsedMs": 28413.280971,
+        "rssMiB": 622.7109375,
+        "heapMiB": 90.93048858642578,
+        "externalMiB": 171.19586658477783
+      },
+      {
+        "name": "Fine wind transport · 8 / 12",
+        "completed": 57,
+        "elapsedMs": 28413.391557,
+        "rssMiB": 622.7109375,
+        "heapMiB": 90.9317398071289,
+        "externalMiB": 171.19586658477783
+      },
+      {
+        "name": "Fine wind transport · 8 / 12",
+        "completed": 58,
+        "elapsedMs": 28455.595685,
+        "rssMiB": 617.390625,
+        "heapMiB": 48.34425354003906,
+        "externalMiB": 167.27460193634033
+      },
+      {
+        "name": "Coastal sediment transport · 8 / 12",
+        "completed": 58,
+        "elapsedMs": 28455.662764999997,
+        "rssMiB": 617.390625,
+        "heapMiB": 48.34550476074219,
+        "externalMiB": 167.27460193634033
+      },
+      {
+        "name": "Coastal sediment transport · 8 / 12",
+        "completed": 59,
+        "elapsedMs": 28503.492151,
+        "rssMiB": 617.515625,
+        "heapMiB": 100.70677947998047,
+        "externalMiB": 172.50299549102783
+      },
+      {
+        "name": "Landscape water & drainage · 8 / 12",
+        "completed": 59,
+        "elapsedMs": 28503.927673,
+        "rssMiB": 617.515625,
+        "heapMiB": 100.70796966552734,
+        "externalMiB": 172.50299549102783
+      },
+      {
+        "name": "Landscape water & drainage · 8 / 12",
+        "completed": 60,
+        "elapsedMs": 28832.126167,
+        "rssMiB": 620.0703125,
+        "heapMiB": 33.860374450683594,
+        "externalMiB": 143.12290859222412
+      },
+      {
+        "name": "Evolved refinement plan · 2",
+        "completed": 60,
+        "elapsedMs": 28832.257303,
+        "rssMiB": 620.0703125,
+        "heapMiB": 33.862274169921875,
+        "externalMiB": 143.12290859222412
+      },
+      {
+        "name": "Evolved refinement plan · 2",
+        "completed": 61,
+        "elapsedMs": 29257.095702,
+        "rssMiB": 623.125,
+        "heapMiB": 71.05276489257812,
+        "externalMiB": 130.67830562591553
+      },
+      {
+        "name": "Refinement cost estimate · 3",
+        "completed": 61,
+        "elapsedMs": 29257.169092,
+        "rssMiB": 623.125,
+        "heapMiB": 71.053955078125,
+        "externalMiB": 130.67830562591553
+      },
+      {
+        "name": "Refinement cost estimate · 3",
+        "completed": 62,
+        "elapsedMs": 31009.309535,
+        "rssMiB": 625.76953125,
+        "heapMiB": 66.44512939453125,
+        "externalMiB": 133.15719890594482
+      },
+      {
+        "name": "Conservative terrain remesh · 2 · roughly 180,000 cells, 530 MiB surface working memory; cancel to adjust detail",
+        "completed": 62,
+        "elapsedMs": 31011.166656999998,
+        "rssMiB": 625.76953125,
+        "heapMiB": 70.97590637207031,
+        "externalMiB": 133.15719890594482
+      },
+      {
+        "name": "Conservative terrain remesh · 2 · roughly 180,000 cells, 530 MiB surface working memory; cancel to adjust detail",
+        "completed": 63,
+        "elapsedMs": 40490.629245,
+        "rssMiB": 751.53515625,
+        "heapMiB": 130.72154235839844,
+        "externalMiB": 248.201434135437
+      },
+      {
+        "name": "Rebuild spatial transfers · 2",
+        "completed": 63,
+        "elapsedMs": 40496.942032,
+        "rssMiB": 750.52734375,
+        "heapMiB": 77.84085845947266,
+        "externalMiB": 248.201434135437
+      },
+      {
+        "name": "Rebuild spatial transfers · 2",
+        "completed": 64,
+        "elapsedMs": 41530.115423999996,
+        "rssMiB": 823.90234375,
+        "heapMiB": 161.50135803222656,
+        "externalMiB": 238.2098150253296
+      },
+      {
+        "name": "Remeshed water & drainage · 2",
+        "completed": 64,
+        "elapsedMs": 41530.192209,
+        "rssMiB": 823.90234375,
+        "heapMiB": 161.5024642944336,
+        "externalMiB": 238.2098150253296
+      },
+      {
+        "name": "Remeshed water & drainage · 2",
+        "completed": 65,
+        "elapsedMs": 43027.213600999996,
+        "rssMiB": 807.1171875,
+        "heapMiB": 77.87641906738281,
+        "externalMiB": 361.42402935028076
+      },
+      {
+        "name": "River landscape evolution · 9 / 12",
+        "completed": 65,
+        "elapsedMs": 43027.4332,
+        "rssMiB": 807.1171875,
+        "heapMiB": 77.87841796875,
+        "externalMiB": 362.3432950973511
+      },
+      {
+        "name": "River landscape evolution · 9 / 12",
+        "completed": 66,
+        "elapsedMs": 43863.730020999996,
+        "rssMiB": 824.296875,
+        "heapMiB": 91.60359954833984,
+        "externalMiB": 370.0856695175171
+      },
+      {
+        "name": "Fine hillslope transport · 9 / 12",
+        "completed": 66,
+        "elapsedMs": 43863.817542,
+        "rssMiB": 824.296875,
+        "heapMiB": 91.60487365722656,
+        "externalMiB": 370.0856695175171
+      },
+      {
+        "name": "Fine hillslope transport · 9 / 12",
+        "completed": 67,
+        "elapsedMs": 43931.427128999996,
+        "rssMiB": 852.87109375,
+        "heapMiB": 79.23754119873047,
+        "externalMiB": 395.82501888275146
+      },
+      {
+        "name": "Fine wind transport · 9 / 12",
+        "completed": 67,
+        "elapsedMs": 43931.512657,
+        "rssMiB": 852.87109375,
+        "heapMiB": 79.2387924194336,
+        "externalMiB": 395.82501888275146
+      },
+      {
+        "name": "Fine wind transport · 9 / 12",
+        "completed": 68,
+        "elapsedMs": 44126.031916,
+        "rssMiB": 856.91796875,
+        "heapMiB": 80.73751068115234,
+        "externalMiB": 277.12324047088623
+      },
+      {
+        "name": "Coastal sediment transport · 9 / 12",
+        "completed": 68,
+        "elapsedMs": 44126.106017,
+        "rssMiB": 856.91796875,
+        "heapMiB": 80.73878479003906,
+        "externalMiB": 277.12324047088623
+      },
+      {
+        "name": "Coastal sediment transport · 9 / 12",
+        "completed": 69,
+        "elapsedMs": 44198.365249,
+        "rssMiB": 857.91796875,
+        "heapMiB": 54.01331329345703,
+        "externalMiB": 289.9929609298706
+      },
+      {
+        "name": "Landscape water & drainage · 9 / 12",
+        "completed": 69,
+        "elapsedMs": 44198.804177,
+        "rssMiB": 857.91796875,
+        "heapMiB": 54.014503479003906,
+        "externalMiB": 289.9929609298706
+      },
+      {
+        "name": "Landscape water & drainage · 9 / 12",
+        "completed": 70,
+        "elapsedMs": 45183.960449,
+        "rssMiB": 857.015625,
+        "heapMiB": 98.82946014404297,
+        "externalMiB": 327.7444715499878
+      },
+      {
+        "name": "River landscape evolution · 10 / 12",
+        "completed": 70,
+        "elapsedMs": 45184.18167,
+        "rssMiB": 857.015625,
+        "heapMiB": 98.83158111572266,
+        "externalMiB": 328.6637372970581
+      },
+      {
+        "name": "River landscape evolution · 10 / 12",
+        "completed": 71,
+        "elapsedMs": 46106.846007,
+        "rssMiB": 860.20703125,
+        "heapMiB": 87.55191802978516,
+        "externalMiB": 334.1172819137573
+      },
+      {
+        "name": "Fine hillslope transport · 10 / 12",
+        "completed": 71,
+        "elapsedMs": 46106.924614999996,
+        "rssMiB": 860.20703125,
+        "heapMiB": 87.55322265625,
+        "externalMiB": 334.1172819137573
+      },
+      {
+        "name": "Fine hillslope transport · 10 / 12",
+        "completed": 72,
+        "elapsedMs": 46170.219809,
+        "rssMiB": 862.16796875,
+        "heapMiB": 70.52452850341797,
+        "externalMiB": 359.8566312789917
+      },
+      {
+        "name": "Fine wind transport · 10 / 12",
+        "completed": 72,
+        "elapsedMs": 46170.358957,
+        "rssMiB": 862.16796875,
+        "heapMiB": 70.5257797241211,
+        "externalMiB": 359.8566312789917
+      },
+      {
+        "name": "Fine wind transport · 10 / 12",
+        "completed": 73,
+        "elapsedMs": 46341.421985,
+        "rssMiB": 859.55859375,
+        "heapMiB": 69.05990600585938,
+        "externalMiB": 277.12324047088623
+      },
+      {
+        "name": "Coastal sediment transport · 10 / 12",
+        "completed": 73,
+        "elapsedMs": 46341.505379,
+        "rssMiB": 859.55859375,
+        "heapMiB": 69.06120300292969,
+        "externalMiB": 277.12324047088623
+      },
+      {
+        "name": "Coastal sediment transport · 10 / 12",
+        "completed": 74,
+        "elapsedMs": 46412.352727,
+        "rssMiB": 860.125,
+        "heapMiB": 42.11261749267578,
+        "externalMiB": 284.47736644744873
+      },
+      {
+        "name": "Landscape water & drainage · 10 / 12",
+        "completed": 74,
+        "elapsedMs": 46412.876190999996,
+        "rssMiB": 860.125,
+        "heapMiB": 42.11381530761719,
+        "externalMiB": 284.47736644744873
+      },
+      {
+        "name": "Landscape water & drainage · 10 / 12",
+        "completed": 75,
+        "elapsedMs": 47411.959105,
+        "rssMiB": 859.89453125,
+        "heapMiB": 96.58792114257812,
+        "externalMiB": 327.74092388153076
+      },
+      {
+        "name": "River landscape evolution · 11 / 12",
+        "completed": 75,
+        "elapsedMs": 47412.187257,
+        "rssMiB": 859.89453125,
+        "heapMiB": 96.59004974365234,
+        "externalMiB": 328.6601896286011
+      },
+      {
+        "name": "River landscape evolution · 11 / 12",
+        "completed": 76,
+        "elapsedMs": 48198.097454,
+        "rssMiB": 862.39453125,
+        "heapMiB": 55.99848175048828,
+        "externalMiB": 334.1172819137573
+      },
+      {
+        "name": "Fine hillslope transport · 11 / 12",
+        "completed": 76,
+        "elapsedMs": 48198.170654,
+        "rssMiB": 862.39453125,
+        "heapMiB": 55.999786376953125,
+        "externalMiB": 334.1172819137573
+      },
+      {
+        "name": "Fine hillslope transport · 11 / 12",
+        "completed": 77,
+        "elapsedMs": 48253.574306999995,
+        "rssMiB": 881.76953125,
+        "heapMiB": 117.29450225830078,
+        "externalMiB": 359.8566312789917
+      },
+      {
+        "name": "Fine wind transport · 11 / 12",
+        "completed": 77,
+        "elapsedMs": 48253.655799,
+        "rssMiB": 881.76953125,
+        "heapMiB": 117.2957534790039,
+        "externalMiB": 359.8566312789917
+      },
+      {
+        "name": "Fine wind transport · 11 / 12",
+        "completed": 78,
+        "elapsedMs": 48405.383862999995,
+        "rssMiB": 862.3984375,
+        "heapMiB": 101.25677490234375,
+        "externalMiB": 352.5025053024292
+      },
+      {
+        "name": "Coastal sediment transport · 11 / 12",
+        "completed": 78,
+        "elapsedMs": 48405.466296,
+        "rssMiB": 862.3984375,
+        "heapMiB": 101.25802612304688,
+        "externalMiB": 352.5025053024292
+      },
+      {
+        "name": "Coastal sediment transport · 11 / 12",
+        "completed": 79,
+        "elapsedMs": 48470.835347,
+        "rssMiB": 863.3984375,
+        "heapMiB": 73.2754898071289,
+        "externalMiB": 348.8255338668823
+      },
+      {
+        "name": "Landscape water & drainage · 11 / 12",
+        "completed": 79,
+        "elapsedMs": 48471.254024,
+        "rssMiB": 863.3984375,
+        "heapMiB": 73.27668762207031,
+        "externalMiB": 348.8255338668823
+      },
+      {
+        "name": "Landscape water & drainage · 11 / 12",
+        "completed": 80,
+        "elapsedMs": 49397.76019,
+        "rssMiB": 859.7109375,
+        "heapMiB": 93.96865844726562,
+        "externalMiB": 329.670184135437
+      },
+      {
+        "name": "River landscape evolution · 12 / 12",
+        "completed": 80,
+        "elapsedMs": 49397.977305,
+        "rssMiB": 859.7109375,
+        "heapMiB": 93.97076416015625,
+        "externalMiB": 330.5894498825073
+      },
+      {
+        "name": "River landscape evolution · 12 / 12",
+        "completed": 81,
+        "elapsedMs": 50213.015152,
+        "rssMiB": 861.90234375,
+        "heapMiB": 77.91989135742188,
+        "externalMiB": 336.0486478805542
+      },
+      {
+        "name": "Fine hillslope transport · 12 / 12",
+        "completed": 81,
+        "elapsedMs": 50213.095312,
+        "rssMiB": 861.90234375,
+        "heapMiB": 77.92117309570312,
+        "externalMiB": 336.0486478805542
+      },
+      {
+        "name": "Fine hillslope transport · 12 / 12",
+        "completed": 82,
+        "elapsedMs": 50269.402938,
+        "rssMiB": 862,
+        "heapMiB": 55.34405517578125,
+        "externalMiB": 361.7879972457886
+      },
+      {
+        "name": "Fine wind transport · 12 / 12",
+        "completed": 82,
+        "elapsedMs": 50269.477169,
+        "rssMiB": 862,
+        "heapMiB": 55.345306396484375,
+        "externalMiB": 361.7879972457886
+      },
+      {
+        "name": "Fine wind transport · 12 / 12",
+        "completed": 83,
+        "elapsedMs": 50459.569946999996,
+        "rssMiB": 859.86328125,
+        "heapMiB": 81.8216552734375,
+        "externalMiB": 277.12324047088623
+      },
+      {
+        "name": "Coastal sediment transport · 12 / 12",
+        "completed": 83,
+        "elapsedMs": 50459.655696,
+        "rssMiB": 859.86328125,
+        "heapMiB": 81.82292938232422,
+        "externalMiB": 277.12324047088623
+      },
+      {
+        "name": "Coastal sediment transport · 12 / 12",
+        "completed": 84,
+        "elapsedMs": 50526.010724,
+        "rssMiB": 860.86328125,
+        "heapMiB": 53.8763427734375,
+        "externalMiB": 289.9929609298706
+      },
+      {
+        "name": "Landscape water & drainage · 12 / 12",
+        "completed": 84,
+        "elapsedMs": 50526.501239,
+        "rssMiB": 860.86328125,
+        "heapMiB": 53.877540588378906,
+        "externalMiB": 289.9929609298706
+      },
+      {
+        "name": "Landscape water & drainage · 12 / 12",
+        "completed": 85,
+        "elapsedMs": 51410.265030999995,
+        "rssMiB": 859.86328125,
+        "heapMiB": 94.310791015625,
+        "externalMiB": 327.73808574676514
+      },
+      {
+        "name": "Final climate · 4 seasonal workers",
+        "completed": 85,
+        "elapsedMs": 51436.916474,
+        "rssMiB": 867.45703125,
+        "heapMiB": 59.836395263671875,
+        "externalMiB": 318.4989995956421
+      },
+      {
+        "name": "Final climate · 4 seasonal workers",
+        "completed": 86,
+        "elapsedMs": 58071.248576,
+        "rssMiB": 896.07421875,
+        "heapMiB": 45.17230224609375,
+        "externalMiB": 323.8483190536499
+      },
+      {
+        "name": "Final water & drainage",
+        "completed": 86,
+        "elapsedMs": 58071.308085,
+        "rssMiB": 896.07421875,
+        "heapMiB": 45.17346954345703,
+        "externalMiB": 323.8483190536499
+      },
+      {
+        "name": "Final water & drainage",
+        "completed": 87,
+        "elapsedMs": 58977.899199,
+        "rssMiB": 894.98046875,
+        "heapMiB": 96.90299987792969,
+        "externalMiB": 299.6247262954712
+      },
+      {
+        "name": "Headwaters & channels",
+        "completed": 87,
+        "elapsedMs": 58977.968893,
+        "rssMiB": 894.98046875,
+        "heapMiB": 96.90411376953125,
+        "externalMiB": 299.6247262954712
+      },
+      {
+        "name": "Headwaters & channels",
+        "completed": 88,
+        "elapsedMs": 59226.810375,
+        "rssMiB": 894.98046875,
+        "heapMiB": 85.13906860351562,
+        "externalMiB": 342.9266691207886
+      },
+      {
+        "name": "River courses & deltas",
+        "completed": 88,
+        "elapsedMs": 59226.884106,
+        "rssMiB": 894.98046875,
+        "heapMiB": 85.14018249511719,
+        "externalMiB": 342.9266691207886
+      },
+      {
+        "name": "River courses & deltas",
+        "completed": 89,
+        "elapsedMs": 59562.428811,
+        "rssMiB": 914.1875,
+        "heapMiB": 63.6455078125,
+        "externalMiB": 345.27691555023193
+      },
+      {
+        "name": "Biomes & ecology",
+        "completed": 89,
+        "elapsedMs": 59562.510263,
+        "rssMiB": 914.1875,
+        "heapMiB": 63.64662170410156,
+        "externalMiB": 345.27691555023193
+      },
+      {
+        "name": "Biomes & ecology",
+        "completed": 90,
+        "elapsedMs": 59804.020406999996,
+        "rssMiB": 898.16796875,
+        "heapMiB": 89.55913543701172,
+        "externalMiB": 296.94964504241943
+      },
+      {
+        "name": "Minerals & fertility",
+        "completed": 90,
+        "elapsedMs": 59804.095961,
+        "rssMiB": 898.16796875,
+        "heapMiB": 89.56023406982422,
+        "externalMiB": 296.94964504241943
+      },
+      {
+        "name": "Minerals & fertility",
+        "completed": 91,
+        "elapsedMs": 60219.273689,
+        "rssMiB": 898.29296875,
+        "heapMiB": 68.17442321777344,
+        "externalMiB": 298.1814260482788
+      },
+      {
+        "name": "Publish world",
+        "completed": 91,
+        "elapsedMs": 60219.42813,
+        "rssMiB": 898.29296875,
+        "heapMiB": 68.18195343017578,
+        "externalMiB": 298.1814260482788
+      },
+      {
+        "name": "Publish world",
+        "completed": 92,
+        "elapsedMs": 60273.371404,
+        "rssMiB": 898.29296875,
+        "heapMiB": 71.64509582519531,
+        "externalMiB": 297.881911277771
+      },
+      {
+        "name": "Prepare paged view index",
+        "completed": 0,
+        "elapsedMs": 60344.988828,
+        "rssMiB": 893.8515625,
+        "heapMiB": 84.05870819091797,
+        "externalMiB": 297.881911277771
+      },
+      {
+        "name": "Prepare paged view index",
+        "completed": 1,
+        "elapsedMs": 61563.389332,
+        "rssMiB": 911.3671875,
+        "heapMiB": 154.11687469482422,
+        "externalMiB": 369.4195146560669
+      }
+    ],
+    "independentSampler": {
+      "intervalMs": 50,
+      "available": true,
+      "observedPeakRssMiB": 936.46875,
+      "observedHighWaterRssMiB": 936.46875,
+      "stages": [
+        {
+          "name": "Starting worker",
+          "samples": 2,
+          "peakRssMiB": 45.234375
+        },
+        {
+          "name": "Simulation grid",
+          "samples": 4,
+          "peakRssMiB": 86.14453125
+        },
+        {
+          "name": "Plates & tectonics",
+          "samples": 4,
+          "peakRssMiB": 94.56640625
+        },
+        {
+          "name": "Crust evolution",
+          "samples": 19,
+          "peakRssMiB": 121.15625
+        },
+        {
+          "name": "Crust evolution · 22 / 200 Myr",
+          "samples": 19,
+          "peakRssMiB": 126.734375
+        },
+        {
+          "name": "Crust evolution · 43 / 200 Myr",
+          "samples": 19,
+          "peakRssMiB": 155.6796875
+        },
+        {
+          "name": "Crust evolution · 65 / 200 Myr",
+          "samples": 19,
+          "peakRssMiB": 156.07421875
+        },
+        {
+          "name": "Crust evolution · 87 / 200 Myr",
+          "samples": 19,
+          "peakRssMiB": 160.3359375
+        },
+        {
+          "name": "Crust evolution · 109 / 200 Myr",
+          "samples": 21,
+          "peakRssMiB": 166.28515625
+        },
+        {
+          "name": "Crust evolution · 130 / 200 Myr",
+          "samples": 20,
+          "peakRssMiB": 226.6875
+        },
+        {
+          "name": "Crust evolution · 152 / 200 Myr",
+          "samples": 20,
+          "peakRssMiB": 227.7421875
+        },
+        {
+          "name": "Crust evolution · 174 / 200 Myr",
+          "samples": 19,
+          "peakRssMiB": 231.7890625
+        },
+        {
+          "name": "Crust evolution · 196 / 200 Myr",
+          "samples": 4,
+          "peakRssMiB": 233.37109375
+        },
+        {
+          "name": "Crust evolution · 200 / 200 Myr",
+          "samples": 2,
+          "peakRssMiB": 236.328125
+        },
+        {
+          "name": "Terrain & oceans",
+          "samples": 7,
+          "peakRssMiB": 241.1953125
+        },
+        {
+          "name": "Seasonal climate · 4 seasonal workers",
+          "samples": 130,
+          "peakRssMiB": 445.3359375
+        },
+        {
+          "name": "Pilot water & refinement plan",
+          "samples": 8,
+          "peakRssMiB": 476.94140625
+        },
+        {
+          "name": "Adaptive surface mesh · roughly 40,962 cells, 120 MiB surface working memory; cancel to adjust detail",
+          "samples": 2,
+          "peakRssMiB": 491.54296875
+        },
+        {
+          "name": "Conservative spatial transfer",
+          "samples": 6,
+          "peakRssMiB": 507.203125
+        },
+        {
+          "name": "Refined terrain & oceans",
+          "samples": 5,
+          "peakRssMiB": 511.8203125
+        },
+        {
+          "name": "Land water budget",
+          "samples": 3,
+          "peakRssMiB": 516.24609375
+        },
+        {
+          "name": "Landscape weathering & sediment",
+          "samples": 7,
+          "peakRssMiB": 524.22265625
+        },
+        {
+          "name": "Rivers & reservoirs",
+          "samples": 2,
+          "peakRssMiB": 527.921875
+        },
+        {
+          "name": "River landscape evolution",
+          "samples": 6,
+          "peakRssMiB": 533.18359375
+        },
+        {
+          "name": "Fine hillslope transport · 1 / 12",
+          "samples": 1,
+          "peakRssMiB": 538.609375
+        },
+        {
+          "name": "Coastal sediment transport · 1 / 12",
+          "samples": 1,
+          "peakRssMiB": 538.97265625
+        },
+        {
+          "name": "Landscape water & drainage · 1 / 12",
+          "samples": 5,
+          "peakRssMiB": 551.63671875
+        },
+        {
+          "name": "River landscape evolution · 2 / 12",
+          "samples": 5,
+          "peakRssMiB": 558.3046875
+        },
+        {
+          "name": "Fine wind transport · 2 / 12",
+          "samples": 1,
+          "peakRssMiB": 562.05078125
+        },
+        {
+          "name": "Landscape water & drainage · 2 / 12",
+          "samples": 4,
+          "peakRssMiB": 567.1171875
+        },
+        {
+          "name": "River landscape evolution · 3 / 12",
+          "samples": 5,
+          "peakRssMiB": 566.80078125
+        },
+        {
+          "name": "Coastal sediment transport · 3 / 12",
+          "samples": 1,
+          "peakRssMiB": 566.85546875
+        },
+        {
+          "name": "Landscape water & drainage · 3 / 12",
+          "samples": 3,
+          "peakRssMiB": 571.26953125
+        },
+        {
+          "name": "River landscape evolution · 4 / 12",
+          "samples": 4,
+          "peakRssMiB": 567.88671875
+        },
+        {
+          "name": "Coastal sediment transport · 4 / 12",
+          "samples": 1,
+          "peakRssMiB": 570.12890625
+        },
+        {
+          "name": "Landscape water & drainage · 4 / 12",
+          "samples": 3,
+          "peakRssMiB": 576.41015625
+        },
+        {
+          "name": "Evolved refinement plan · 1",
+          "samples": 4,
+          "peakRssMiB": 576.83203125
+        },
+        {
+          "name": "Refinement cost estimate · 2",
+          "samples": 15,
+          "peakRssMiB": 577.1328125
+        },
+        {
+          "name": "Conservative terrain remesh · 1 · roughly 59,000 cells, 170 MiB surface working memory; cancel to adjust detail",
+          "samples": 60,
+          "peakRssMiB": 642.14453125
+        },
+        {
+          "name": "Rebuild spatial transfers · 1",
+          "samples": 10,
+          "peakRssMiB": 666.890625
+        },
+        {
+          "name": "Remeshed water & drainage · 1",
+          "samples": 14,
+          "peakRssMiB": 666.97265625
+        },
+        {
+          "name": "River landscape evolution · 5 / 12",
+          "samples": 8,
+          "peakRssMiB": 638.640625
+        },
+        {
+          "name": "Fine hillslope transport · 5 / 12",
+          "samples": 1,
+          "peakRssMiB": 645.83984375
+        },
+        {
+          "name": "Fine wind transport · 5 / 12",
+          "samples": 1,
+          "peakRssMiB": 646.09765625
+        },
+        {
+          "name": "Coastal sediment transport · 5 / 12",
+          "samples": 1,
+          "peakRssMiB": 649.640625
+        },
+        {
+          "name": "Landscape water & drainage · 5 / 12",
+          "samples": 8,
+          "peakRssMiB": 654.36328125
+        },
+        {
+          "name": "River landscape evolution · 6 / 12",
+          "samples": 7,
+          "peakRssMiB": 614.2109375
+        },
+        {
+          "name": "Fine hillslope transport · 6 / 12",
+          "samples": 1,
+          "peakRssMiB": 616.98828125
+        },
+        {
+          "name": "Fine wind transport · 6 / 12",
+          "samples": 1,
+          "peakRssMiB": 616.98828125
+        },
+        {
+          "name": "Coastal sediment transport · 6 / 12",
+          "samples": 1,
+          "peakRssMiB": 616.98828125
+        },
+        {
+          "name": "Landscape water & drainage · 6 / 12",
+          "samples": 8,
+          "peakRssMiB": 614.2109375
+        },
+        {
+          "name": "River landscape evolution · 7 / 12",
+          "samples": 9,
+          "peakRssMiB": 609.47265625
+        },
+        {
+          "name": "Fine hillslope transport · 7 / 12",
+          "samples": 1,
+          "peakRssMiB": 615.10546875
+        },
+        {
+          "name": "Fine wind transport · 7 / 12",
+          "samples": 1,
+          "peakRssMiB": 609.55078125
+        },
+        {
+          "name": "Coastal sediment transport · 7 / 12",
+          "samples": 1,
+          "peakRssMiB": 609.55078125
+        },
+        {
+          "name": "Landscape water & drainage · 7 / 12",
+          "samples": 7,
+          "peakRssMiB": 614.51953125
+        },
+        {
+          "name": "River landscape evolution · 8 / 12",
+          "samples": 7,
+          "peakRssMiB": 617.375
+        },
+        {
+          "name": "Fine hillslope transport · 8 / 12",
+          "samples": 1,
+          "peakRssMiB": 620.59375
+        },
+        {
+          "name": "Fine wind transport · 8 / 12",
+          "samples": 1,
+          "peakRssMiB": 618.20703125
+        },
+        {
+          "name": "Coastal sediment transport · 8 / 12",
+          "samples": 1,
+          "peakRssMiB": 618.3828125
+        },
+        {
+          "name": "Landscape water & drainage · 8 / 12",
+          "samples": 6,
+          "peakRssMiB": 623.0546875
+        },
+        {
+          "name": "Evolved refinement plan · 2",
+          "samples": 9,
+          "peakRssMiB": 625.48828125
+        },
+        {
+          "name": "Refinement cost estimate · 3",
+          "samples": 35,
+          "peakRssMiB": 628.5546875
+        },
+        {
+          "name": "Conservative terrain remesh · 2 · roughly 180,000 cells, 530 MiB surface working memory; cancel to adjust detail",
+          "samples": 189,
+          "peakRssMiB": 763.15234375
+        },
+        {
+          "name": "Rebuild spatial transfers · 2",
+          "samples": 20,
+          "peakRssMiB": 818.3671875
+        },
+        {
+          "name": "Remeshed water & drainage · 2",
+          "samples": 30,
+          "peakRssMiB": 827.5703125
+        },
+        {
+          "name": "River landscape evolution · 9 / 12",
+          "samples": 17,
+          "peakRssMiB": 825.14453125
+        },
+        {
+          "name": "Fine hillslope transport · 9 / 12",
+          "samples": 1,
+          "peakRssMiB": 833.26171875
+        },
+        {
+          "name": "Fine wind transport · 9 / 12",
+          "samples": 4,
+          "peakRssMiB": 855.96875
+        },
+        {
+          "name": "Coastal sediment transport · 9 / 12",
+          "samples": 1,
+          "peakRssMiB": 857.9375
+        },
+        {
+          "name": "Landscape water & drainage · 9 / 12",
+          "samples": 20,
+          "peakRssMiB": 864.01171875
+        },
+        {
+          "name": "River landscape evolution · 10 / 12",
+          "samples": 18,
+          "peakRssMiB": 861
+        },
+        {
+          "name": "Fine hillslope transport · 10 / 12",
+          "samples": 2,
+          "peakRssMiB": 869.88671875
+        },
+        {
+          "name": "Fine wind transport · 10 / 12",
+          "samples": 3,
+          "peakRssMiB": 860.23046875
+        },
+        {
+          "name": "Coastal sediment transport · 10 / 12",
+          "samples": 1,
+          "peakRssMiB": 860.40625
+        },
+        {
+          "name": "Landscape water & drainage · 10 / 12",
+          "samples": 20,
+          "peakRssMiB": 878.15234375
+        },
+        {
+          "name": "River landscape evolution · 11 / 12",
+          "samples": 16,
+          "peakRssMiB": 863.0703125
+        },
+        {
+          "name": "Fine hillslope transport · 11 / 12",
+          "samples": 1,
+          "peakRssMiB": 876.90625
+        },
+        {
+          "name": "Fine wind transport · 11 / 12",
+          "samples": 3,
+          "peakRssMiB": 863.0703125
+        },
+        {
+          "name": "Coastal sediment transport · 11 / 12",
+          "samples": 2,
+          "peakRssMiB": 864.07421875
+        },
+        {
+          "name": "Landscape water & drainage · 11 / 12",
+          "samples": 18,
+          "peakRssMiB": 877.421875
+        },
+        {
+          "name": "River landscape evolution · 12 / 12",
+          "samples": 16,
+          "peakRssMiB": 862.671875
+        },
+        {
+          "name": "Fine hillslope transport · 12 / 12",
+          "samples": 1,
+          "peakRssMiB": 872.4140625
+        },
+        {
+          "name": "Fine wind transport · 12 / 12",
+          "samples": 4,
+          "peakRssMiB": 862.81640625
+        },
+        {
+          "name": "Coastal sediment transport · 12 / 12",
+          "samples": 1,
+          "peakRssMiB": 860.7109375
+        },
+        {
+          "name": "Landscape water & drainage · 12 / 12",
+          "samples": 19,
+          "peakRssMiB": 877.92578125
+        },
+        {
+          "name": "Final climate · 4 seasonal workers",
+          "samples": 131,
+          "peakRssMiB": 896.96875
+        },
+        {
+          "name": "Final water & drainage",
+          "samples": 19,
+          "peakRssMiB": 906.890625
+        },
+        {
+          "name": "Headwaters & channels",
+          "samples": 4,
+          "peakRssMiB": 895.75
+        },
+        {
+          "name": "River courses & deltas",
+          "samples": 7,
+          "peakRssMiB": 914.87109375
+        },
+        {
+          "name": "Biomes & ecology",
+          "samples": 5,
+          "peakRssMiB": 914.9375
+        },
+        {
+          "name": "Minerals & fertility",
+          "samples": 8,
+          "peakRssMiB": 899.078125
+        },
+        {
+          "name": "Publish world",
+          "samples": 2,
+          "peakRssMiB": 899.08984375
+        },
+        {
+          "name": "Prepare paged view index",
+          "samples": 29,
+          "peakRssMiB": 936.46875
+        }
+      ]
+    }
+  },
+  "stages": [
+    {
+      "name": "Simulation grid",
+      "ms": 179.97595,
+      "share": 0.0029860777882908594
+    },
+    {
+      "name": "Surface grid",
+      "ms": 0.04761100000001761,
+      "share": 7.89939709046507e-7
+    },
+    {
+      "name": "Spatial transfer",
+      "ms": 0.811585999999977,
+      "share": 0.000013465459845539123
+    },
+    {
+      "name": "Plates & tectonics",
+      "ms": 185.93244300000003,
+      "share": 0.0030849051674124036
+    },
+    {
+      "name": "Crust evolution",
+      "ms": 9108.396622,
+      "share": 0.15112230739661436
+    },
+    {
+      "name": "Terrain & oceans",
+      "ms": 158.29845800000112,
+      "share": 0.002626414859065874
+    },
+    {
+      "name": "Seasonal climate",
+      "ms": 6589.460643,
+      "share": 0.10932928573445011
+    },
+    {
+      "name": "Pilot water & refinement plan",
+      "ms": 371.12734199999977,
+      "share": 0.0061575733456254835
+    },
+    {
+      "name": "Refinement cost estimate · 1",
+      "ms": 23.816270999999688,
+      "share": 0.0003951485619773909
+    },
+    {
+      "name": "Adaptive surface mesh",
+      "ms": 99.82255799999984,
+      "share": 0.0016562097503259494
+    },
+    {
+      "name": "Conservative spatial transfer",
+      "ms": 269.60982400000285,
+      "share": 0.0044732416022886185
+    },
+    {
+      "name": "Refined terrain & oceans",
+      "ms": 273.8968169999971,
+      "share": 0.004544369408953016
+    },
+    {
+      "name": "Land water budget",
+      "ms": 149.025281000002,
+      "share": 0.002472558591789124
+    },
+    {
+      "name": "Landscape weathering & sediment",
+      "ms": 309.83448599999974,
+      "share": 0.005140630604761994
+    },
+    {
+      "name": "Rivers & reservoirs",
+      "ms": 118.55166800000006,
+      "share": 0.001966954487972601
+    },
+    {
+      "name": "River landscape evolution",
+      "ms": 312.21048000000155,
+      "share": 0.0051800519991678454
+    },
+    {
+      "name": "Fine hillslope transport · 1 / 12",
+      "ms": 22.814775999999256,
+      "share": 0.00037853221976841435
+    },
+    {
+      "name": "Fine wind transport · 1 / 12",
+      "ms": 36.44942599999922,
+      "share": 0.0006047520314494743
+    },
+    {
+      "name": "Coastal sediment transport · 1 / 12",
+      "ms": 28.872122999997373,
+      "share": 0.00047903292184924603
+    },
+    {
+      "name": "Landscape water & drainage · 1 / 12",
+      "ms": 256.0310630000022,
+      "share": 0.004247949075066998
+    },
+    {
+      "name": "River landscape evolution · 2 / 12",
+      "ms": 225.7937340000026,
+      "share": 0.0037462652861821946
+    },
+    {
+      "name": "Fine hillslope transport · 2 / 12",
+      "ms": 25.098448000000644,
+      "share": 0.0004164218502159598
+    },
+    {
+      "name": "Fine wind transport · 2 / 12",
+      "ms": 36.17513599999802,
+      "share": 0.000600201138529871
+    },
+    {
+      "name": "Coastal sediment transport · 2 / 12",
+      "ms": 26.779837000001862,
+      "share": 0.000444318679466647
+    },
+    {
+      "name": "Landscape water & drainage · 2 / 12",
+      "ms": 178.59825600000113,
+      "share": 0.002963219726130564
+    },
+    {
+      "name": "River landscape evolution · 3 / 12",
+      "ms": 237.37763300000006,
+      "share": 0.003938459985005549
+    },
+    {
+      "name": "Fine hillslope transport · 3 / 12",
+      "ms": 14.007880000001023,
+      "share": 0.00023241227135651634
+    },
+    {
+      "name": "Fine wind transport · 3 / 12",
+      "ms": 17.656816999999137,
+      "share": 0.00029295374774026124
+    },
+    {
+      "name": "Coastal sediment transport · 3 / 12",
+      "ms": 13.677675999999337,
+      "share": 0.00022693367918900825
+    },
+    {
+      "name": "Landscape water & drainage · 3 / 12",
+      "ms": 159.1695839999993,
+      "share": 0.00264086817907556
+    },
+    {
+      "name": "River landscape evolution · 4 / 12",
+      "ms": 199.49836399999913,
+      "share": 0.0033099846592878784
+    },
+    {
+      "name": "Fine hillslope transport · 4 / 12",
+      "ms": 9.047575999997207,
+      "share": 0.00015011319974399424
+    },
+    {
+      "name": "Fine wind transport · 4 / 12",
+      "ms": 16.883057999999437,
+      "share": 0.000280115895997352
+    },
+    {
+      "name": "Coastal sediment transport · 4 / 12",
+      "ms": 21.66182800000024,
+      "share": 0.0003594030393759707
+    },
+    {
+      "name": "Landscape water & drainage · 4 / 12",
+      "ms": 163.37388400000054,
+      "share": 0.0027106239816998274
+    },
+    {
+      "name": "Evolved refinement plan · 1",
+      "ms": 222.10536799999682,
+      "share": 0.0036850696220520457
+    },
+    {
+      "name": "Refinement cost estimate · 2",
+      "ms": 751.100787000003,
+      "share": 0.012461917144087824
+    },
+    {
+      "name": "Conservative terrain remesh · 1",
+      "ms": 2974.3708079999997,
+      "share": 0.049349385870220634
+    },
+    {
+      "name": "Rebuild spatial transfers · 1",
+      "ms": 535.759141999999,
+      "share": 0.008889068088263823
+    },
+    {
+      "name": "Remeshed water & drainage · 1",
+      "ms": 713.1924009999966,
+      "share": 0.011832958722562195
+    },
+    {
+      "name": "River landscape evolution · 5 / 12",
+      "ms": 387.66575699999885,
+      "share": 0.00643197108424019
+    },
+    {
+      "name": "Fine hillslope transport · 5 / 12",
+      "ms": 38.89893700000175,
+      "share": 0.0006453931859441815
+    },
+    {
+      "name": "Fine wind transport · 5 / 12",
+      "ms": 77.96421000000191,
+      "share": 0.0012935461419297956
+    },
+    {
+      "name": "Coastal sediment transport · 5 / 12",
+      "ms": 50.87551800000074,
+      "share": 0.0008441030830374503
+    },
+    {
+      "name": "Landscape water & drainage · 5 / 12",
+      "ms": 376.1563539999988,
+      "share": 0.006241012388621202
+    },
+    {
+      "name": "River landscape evolution · 6 / 12",
+      "ms": 377.84728800000084,
+      "share": 0.006269067584100775
+    },
+    {
+      "name": "Fine hillslope transport · 6 / 12",
+      "ms": 35.192793999998685,
+      "share": 0.0005839025740455427
+    },
+    {
+      "name": "Fine wind transport · 6 / 12",
+      "ms": 41.313443999999436,
+      "share": 0.0006854535702475613
+    },
+    {
+      "name": "Coastal sediment transport · 6 / 12",
+      "ms": 39.72481300000072,
+      "share": 0.0006590957388657214
+    },
+    {
+      "name": "Landscape water & drainage · 6 / 12",
+      "ms": 412.4278669999985,
+      "share": 0.006842812569795421
+    },
+    {
+      "name": "River landscape evolution · 7 / 12",
+      "ms": 452.6167999999998,
+      "share": 0.0075096087732126745
+    },
+    {
+      "name": "Fine hillslope transport · 7 / 12",
+      "ms": 26.67107699999906,
+      "share": 0.00044251418380896113
+    },
+    {
+      "name": "Fine wind transport · 7 / 12",
+      "ms": 54.85550199999852,
+      "share": 0.0009101371382550858
+    },
+    {
+      "name": "Coastal sediment transport · 7 / 12",
+      "ms": 58.522985999999946,
+      "share": 0.0009709863378915725
+    },
+    {
+      "name": "Landscape water & drainage · 7 / 12",
+      "ms": 348.79029300000184,
+      "share": 0.005786967351464272
+    },
+    {
+      "name": "River landscape evolution · 8 / 12",
+      "ms": 380.8491670000003,
+      "share": 0.006318873373180011
+    },
+    {
+      "name": "Fine hillslope transport · 8 / 12",
+      "ms": 18.413695999999618,
+      "share": 0.0003055115343241089
+    },
+    {
+      "name": "Fine wind transport · 8 / 12",
+      "ms": 42.143387000000075,
+      "share": 0.000699223600953605
+    },
+    {
+      "name": "Coastal sediment transport · 8 / 12",
+      "ms": 47.762965999998414,
+      "share": 0.0007924610586886013
+    },
+    {
+      "name": "Landscape water & drainage · 8 / 12",
+      "ms": 328.11855399999695,
+      "share": 0.005443991411216364
+    },
+    {
+      "name": "Evolved refinement plan · 2",
+      "ms": 424.7634969999999,
+      "share": 0.007047479641965778
+    },
+    {
+      "name": "Refinement cost estimate · 3",
+      "ms": 1752.0642189999999,
+      "share": 0.02906943982246001
+    },
+    {
+      "name": "Conservative terrain remesh · 2",
+      "ms": 9479.354595999997,
+      "share": 0.15727707066665556
+    },
+    {
+      "name": "Rebuild spatial transfers · 2",
+      "ms": 1033.0369879999998,
+      "share": 0.017139672297046857
+    },
+    {
+      "name": "Remeshed water & drainage · 2",
+      "ms": 1496.9322690000045,
+      "share": 0.024836408414772925
+    },
+    {
+      "name": "River landscape evolution · 9 / 12",
+      "ms": 836.2027000000016,
+      "share": 0.013873888755574564
+    },
+    {
+      "name": "Fine hillslope transport · 9 / 12",
+      "ms": 67.49976199999946,
+      "share": 0.0011199248567551265
+    },
+    {
+      "name": "Fine wind transport · 9 / 12",
+      "ms": 194.44913400000223,
+      "share": 0.003226210168579744
+    },
+    {
+      "name": "Coastal sediment transport · 9 / 12",
+      "ms": 72.18272700000671,
+      "share": 0.0011976224478491872
+    },
+    {
+      "name": "Landscape water & drainage · 9 / 12",
+      "ms": 985.0470580000037,
+      "share": 0.016343445556559467
+    },
+    {
+      "name": "River landscape evolution · 10 / 12",
+      "ms": 922.5801509999947,
+      "share": 0.015307023504079913
+    },
+    {
+      "name": "Fine hillslope transport · 10 / 12",
+      "ms": 63.20377699999517,
+      "share": 0.0010486478589821265
+    },
+    {
+      "name": "Fine wind transport · 10 / 12",
+      "ms": 170.95143000000098,
+      "share": 0.0028363471230437322
+    },
+    {
+      "name": "Coastal sediment transport · 10 / 12",
+      "ms": 70.78138800000306,
+      "share": 0.001174372078776116
+    },
+    {
+      "name": "Landscape water & drainage · 10 / 12",
+      "ms": 998.9797890000045,
+      "share": 0.01657461099043735
+    },
+    {
+      "name": "River landscape evolution · 11 / 12",
+      "ms": 785.8402920000008,
+      "share": 0.013038298956528388
+    },
+    {
+      "name": "Fine hillslope transport · 11 / 12",
+      "ms": 55.30061800000112,
+      "share": 0.0009175222972211622
+    },
+    {
+      "name": "Fine wind transport · 11 / 12",
+      "ms": 151.56494999999995,
+      "share": 0.002514695606154125
+    },
+    {
+      "name": "Coastal sediment transport · 11 / 12",
+      "ms": 65.31078300000081,
+      "share": 0.001083606328802191
+    },
+    {
+      "name": "Landscape water & drainage · 11 / 12",
+      "ms": 926.3975520000022,
+      "share": 0.015370360057297838
+    },
+    {
+      "name": "River landscape evolution · 12 / 12",
+      "ms": 814.9538519999987,
+      "share": 0.013521337689503917
+    },
+    {
+      "name": "Fine hillslope transport · 12 / 12",
+      "ms": 56.18608399999357,
+      "share": 0.0009322135398836636
+    },
+    {
+      "name": "Fine wind transport · 12 / 12",
+      "ms": 190.0005100000053,
+      "share": 0.003152400655059474
+    },
+    {
+      "name": "Coastal sediment transport · 12 / 12",
+      "ms": 66.275658999999,
+      "share": 0.0010996151054862397
+    },
+    {
+      "name": "Landscape water & drainage · 12 / 12",
+      "ms": 883.6634820000036,
+      "share": 0.014661336116986577
+    },
+    {
+      "name": "Final climate",
+      "ms": 6634.206845000001,
+      "share": 0.11007169403901845
+    },
+    {
+      "name": "Final water & drainage",
+      "ms": 906.4242630000008,
+      "share": 0.015038972476668213
+    },
+    {
+      "name": "Headwaters & channels",
+      "ms": 248.75008500000695,
+      "share": 0.004127146452923205
+    },
+    {
+      "name": "River courses & deltas",
+      "ms": 335.4748199999958,
+      "share": 0.005566043177062612
+    },
+    {
+      "name": "Biomes & ecology",
+      "ms": 241.4392680000019,
+      "share": 0.004005848755881048
+    },
+    {
+      "name": "Minerals & fertility",
+      "ms": 415.0778579999969,
+      "share": 0.006886779995800207
+    },
+    {
+      "name": "Publish world",
+      "ms": 53.84138100000564,
+      "share": 0.0008933113112892158
+    }
+  ],
+  "evolution": {
+    "durationMyr": 1,
+    "batches": 12,
+    "drainageRefreshes": 14,
+    "remeshes": [
+      {
+        "beforeCells": 40962,
+        "afterCells": 85662,
+        "elapsedMyr": 0.3333333333333333,
+        "sedimentBefore": 1297351929604815.2,
+        "sedimentAfter": 1297351929389520
+      },
+      {
+        "beforeCells": 85662,
+        "afterCells": 240980,
+        "elapsedMyr": 0.6666666666666666,
+        "sedimentBefore": 1681355258129797,
+        "sedimentAfter": 1681355258313673
+      }
+    ],
+    "hillslopeMoved": 10014563289.847923,
+    "windMoved": 21731654330257.24,
+    "coastalMoved": 2824217283546.4165
+  },
+  "atmosphereRelativeResidual": 9.147885727785984e-12,
+  "oceanFluxDivergence": 2.9103830456733704e-11,
+  "runoffRoutingResidual": -7.203198038041592e-9,
+  "sedimentExport": 20083617731670830,
+  "lakes": 2417,
+  "deposits": 240,
+  "fertilityMiB": 0.9192657470703125,
+  "publication": {
+    "recipeSerializationMs": 63.32992999999988,
+    "serializedRecipeBytes": 12865921,
+    "viewIndexMs": 1046.566365999999,
+    "viewIndexMiB": 89.62522506713867,
+    "snapshotGraphMiB": 312.2225036621094,
+    "snapshotPages": 1808,
+    "postPublicationPeakRssMiB": 936.15234375
+  }
+}

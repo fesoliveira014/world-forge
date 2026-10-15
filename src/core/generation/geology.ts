@@ -1,4 +1,5 @@
 import type { Grid, WorldConfig, Geology, Plate } from '../model';
+import { createHotspots } from './volcanism';
 import {
   readVector,
   clamp,
@@ -187,6 +188,7 @@ export function buildGeology(grid: Grid, config: WorldConfig): Geology {
     boundary: new Uint8Array(grid.edgeLength.length),
     uplift: new Float32Array(grid.count),
     volcanism: new Float32Array(grid.count),
+    hotspots: createHotspots(config),
   };
   updateTectonicRelief(grid, geology, config);
 

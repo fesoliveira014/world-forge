@@ -11,6 +11,7 @@ import type {
 import { clamp } from '../math';
 import { exposedLandFraction } from './lake-state';
 import { riverbankHalfWidth } from './rivers';
+import { salinityFreshwaterSuitability } from './salinity';
 
 export const RIVER_HABITATS = [
   'None',
@@ -70,6 +71,94 @@ export function floodplainWidths(shape: ReachShape): { bank: number; flood: numb
   );
 
   return { bank, flood };
+}
+
+/** Extend a freshly solved soil proxy with contemporary saline river contact.
+ * Call once after solveSalinity and before ecology; every drainage rebuild starts
+ * with fresh shore/bed arrays. This represents porewater exposure, not a second
+ * salt inventory: no salt mass, elapsed time, runoff or discharge is changed.
+ */
+export function applySalineRiverExposure(
+  grid: Grid,
+  terrain: Terrain,
+  drainage: Drainage,
+  rivers: Rivers,
+  config: WorldConfig,
+): void {
+  const soil = drainage.soilSalinity;
+  const affected = drainage.soilSalinityFraction;
+  const concentration = drainage.riverSalinity;
+  if (!soil || !affected || !concentration) {
+    return;
+  }
+  // Accumulate area-weighted contact without allocating full-resolution scratch
+  // arrays. The final cap limits overlapping channels to the exposed land area.
+  for (let cell = 0; cell < grid.count; cell++) {
+    soil[cell] *= affected[cell];
+  }
+  let course = 0;
+  for (let corner = 0; corner < rivers.channel.length; corner++) {
+    if (!rivers.channel[corner] || concentration[corner] <= 2) {
+      continue;
+    }
+    while (course < rivers.courses.corner.length && rivers.courses.corner[course] < corner) {
+      course++;
+    }
+    const receiver = drainage.receiver[corner];
+    let edge = -1;
+    for (let incident = 0; incident < 3; incident++) {
+      if (grid.cornerNeighbors[corner * 3 + incident] === receiver) {
+        edge = grid.cornerEdges[corner * 3 + incident];
+      }
+    }
+    if (edge < 0) {
+      continue;
+    }
+    const sinuosity =
+      rivers.courses.corner[course] === corner ? rivers.courses.sinuosity[course] : 1;
+    const length = Math.max(1, grid.edgeLength[edge] * config.radius * sinuosity);
+    const supply = rivers.supportFlow[corner];
+    const bankfull = Math.max(drainage.discharge[corner] * 1.2, supply * 1.5, 1);
+    const excess = rivers.seasonalDischarge.map((season) => Math.max(0, season[corner] - bankfull));
+    const peak = Math.max(...excess);
+    const level = (drainage.height[corner] + drainage.height[receiver]) * 0.5;
+    const riverSlope = Math.max(0, drainage.height[corner] - drainage.height[receiver]) / length;
+    for (let bank = 0; bank < 2; bank++) {
+      const cell = grid.edgeCells[edge * 2 + bank];
+      const land = exposedLandFraction(terrain, drainage, cell);
+      if (land <= 0) {
+        continue;
+      }
+      const area = grid.areas[cell] * config.radius ** 2;
+      const distance = Math.max(1, area / (2 * length));
+      const reach = floodplainWidths({
+        supply,
+        peak,
+        length,
+        riverSlope,
+        bankSlope: Math.max(0, terrain.height[cell] - level) / distance,
+        availableWidth: distance * 0.8 * land,
+        sediment: terrain.sediment[cell],
+        extent: config.floodplainExtent,
+      });
+      // Salty water contacts a narrow near-channel strip between floods; wider
+      // flooded ground contributes in proportion to its inundated seasons.
+      const width = Math.min(
+        reach.bank,
+        Math.max(
+          riverbankHalfWidth(supply),
+          reach.flood * (excess.filter((flow) => flow > 0).length / 4),
+        ),
+      );
+      const fraction = Math.min(land, (length * width) / area);
+      soil[cell] += concentration[corner] * fraction;
+      affected[cell] += fraction;
+    }
+  }
+  for (let cell = 0; cell < grid.count; cell++) {
+    soil[cell] = affected[cell] > 0 ? soil[cell] / affected[cell] : 0;
+    affected[cell] = Math.min(exposedLandFraction(terrain, drainage, cell), affected[cell]);
+  }
 }
 
 /** An intentionally small floodplain-potential model, not a hydraulic flood forecast.
@@ -158,7 +247,11 @@ export function buildFloodplains(
       const growing = clamp((warm - 1) / 14);
       const background = ecology.vegetation[bankCell];
       const access = 1 - Math.exp(-supply / 5);
-      const potential = width > 0 ? Math.max(background, growing * (0.75 + 0.24 * access)) : 0;
+      // An incoming freshwater river can green a saline basin margin, whereas a
+      // salty lake release does not supply the same freshwater habitat benefit.
+      const freshwater = salinityFreshwaterSuitability(drainage.riverSalinity?.[cornerIndex] ?? 0);
+      const potential =
+        width > 0 ? Math.max(background, growing * (0.75 + 0.24 * access) * freshwater) : 0;
       const fraction = (length * width) / (grid.areas[bankCell] * config.radius ** 2);
       const floodFraction = width > 0 ? Math.min(width, reach.flood) / width : 0;
       const floodedSeasons = excess.filter((rainfall) => rainfall > 0).length;

@@ -7,6 +7,7 @@ import {
   type WorldConfig,
 } from '../model';
 import { clamp } from '../math';
+import { computeCornerSupport } from '../operators/corner-fields';
 
 export const RIVER_SOURCES = [
   'None',
@@ -64,6 +65,7 @@ export function selectRivers(
   // Slow release can itself originate as rain or snow. A lake resets the pathway
   // to lake release while retaining the already computed seasonal timing.
   const origins = Array.from({ length: 4 }, () => new Float32Array(size));
+  const support = computeCornerSupport(grid);
 
   for (let cornerIndex = 0; cornerIndex < cornerCount; cornerIndex++) {
     const lakeIndex = drainage.lakeId[cornerIndex];
@@ -91,26 +93,26 @@ export function selectRivers(
       continue;
     }
 
-    const degree = grid.offsets[cellIndex + 1] - grid.offsets[cellIndex];
-
     for (
       let neighborOffset = grid.offsets[cellIndex];
       neighborOffset < grid.offsets[cellIndex + 1];
       neighborOffset++
     ) {
       const cornerIndex = grid.cellCorners[neighborOffset];
-      area[cornerIndex] += (grid.areas[cellIndex] * config.radius ** 2) / degree;
-      supply[cornerIndex] += water.channelRunoff[cellIndex] / degree;
+      const fraction = support.cellCornerFraction[neighborOffset];
+      area[cornerIndex] += support.cellCornerArea[neighborOffset] * config.radius ** 2;
+      supply[cornerIndex] += water.channelRunoff[cellIndex] * fraction;
       origins[0][cornerIndex] +=
         Math.max(
           0,
           water.runoff[cellIndex] - water.meltRunoff[cellIndex] - water.baseflowRunoff[cellIndex],
-        ) / degree;
-      origins[1][cornerIndex] += water.meltRunoff[cellIndex] / degree;
-      origins[2][cornerIndex] += water.baseflowRunoff[cellIndex] / degree;
+        ) * fraction;
+      origins[1][cornerIndex] += water.meltRunoff[cellIndex] * fraction;
+      origins[2][cornerIndex] += water.baseflowRunoff[cellIndex] * fraction;
 
       for (let seasonIndex = 0; seasonIndex < 4; seasonIndex++) {
-        seasonal[seasonIndex][cornerIndex] += water.seasonalRunoff[seasonIndex][cellIndex] / degree;
+        seasonal[seasonIndex][cornerIndex] +=
+          water.seasonalRunoff[seasonIndex][cellIndex] * fraction;
       }
     }
   }

@@ -3,13 +3,17 @@
 **Implementation covered:** World Forge / Atlas, application v2.13.2 / generator v2.13.0\
 **Edition:** Illustrated algorithms, including pseudocode and worked examples\
 **Updated:** 2026-09-17\
-**Status:** Architecture of the implemented TypeScript application, with future work explicitly identified\
+**Status:** Historical algorithm baseline; current contracts are in [architecture.md](architecture.md)\
 **Source provenance:** Original commit `5a936635510eb553a20fc151c4f9df7a747d13b6`; see the [repository changelog](../CHANGELOG.md).
 
 For the standalone repository's runtime boundaries and build workflow, start with
 the [current architecture](architecture.md) and [development guide](development.md).
 This reference retains historical worked examples and later sections that update
 earlier algorithms; dates and measurements describe their original revisions.
+The [2.14–2.28 archive](history/README.md) extends these models with adaptive
+landscapes, paged snapshots, fixed physical rendering, automatic feature passes
+and salinity. Earlier claims of one worker, no adaptive mesh or unknown lake
+chemistry describe the historical baseline, not application 2.28.0.
 
 This document consolidates the original design and the changes made through application v2.13.2 / generator v2.13.0. It documents the current TypeScript prototype for the intended C3 implementation: a TypeScript generation core, one Web Worker, React controls, hand-written spherical spatial structures, and three.js graphics.
 
@@ -1675,3 +1679,26 @@ Ink shore distance is derived separately from ocean and seasonal lake coverage, 
 ### 21.6 Mountain range continuity in v2.13.2
 
 Mountain-to-mountain spacing uses a fixed unit-sphere chord distance of 0.028, independent of drawing width. Peaks still scale with elevation, but larger drawings no longer clear a larger gap along the range. Mixed symbol pairs retain width-based spacing, including sparse hills. Geographic eligibility, seeded sampling, cached selections, and shoreline rendering are unchanged. See [the comparison and limitations](history/revisions/2.13.2.md).
+
+## 23. Later implemented contracts through 2.28
+
+The [current architecture](architecture.md) defines the present runtime and
+ownership boundaries. Detailed additions are documented once in the versioned
+archive:
+
+- [Adaptive terrain and evolved-state transfer](history/design/adaptive-surface.md),
+  followed by [lake-floor and river-course preservation](history/revisions/2.18.2.md).
+- [Complete snapshots and regional physical edits](history/design/implementation-2.16.md),
+  with [manual saving](history/revisions/2.16.2.md).
+- [Fixed physical meshes](history/design/implementation-2.17.md),
+  [shared rendering resources](history/design/implementation-2.18.md), and
+  [bounded visual zoom reconstruction](history/design/implementation-2.19.md).
+- [Automatic final feature passes](history/revisions/2.25.0.md) and
+  [lake districts and quiet-land simplification](history/revisions/2.26.0.md).
+- [Lake salt budgets, conservative geographic inventory, saline outflow and
+  local soil effects](history/revisions/2.28.0.md).
+
+These additions retain separate climate and surface supports, explicit water and
+material budgets, bounded feedback, and no extra physical aging during a mesh
+edit. The measurements linked by each revision describe their original hardware,
+recipe, release and verification scope.

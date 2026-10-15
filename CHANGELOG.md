@@ -1,5 +1,30 @@
 # Changelog
 
+## Standalone feature sync — 2026-10-15
+
+Application and generator **2.28.0**, imported from source commit
+`c493d030f956b02ba8c40255642769126450a5e8`.
+
+- Added adaptive physical terrain, evolved-landscape remeshing and conservative
+  river, hillslope, wind and coastal sediment transport.
+- Added parallel seasonal climate workers, complete browser-local snapshots,
+  manual saved-world library and existing-world regional refinement.
+- Restored fixed physical detail with shared terrain/river assets, hidden-batch
+  culling, batched terrain submission and bounded optional visual zoom detail.
+- Added persistent cell grids, faster categorical geometry, moving wind/current
+  trails, three fantasy map styles and a black-to-white elevation heightmap.
+- Added automatic final feature refinement, lake-district detection and optional
+  protected quiet-land coarsening with replayable mesh decisions.
+- Added lake salt budgets, downstream salt transport and local salinity effects
+  on vegetation and fertility, preserving salt mass across later refinements.
+- Retained the standalone static React/Vite entry, portable commands, cleaned
+  dependency/layout conventions and historical documentation archive.
+
+The [2.14–2.28 revision archive](docs/history/README.md) includes implementation
+limits and measured evidence. New physical behavior uses the current generator;
+older recipes retain compatibility defaults and older snapshots keep unknown
+salinity until regeneration. Saving remains manual.
+
 ## Standalone repository preparation — 2026-10-11
 
 Based on application **2.13.2**, generator **2.13.0**, original source commit

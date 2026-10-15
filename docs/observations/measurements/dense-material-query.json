@@ -1,0 +1,256 @@
+{
+  "measurement": "atlas-dense-material-query/v1",
+  "scope": "CPU sampling profile on a synthetic 163842-site spherical grid; no geology or climate generation and no browser/disk timing.",
+  "storage": "In-memory PageValues; typed blocks structured-cloned on a cold helper-cache miss.",
+  "queries": "Natural layer, season 2, 129 by 129 Float32 directions on tiles at z3 and z6; tile x=y=2^(z-1).",
+  "optimization": "Per-request unique stencil-row Float32 vertex attributes, sorted physical-row gathers in chunks of at most 4096; original Float64 interpolation order retained.",
+  "verification": "Every typed result matched the pre-change reader bit for bit in cold and warm queries. Additional 17/65/129-axis and z1 broad-query comparisons also passed.",
+  "limits": {
+    "maxQueryPoints": 20000,
+    "maxUniqueRows": 60000,
+    "attributeTableBytes": 6240000,
+    "rawRecordChunkBytes": 966656,
+    "addedPersistentCacheBytes": 0
+  },
+  "caveats": [
+    "Single in-process runs, with instrumentation and ordinary runtime variability; not browser frame-time measurements.",
+    "Warm coherent queries made no page reads. Broad queries can exceed the fixed reader caches and reread pages.",
+    "Spatial and stencil lookup remain the dominant cost after deduplication; dense material loading must remain progressive."
+  ],
+  "before": [
+    {
+      "z": 3,
+      "axis": 129,
+      "state": "cold",
+      "totalMs": 489.80766900000003,
+      "stagesMs": {
+        "spatial": 216.58223399999156,
+        "stencil": 65.29292399999827,
+        "records": 11.07373900000016
+      },
+      "otherMs": 196.85877200001005,
+      "calls": {
+        "spatial": 16641,
+        "stencil": 16641,
+        "records": 1
+      },
+      "recordRows": 49923,
+      "uniqueRecordRows": 4210,
+      "pageCalls": 467,
+      "cache": {
+        "nodes": 273,
+        "leaves": 78,
+        "renderBlocks": 10,
+        "faceBlocks": 9,
+        "startBlocks": 9,
+        "positionBlocks": 10
+      },
+      "packetBytes": 1797228
+    },
+    {
+      "z": 3,
+      "axis": 129,
+      "state": "warm",
+      "totalMs": 461.67525000000023,
+      "stagesMs": {
+        "spatial": 218.25723300000982,
+        "stencil": 49.3475519999713,
+        "records": 10.598017000000027
+      },
+      "otherMs": 183.47244800001909,
+      "calls": {
+        "spatial": 16641,
+        "stencil": 16641,
+        "records": 1
+      },
+      "recordRows": 49923,
+      "uniqueRecordRows": 4210,
+      "pageCalls": 0,
+      "cache": {
+        "nodes": 273,
+        "leaves": 78,
+        "renderBlocks": 10,
+        "faceBlocks": 9,
+        "startBlocks": 9,
+        "positionBlocks": 10
+      },
+      "packetBytes": 1797228
+    },
+    {
+      "z": 6,
+      "axis": 129,
+      "state": "cold",
+      "totalMs": 438.1525310000002,
+      "stagesMs": {
+        "spatial": 197.86054900001363,
+        "stencil": 48.04661400005034,
+        "records": 5.26144099999965
+      },
+      "otherMs": 186.98392699993656,
+      "calls": {
+        "spatial": 16641,
+        "stencil": 16641,
+        "records": 1
+      },
+      "recordRows": 49923,
+      "uniqueRecordRows": 89,
+      "pageCalls": 101,
+      "cache": {
+        "nodes": 73,
+        "leaves": 6,
+        "renderBlocks": 4,
+        "faceBlocks": 4,
+        "startBlocks": 4,
+        "positionBlocks": 4
+      },
+      "packetBytes": 1797228
+    },
+    {
+      "z": 6,
+      "axis": 129,
+      "state": "warm",
+      "totalMs": 470.655342,
+      "stagesMs": {
+        "spatial": 206.89579799999728,
+        "stencil": 53.047143000021606,
+        "records": 5.829001999999946
+      },
+      "otherMs": 204.88339899998118,
+      "calls": {
+        "spatial": 16641,
+        "stencil": 16641,
+        "records": 1
+      },
+      "recordRows": 49923,
+      "uniqueRecordRows": 89,
+      "pageCalls": 0,
+      "cache": {
+        "nodes": 73,
+        "leaves": 6,
+        "renderBlocks": 4,
+        "faceBlocks": 4,
+        "startBlocks": 4,
+        "positionBlocks": 4
+      },
+      "packetBytes": 1797228
+    }
+  ],
+  "after": [
+    {
+      "z": 3,
+      "axis": 129,
+      "state": "cold",
+      "totalMs": 350.72928,
+      "stagesMs": {
+        "spatial": 450.911260000016,
+        "stencil": 117.55245099999433,
+        "records": 13.857374000000164
+      },
+      "otherMs": 74.26590299998725,
+      "calls": {
+        "spatial": 33282,
+        "stencil": 33282,
+        "records": 3
+      },
+      "recordRows": 4210,
+      "uniqueRecordRows": 4210,
+      "pageCalls": 467,
+      "cache": {
+        "nodes": 273,
+        "leaves": 78,
+        "renderBlocks": 10,
+        "faceBlocks": 9,
+        "startBlocks": 9,
+        "positionBlocks": 10
+      },
+      "packetBytes": 1797228
+    },
+    {
+      "z": 3,
+      "axis": 129,
+      "state": "warm",
+      "totalMs": 316.9001760000001,
+      "stagesMs": {
+        "spatial": 417.47185800002217,
+        "stencil": 93.49236399994106,
+        "records": 11.236295000000155
+      },
+      "otherMs": 54.02691900005448,
+      "calls": {
+        "spatial": 33282,
+        "stencil": 33282,
+        "records": 3
+      },
+      "recordRows": 4210,
+      "uniqueRecordRows": 4210,
+      "pageCalls": 0,
+      "cache": {
+        "nodes": 273,
+        "leaves": 78,
+        "renderBlocks": 10,
+        "faceBlocks": 9,
+        "startBlocks": 9,
+        "positionBlocks": 10
+      },
+      "packetBytes": 1797228
+    },
+    {
+      "z": 6,
+      "axis": 129,
+      "state": "cold",
+      "totalMs": 260.4447909999999,
+      "stagesMs": {
+        "spatial": 373.516293999955,
+        "stencil": 91.88013300000011,
+        "records": 6.792888000000403
+      },
+      "otherMs": 24.79333600005566,
+      "calls": {
+        "spatial": 33282,
+        "stencil": 33282,
+        "records": 2
+      },
+      "recordRows": 89,
+      "uniqueRecordRows": 89,
+      "pageCalls": 101,
+      "cache": {
+        "nodes": 73,
+        "leaves": 6,
+        "renderBlocks": 4,
+        "faceBlocks": 4,
+        "startBlocks": 4,
+        "positionBlocks": 4
+      },
+      "packetBytes": 1797228
+    },
+    {
+      "z": 6,
+      "axis": 129,
+      "state": "warm",
+      "totalMs": 259.711542,
+      "stagesMs": {
+        "spatial": 387.34907800000747,
+        "stencil": 95.95495700002903,
+        "records": 6.074381999999787
+      },
+      "otherMs": 26.260950999993838,
+      "calls": {
+        "spatial": 33282,
+        "stencil": 33282,
+        "records": 2
+      },
+      "recordRows": 89,
+      "uniqueRecordRows": 89,
+      "pageCalls": 0,
+      "cache": {
+        "nodes": 73,
+        "leaves": 6,
+        "renderBlocks": 4,
+        "faceBlocks": 4,
+        "startBlocks": 4,
+        "positionBlocks": 4
+      },
+      "packetBytes": 1797228
+    }
+  ]
+}

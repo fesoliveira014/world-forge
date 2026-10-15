@@ -1,6 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { BufferGeometry, Float32BufferAttribute, Vector3 } from 'three';
+import {
+  BufferAttribute,
+  BufferGeometry,
+  DynamicDrawUsage,
+  Float32BufferAttribute,
+  Vector3,
+} from 'three';
 import { buildGrid, nearestCell } from '../src/core/grid/build';
 import {
   mapPoint,
@@ -156,4 +162,287 @@ test('flow segments cross the dateline at the two map edges, never through its c
   writeMapSegment(source, 3, 0, output, 0, 0.01);
   assert.ok(Math.abs(output[3] + Math.PI) < 1e-6);
   assert.ok(Math.abs(output[6] - Math.PI) < 1e-6);
+});
+
+test('map seam and pole copies retain compact normalized attributes and refresh decoded values', () => {
+  const grid = buildGrid(2, 'compact-map-fields', 0.7);
+  const geometry = new BufferGeometry();
+  geometry.setAttribute('position', new Float32BufferAttribute(grid.positions, 3));
+  geometry.setIndex(Array.from(grid.triangles));
+  const bytes = Uint8Array.from({ length: grid.count * 4 }, (_, i) => (i * 79) % 256);
+  const signed = Int16Array.from(
+    { length: grid.count * 2 },
+    (_, i) => ((i * 8191) % 65535) - 32767,
+  );
+  const packed = new BufferAttribute(bytes, 4, true).setUsage(DynamicDrawUsage);
+  const normal = new BufferAttribute(signed, 2, true);
+  geometry.setAttribute('packed', packed);
+  geometry.setAttribute('packedNormal', normal);
+  geometry.setAttribute(
+    'reference',
+    new Float32BufferAttribute(
+      Array.from(bytes, (v) => v / 255),
+      4,
+    ),
+  );
+  geometry.setAttribute(
+    'normalReference',
+    new Float32BufferAttribute(
+      Array.from(signed, (v) => v / 32767),
+      2,
+    ),
+  );
+  projectMesh(geometry);
+  const mapped = geometry.getAttribute('packed') as BufferAttribute;
+  const mappedNormal = geometry.getAttribute('packedNormal') as BufferAttribute;
+  assert.ok(mapped.count > grid.count);
+  assert.ok(mapped.array instanceof Uint8Array);
+  assert.ok(mappedNormal.array instanceof Int16Array);
+  assert.equal(mapped.normalized, true);
+  assert.equal(mappedNormal.normalized, true);
+  assert.equal(mapped.usage, DynamicDrawUsage);
+  assert.deepEqual(mapped.array.slice(0, bytes.length), bytes);
+  assert.deepEqual(mappedNormal.array.slice(0, signed.length), signed);
+  const verify = () => {
+    for (const [name, referenceName, step] of [
+      ['packed', 'reference', 1 / 255],
+      ['packedNormal', 'normalReference', 1 / 32767],
+    ] as const) {
+      const attribute = geometry.getAttribute(name);
+      const reference = geometry.getAttribute(referenceName);
+      for (let vertex = 0; vertex < attribute.count; vertex++) {
+        for (let component = 0; component < attribute.itemSize; component++) {
+          assert.ok(
+            Math.abs(
+              attribute.getComponent(vertex, component) - reference.getComponent(vertex, component),
+            ) <=
+              step / 2 + 1e-7,
+          );
+        }
+      }
+    }
+  };
+  verify();
+  for (let vertex = 0; vertex < grid.count; vertex++) {
+    for (let component = 0; component < 4; component++) {
+      const value = ((vertex * 17 + component * 59) % 256) / 255;
+      mapped.setComponent(vertex, component, value);
+      geometry.getAttribute('reference').setComponent(vertex, component, value);
+    }
+  }
+  updateMapAttributes(geometry, ['packed', 'reference']);
+  verify();
+  geometry.dispose();
+});
+
+test('interpolated polar material pairs retain uint16 scalar precision', () => {
+  const grid = buildGrid(2, 'compact-map-pairs', 0.7);
+  const geometry = new BufferGeometry();
+  geometry.setAttribute('position', new Float32BufferAttribute(grid.positions, 3));
+  geometry.setIndex(Array.from(grid.triangles));
+  const bytes = new Uint8Array(grid.count * 4);
+  const scalar = new Float32Array(grid.count);
+  for (let vertex = 0; vertex < grid.count; vertex++) {
+    const value = (vertex * 7919) % 65536;
+    bytes[vertex * 4 + 1] = value >> 8;
+    bytes[vertex * 4 + 2] = value & 255;
+    scalar[vertex] = value;
+  }
+  geometry.setAttribute('material1', new BufferAttribute(bytes, 4, true));
+  geometry.setAttribute('scalar', new Float32BufferAttribute(scalar, 1));
+  geometry.userData.mapPackedPairs = { material1: [1] };
+  projectMesh(geometry);
+  const material = geometry.getAttribute('material1');
+  const reference = geometry.getAttribute('scalar');
+  assert.ok(
+    Array.from(reference.array).some((value) => Math.abs(value - Math.round(value)) > 0.1),
+    'fixture must include interpolated polar vertices',
+  );
+  for (let vertex = 0; vertex < material.count; vertex++) {
+    const decoded = (material.getY(vertex) * 256 + material.getZ(vertex)) * 255;
+    assert.ok(
+      Math.abs(decoded - reference.getX(vertex)) <= 0.505,
+      `vertex ${vertex}: ${decoded} vs ${reference.getX(vertex)}`,
+    );
+  }
+  geometry.dispose();
+});
+
+test('categorical map pole and seam triangles retain the original provoking owner through refresh', () => {
+  const geometry = new BufferGeometry();
+  const directions = [
+    ...[0, (2 * Math.PI) / 3, (-2 * Math.PI) / 3].flatMap((longitude) =>
+      spherePoint(longitude, 1.4, new Vector3()).toArray(),
+    ),
+    ...[0, (-2 * Math.PI) / 3, (2 * Math.PI) / 3].flatMap((longitude) =>
+      spherePoint(longitude, -1.4, new Vector3()).toArray(),
+    ),
+    ...[
+      [3, 0.2],
+      [-3, 0.2],
+      [3.1, 0.4],
+    ].flatMap(([longitude, latitude]) => spherePoint(longitude, latitude, new Vector3()).toArray()),
+  ];
+  geometry.setAttribute('position', new Float32BufferAttribute(directions, 3));
+  const colors = new Uint8Array(9 * 4);
+  const ownerColors = [
+    [255, 127, 31, 255],
+    [31, 193, 255, 255],
+    [97, 31, 193, 255],
+  ];
+  for (let triangle = 0; triangle < 3; triangle++) {
+    colors.set(ownerColors[triangle], (triangle * 3 + 2) * 4);
+  }
+  geometry.setAttribute('color', new BufferAttribute(colors, 4, true));
+  geometry.setIndex([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+  geometry.userData.mapFlatAttributes = ['color'];
+  projectMesh(geometry);
+  const index = geometry.getIndex()!;
+  const position = geometry.getAttribute('position');
+  const color = geometry.getAttribute('color') as BufferAttribute;
+  const seen = new Set<number>();
+  const verify = () => {
+    for (let i = 0; i < index.count; i += 3) {
+      const [a, b, c] = [index.getX(i), index.getX(i + 1), index.getX(i + 2)];
+      if (a === b || a === c) {
+        continue;
+      }
+      const latitude = (position.getY(a) + position.getY(b) + position.getY(c)) / 3;
+      const owner = latitude > 1 ? 0 : latitude < -1 ? 1 : 2;
+      seen.add(owner);
+      assert.deepEqual(Array.from(color.array.slice(c * 4, c * 4 + 4)), ownerColors[owner]);
+    }
+  };
+  verify();
+  assert.equal(seen.size, 3);
+  ownerColors[0] = [71, 89, 113, 255];
+  for (let component = 0; component < 4; component++) {
+    color.setComponent(2, component, ownerColors[0][component] / 255);
+  }
+  updateMapAttributes(geometry, ['color']);
+  verify();
+  geometry.dispose();
+});
+
+test('map indices stay compact through seam expansion and promote before the Uint16 restart limit', () => {
+  const seam = [
+    [3, 0.2],
+    [-3, 0.2],
+    [3.1, 0.4],
+  ].flatMap(([longitude, latitude]) => spherePoint(longitude, latitude, new Vector3()).toArray());
+  let referencePositions: number[] | undefined;
+  for (const count of [3, 65529, 65530]) {
+    const positions = new Float32Array(count * 3);
+    for (let vertex = 0; vertex < count; vertex++) {
+      positions[vertex * 3] = 1;
+    }
+    positions.set(seam, (count - 3) * 3);
+    const original = new Uint16Array([count - 3, count - 2, count - 1]);
+    const geometry = new BufferGeometry();
+    geometry.setAttribute('position', new BufferAttribute(positions, 3));
+    geometry.setIndex(new BufferAttribute(original, 1));
+    projectMesh(geometry);
+    const projected = geometry.getAttribute('position');
+    const index = geometry.index!.array;
+    assert.equal(projected.count, count + 6, 'one crossing triangle gains two unwrapped copies');
+    assert.deepEqual(Array.from(index), [
+      count - 3,
+      count - 3,
+      count - 3,
+      count,
+      count + 1,
+      count + 2,
+      count + 3,
+      count + 4,
+      count + 5,
+    ]);
+    assert.deepEqual(
+      Array.from(original),
+      [count - 3, count - 2, count - 1],
+      'input topology is not modified',
+    );
+    if (count + 6 <= 65535) {
+      assert.ok(index instanceof Uint16Array);
+      assert.equal(index.byteLength, index.length * 2);
+    } else {
+      assert.ok(index instanceof Uint32Array);
+      assert.equal(index.byteLength, index.length * 4);
+      assert.ok(
+        Array.from(index).includes(65535),
+        'overflow fixture references the value reserved by Uint16',
+      );
+    }
+    const copies = Array.from(projected.array.slice(count * 3));
+    if (referencePositions) {
+      assert.deepEqual(copies, referencePositions);
+    } else {
+      referencePositions = copies;
+    }
+    geometry.dispose();
+  }
+});
+
+test('octahedral map normals remain radial on a constant-height sphere at both synthesized poles', () => {
+  const grid = buildGrid(2, 'oct-projection-review', 0.7);
+  const geometry = new BufferGeometry();
+  geometry.setAttribute('position', new Float32BufferAttribute(grid.positions, 3));
+  geometry.setAttribute('spherePosition', new Float32BufferAttribute(grid.positions, 3));
+  const normals = new Int16Array(grid.count * 2);
+  for (let vertex = 0; vertex < grid.count; vertex++) {
+    let x = grid.positions[vertex * 3];
+    let y = grid.positions[vertex * 3 + 1];
+    const z = grid.positions[vertex * 3 + 2];
+    const length = Math.abs(x) + Math.abs(y) + Math.abs(z);
+    x /= length;
+    y /= length;
+    if (z < 0) {
+      const previousX = x;
+      x = (1 - Math.abs(y)) * (x < 0 ? -1 : 1);
+      y = (1 - Math.abs(previousX)) * (y < 0 ? -1 : 1);
+    }
+    normals[vertex * 2] = Math.round(x * 32767);
+    normals[vertex * 2 + 1] = Math.round(y * 32767);
+  }
+  geometry.setAttribute('packedNormal', new BufferAttribute(normals, 2, true));
+  geometry.setIndex(Array.from(grid.triangles));
+  geometry.userData.mapOctNormalAttributes = ['packedNormal'];
+  projectMesh(geometry);
+  const position = geometry.getAttribute('position');
+  const sphere = geometry.getAttribute('spherePosition');
+  const packed = geometry.getAttribute('packedNormal');
+  const poles = new Set<number>();
+  for (let vertex = grid.count; vertex < position.count; vertex++) {
+    let x = packed.getX(vertex);
+    let y = packed.getY(vertex);
+    const z = 1 - Math.abs(x) - Math.abs(y);
+    if (z < 0) {
+      const previousX = x;
+      x = (1 - Math.abs(y)) * (x < 0 ? -1 : 1);
+      y = (1 - Math.abs(previousX)) * (y < 0 ? -1 : 1);
+    }
+    const normal = new Vector3(x, y, z).normalize();
+    const radial = new Vector3().fromBufferAttribute(sphere, vertex).normalize();
+    assert.ok(
+      normal.angleTo(radial) < 0.00015,
+      'display relief must not amplify artificial polar slopes',
+    );
+    if (Math.abs(Math.abs(position.getY(vertex)) - Math.PI / 2) < 1e-6) {
+      poles.add(Math.sign(position.getY(vertex)));
+    }
+  }
+  assert.equal(poles.size, 2, 'both poles must be synthesized in this irregular fixture');
+  assert.deepEqual(
+    packed.array.slice(0, normals.length),
+    normals,
+    'original normal bits are unchanged',
+  );
+  for (let vertex = 0; vertex < grid.count; vertex++) {
+    packed.setXY(vertex, 0, 0);
+  }
+  updateMapAttributes(geometry, ['packedNormal']);
+  assert.ok(
+    Array.from(packed.array).every((component) => component === 0),
+    'normal refresh uses the same decoded interpolation',
+  );
+  geometry.dispose();
 });

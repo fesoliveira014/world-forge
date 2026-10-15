@@ -9,6 +9,8 @@ import {
 } from '../model';
 import { clamp } from '../math';
 import { prolongRainfall } from '../operators/prolongation';
+import { type OverlapTransfer, restrictDensity } from '../operators/transfer';
+import { createScalarSampler } from '../operators/scalar-sampling';
 
 /** Conservative rain prolongation and a seasonal soil/snow budget.
  * Four repeated years initialize storage; only the last year contributes annual fluxes.
@@ -22,6 +24,7 @@ export function solveLandWater(
   terrain: Terrain,
   config: WorldConfig,
   processHeight: Float32Array,
+  overlap?: OverlapTransfer,
 ): LandWater {
   const cellCount = grid.count;
   const rain = new Float32Array(cellCount);
@@ -37,42 +40,59 @@ export function solveLandWater(
   const snow = new Float64Array(cellCount);
   const saturatedSeasons = new Uint8Array(cellCount);
   const aridity = new Float32Array(cellCount);
-  const seasonalRain = prolongRainfall(grid, processGrid, surfaceToProcess, climate.rain);
+  const seasonalRain = prolongRainfall(grid, processGrid, surfaceToProcess, climate.rain, overlap);
   const seasonalLiquid = Array.from({ length: 4 }, () => new Float32Array(cellCount));
   const seasonalTemperature: Float32Array[] = [];
   const seasonalPet: Float32Array[] = [];
   const seasonalRunoff = Array.from({ length: 4 }, () => new Float32Array(cellCount));
   const ponds = terrain.oxbows;
   const pondAt = new Int32Array(cellCount).fill(-1);
+  const nextPond = new Int32Array(ponds.length).fill(-1);
   const pondStorage = new Float64Array(ponds.length);
   const pondMelt = new Float64Array(ponds.length);
   const oxbowDepth = Array.from({ length: 4 }, () => new Float32Array(ponds.length));
 
-  for (let pondIndex = 0; pondIndex < ponds.length; pondIndex++) {
+  for (let pondIndex = ponds.length - 1; pondIndex >= 0; pondIndex--) {
+    nextPond[pondIndex] = pondAt[ponds[pondIndex].cell];
     pondAt[ponds[pondIndex].cell] = pondIndex;
   }
 
   let residual = 0;
+  const sampleHeight = overlap ? createScalarSampler(processGrid, processHeight) : undefined;
 
   for (let seasonIndex = 0; seasonIndex < 4; seasonIndex++) {
     const seasonRain = seasonalRain[seasonIndex];
     const seasonTemperature = new Float32Array(cellCount);
     const seasonPotentialEvapotranspiration = new Float32Array(cellCount);
+    const sampleTemperature = overlap
+      ? createScalarSampler(processGrid, climate.temperature[seasonIndex])
+      : undefined;
+    const wind = climate.wind[seasonIndex];
+    const sampleSpeed = overlap
+      ? createScalarSampler(
+          processGrid,
+          Float32Array.from({ length: processGrid.count }, (_, cell) =>
+            Math.hypot(wind[cell * 3], wind[cell * 3 + 1], wind[cell * 3 + 2]),
+          ),
+        )
+      : undefined;
 
     for (let cellIndex = 0; cellIndex < cellCount; cellIndex++) {
       const processCell = surfaceToProcess[cellIndex];
+      const x = grid.positions[cellIndex * 3];
+      const y = grid.positions[cellIndex * 3 + 1];
+      const z = grid.positions[cellIndex * 3 + 2];
       seasonTemperature[cellIndex] =
-        climate.temperature[seasonIndex][processCell] -
+        (sampleTemperature?.(x, y, z, processCell) ??
+          climate.temperature[seasonIndex][processCell]) -
         (terrain.ocean[cellIndex]
           ? 0
           : 0.006 *
-            (Math.max(0, terrain.height[cellIndex]) - Math.max(0, processHeight[processCell])));
-      const wind = climate.wind[seasonIndex];
-      const speed = Math.hypot(
-        wind[processCell * 3],
-        wind[processCell * 3 + 1],
-        wind[processCell * 3 + 2],
-      );
+            (Math.max(0, terrain.height[cellIndex]) -
+              Math.max(0, sampleHeight?.(x, y, z, processCell) ?? processHeight[processCell])));
+      const speed =
+        sampleSpeed?.(x, y, z, processCell) ??
+        Math.hypot(wind[processCell * 3], wind[processCell * 3 + 1], wind[processCell * 3 + 2]);
       seasonPotentialEvapotranspiration[cellIndex] =
         (Math.max(0, seasonTemperature[cellIndex] + 5) * (0.075 + speed * 0.0015) * 365.25) / 4;
       rain[cellIndex] += seasonRain[cellIndex];
@@ -112,42 +132,54 @@ export function solveLandWater(
         const baseflow = available * 0.08;
         soil[cellIndex] = available - baseflow;
         soilMelt[cellIndex] = soil[cellIndex] * meltShare;
-        const pondIndex = pondAt[cellIndex];
-        const fraction =
-          pondIndex < 0 ? 0 : ponds[pondIndex].area / (grid.areas[cellIndex] * config.radius ** 2);
-        const pondStart = pondIndex < 0 ? 0 : pondStorage[pondIndex];
+        let fraction = 0;
+        let pondStart = 0;
+        let pondEnd = 0;
         let pondEvap = 0;
         let pondOverflow = 0;
-        let pondMeltShare = 0;
+        let pondMeltOverflow = 0;
 
-        if (pondIndex >= 0) {
+        // Refinement can place several persistent geographic pond anchors in one
+        // new cell. Each keeps its own capacity and melt store; footprint-weighted
+        // contributions share the cell's soil/water ledger exactly once.
+        for (let pondIndex = pondAt[cellIndex]; pondIndex >= 0; pondIndex = nextPond[pondIndex]) {
+          const pondFraction = ponds[pondIndex].area / (grid.areas[cellIndex] * config.radius ** 2);
+          fraction += pondFraction;
+          pondStart += pondFraction * pondStorage[pondIndex];
           const availablePondWater = pondStorage[pondIndex] + liquid;
-          pondMeltShare =
+          const pondMeltShare =
             availablePondWater > 0 ? (pondMelt[pondIndex] + melt) / availablePondWater : 0;
-          pondEvap = Math.min(availablePondWater, seasonalPet[seasonIndex][cellIndex]);
-          pondOverflow = Math.max(
+          const evaporation = Math.min(availablePondWater, seasonalPet[seasonIndex][cellIndex]);
+          const overflowDepth = Math.max(
             0,
-            availablePondWater - pondEvap - ponds[pondIndex].capacity * 1000,
+            availablePondWater - evaporation - ponds[pondIndex].capacity * 1000,
           );
-          pondStorage[pondIndex] = availablePondWater - pondEvap - pondOverflow;
+          pondStorage[pondIndex] = availablePondWater - evaporation - overflowDepth;
           pondMelt[pondIndex] = pondStorage[pondIndex] * pondMeltShare;
+          pondEnd += pondFraction * pondStorage[pondIndex];
+          pondEvap += pondFraction * evaporation;
+          pondOverflow += pondFraction * overflowDepth;
+          pondMeltOverflow += pondFraction * overflowDepth * pondMeltShare;
+          if (year === 3) {
+            oxbowDepth[seasonIndex][pondIndex] = pondStorage[pondIndex] * 0.001;
+          }
         }
 
         // A cutoff pond replaces its footprint's soil bucket. Rain, melt, evaporation,
         // storage and overflow use the same ledger; no ornamental water is added.
-        const runoffDepth =
-          (1 - fraction) * (quickflow + overflow + baseflow) + fraction * pondOverflow;
-        const actualDepth = (1 - fraction) * actual + fraction * pondEvap;
+        const runoffDepth = (1 - fraction) * (quickflow + overflow + baseflow) + pondOverflow;
+        const actualDepth = (1 - fraction) * actual + pondEvap;
 
         if (year === 3) {
           seasonalLiquid[seasonIndex][cellIndex] = liquid;
           residual += Math.abs(
             start +
-              fraction * (pondStart - soilStart) +
+              pondStart -
+              fraction * soilStart +
               precip -
               snow[cellIndex] -
               (1 - fraction) * soil[cellIndex] -
-              fraction * (pondIndex < 0 ? 0 : pondStorage[pondIndex]) -
+              pondEnd -
               actualDepth -
               runoffDepth,
           );
@@ -157,14 +189,10 @@ export function solveLandWater(
             saturatedSeasons[cellIndex]++;
           }
 
-          if (pondIndex >= 0) {
-            oxbowDepth[seasonIndex][pondIndex] = pondStorage[pondIndex] * 0.001;
-          }
-
           const toRate = (0.001 * grid.areas[cellIndex] * config.radius ** 2) / YEAR;
           meltRunoff[cellIndex] +=
             ((1 - fraction) * (melt * (1 - config.infiltration) + overflow * meltShare) +
-              fraction * pondOverflow * pondMeltShare) *
+              pondMeltOverflow) *
             toRate;
           baseflowRunoff[cellIndex] += (1 - fraction) * baseflow * toRate;
           runoff[cellIndex] +=
@@ -174,7 +202,7 @@ export function solveLandWater(
           // Retain the origin of existing runoff. Annual storm drainage alone does not
           // establish a continuously drawn channel; this does not add or remove water.
           channelRunoff[cellIndex] +=
-            ((1 - fraction) * (overflow + baseflow) + fraction * pondOverflow) * toRate;
+            ((1 - fraction) * (overflow + baseflow) + pondOverflow) * toRate;
         }
       }
     }
@@ -218,7 +246,14 @@ export function restrictEvaporation(
   surfaceToProcess: Uint32Array,
   terrain: Terrain,
   water: LandWater,
+  overlap?: OverlapTransfer,
 ): Float32Array {
+  if (overlap) {
+    const landEvaporation = Float64Array.from(water.aet, (value, cell) =>
+      terrain.ocean[cell] ? 0 : value,
+    );
+    return Float32Array.from(restrictDensity(overlap, landEvaporation));
+  }
   const volume = new Float64Array(processGrid.count);
 
   for (let cellIndex = 0; cellIndex < grid.count; cellIndex++) {

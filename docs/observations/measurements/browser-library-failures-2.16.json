@@ -1,0 +1,27 @@
+{
+  "renderingDisabled": true,
+  "anchorSelection": "Renderer callback injected because WebGL is disabled",
+  "checkpoints": [
+    {
+      "name": "failedOpenIsAccessibleInsideDialogAndKeepsPreview",
+      "value": true
+    },
+    {
+      "name": "failedDeleteCannotCancelOrRestoreOverNewerGeneration",
+      "value": true
+    },
+    {
+      "name": "failedDeleteKeepsOriginalDurableSnapshot",
+      "value": true
+    },
+    {
+      "name": "allFailureChecksPassed",
+      "value": true
+    }
+  ],
+  "errors": [],
+  "consoleErrors": [
+    "THREE.WebGLRenderer: THREE.WebGLRenderer: Error creating WebGL context.",
+    "THREE.WebGLRenderer: THREE.WebGLRenderer: Error creating WebGL context."
+  ]
+}

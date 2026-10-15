@@ -1,0 +1,126 @@
+{
+  "description": "Read-only saved-field audit during the 2.16.2 display fidelity work. No 2.6-million-cell world was generated for this audit.",
+  "fixture": {
+    "seed": "multiblock-audit",
+    "surfaceLevel": 5,
+    "processLevel": 3,
+    "tectonicDuration": 8,
+    "fluvialDuration": 0,
+    "landscapeBatches": 1
+  },
+  "fieldParity": {
+    "cells": 10242,
+    "recordBlocks": 6,
+    "faceBlocks": 3,
+    "crossBlockFaces": 1363,
+    "queries": 12090,
+    "seasons": 5,
+    "edgePoints": 9,
+    "maxErrors": {
+      "surfaceTerrain": 0,
+      "surfaceClimate": 0,
+      "surfaceHabitat": 0,
+      "surfaceDelta": 0,
+      "surfaceWater": 0,
+      "heights": 0,
+      "colors": 0
+    },
+    "maxScaledErrors": {
+      "surfaceTerrain": 0,
+      "surfaceClimate": 0,
+      "surfaceHabitat": 0,
+      "surfaceDelta": 0,
+      "surfaceWater": 0,
+      "heights": 0,
+      "colors": 0
+    },
+    "pageReads": {
+      "value": 17,
+      "range": 517,
+      "values": 0
+    }
+  },
+  "reference": "Original NaturalSurface Float32 vertex attributes and palette, evaluated on original primal barycentric stencils at normalized actual Float32 query directions.",
+  "polarSourceContinuity": [
+    {
+      "sign": -1,
+      "identicalPoleDuplicates": 2142,
+      "rings": [
+        {
+          "epsilon": 0.01,
+          "maxHeightDifference": 90.029296875,
+          "maxMaskDifference": 0,
+          "maxTemperatureDifference": 0
+        },
+        {
+          "epsilon": 0.001,
+          "maxHeightDifference": 9.11865234375,
+          "maxMaskDifference": 0,
+          "maxTemperatureDifference": 0
+        },
+        {
+          "epsilon": 0.0001,
+          "maxHeightDifference": 0.911865234375,
+          "maxMaskDifference": 0,
+          "maxTemperatureDifference": 0
+        },
+        {
+          "epsilon": 1e-05,
+          "maxHeightDifference": 0.09130859375,
+          "maxMaskDifference": 0,
+          "maxTemperatureDifference": 0
+        }
+      ]
+    },
+    {
+      "sign": 1,
+      "identicalPoleDuplicates": 2142,
+      "rings": [
+        {
+          "epsilon": 0.01,
+          "maxHeightDifference": 6.997314453125,
+          "maxMaskDifference": 0,
+          "maxTemperatureDifference": 0
+        },
+        {
+          "epsilon": 0.001,
+          "maxHeightDifference": 0.29736328125,
+          "maxMaskDifference": 0,
+          "maxTemperatureDifference": 0
+        },
+        {
+          "epsilon": 0.0001,
+          "maxHeightDifference": 0.02978515625,
+          "maxMaskDifference": 0,
+          "maxTemperatureDifference": 0
+        },
+        {
+          "epsilon": 1e-05,
+          "maxHeightDifference": 0.0029296875,
+          "maxMaskDifference": 0,
+          "maxTemperatureDifference": 0
+        }
+      ]
+    }
+  ],
+  "priorPolarUvDefect": {
+    "z3LongitudeWidthDegrees": 2.8125,
+    "midEdgeWrongLongitudeDegrees": 1.40625,
+    "halfEdgePhysicalErrorMeters": 1918.6816024075997,
+    "dense129PixelTextureMidEdgeDiscontinuity": 4
+  },
+  "resolutionEstimates": {
+    "assumedRadiusMeters": 6371000,
+    "level9BaseCells": 2621442,
+    "meanHexNeighborSpacingMeters": 14989.153067842632,
+    "priorGeometrySamplesPerTile": 289,
+    "priorGeometryLongitudeStepAtZ3MetersEquator": 312735.7311878214,
+    "priorGeometryLatitudeStepAtZ3Meters": 156367.8655939107,
+    "note": "Analytical sampling-density estimates, not measured final screen quality. Terrain adaptive refinement can be finer than the base-cell spacing."
+  },
+  "permanentRegressions": [
+    "tests/view-dense-sampling.test.ts",
+    "tests/dense-material-fidelity.test.ts"
+  ],
+  "limits": "Backend field and CPU geometry/texture-coordinate checks do not replace browser GPU captures. Reader-query optimization preserves original Float32 attributes; dense material maps intentionally add bounded display quantization."
+}

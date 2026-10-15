@@ -1,0 +1,10 @@
+{
+  "version": "2.14.0",
+  "config": {
+    "seed": "AETHER-0004",
+    "surfaceLevel": 4,
+    "processLevel": 3,
+    "refinementMinSpacing": 150000,
+    "refinementStrength": 0.6
+  }
+}

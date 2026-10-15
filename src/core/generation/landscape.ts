@@ -6,6 +6,8 @@ import { sampleUplift } from './geology';
 import { classifyWater } from './terrain';
 import { depositInBasins } from './sediment';
 import { erodeOutlets } from './outlet-erosion';
+import { createScalarSampler } from '../operators/scalar-sampling';
+import type { OverlapTransfer } from '../operators/transfer';
 
 /** Integrated landscape aging under the provisional climate, not a paleoclimate solve.
  * Work on the process grid in physical units, then apply the height correction to
@@ -19,6 +21,7 @@ export function weatherLandscape(
   terrain: Terrain,
   climate: Climate,
   config: WorldConfig,
+  overlap?: OverlapTransfer,
 ): number {
   if (config.erosion === 0 || config.tectonicDuration === 0) {
     return 0;
@@ -30,6 +33,7 @@ export function weatherLandscape(
     surfaceToProcess,
     terrain.height,
     terrain.ocean,
+    overlap,
   );
   const height = surface.height;
   const initialHeight = new Float32Array(height);
@@ -179,23 +183,30 @@ export function weatherLandscape(
     (elevation, processCell) => elevation - initialHeight[processCell],
   );
   const sediment = new Float64Array(grid.count);
+  const sampleCorrection =
+    config.refinementStrength > 0 ? createScalarSampler(processGrid, correction) : undefined;
 
   for (let cellIndex = 0; cellIndex < grid.count; cellIndex++) {
     if (terrain.ocean[cellIndex]) {
       continue;
     }
 
-    const erosionDepth = Math.max(
-      0,
-      -sampleUplift(
-        processGrid,
-        correction,
-        grid.positions[cellIndex * 3],
-        grid.positions[cellIndex * 3 + 1],
-        grid.positions[cellIndex * 3 + 2],
-        surfaceToProcess[cellIndex],
-      ),
-    );
+    const correctionAtCell = sampleCorrection
+      ? sampleCorrection(
+          grid.positions[cellIndex * 3],
+          grid.positions[cellIndex * 3 + 1],
+          grid.positions[cellIndex * 3 + 2],
+          surfaceToProcess[cellIndex],
+        )
+      : sampleUplift(
+          processGrid,
+          correction,
+          grid.positions[cellIndex * 3],
+          grid.positions[cellIndex * 3 + 1],
+          grid.positions[cellIndex * 3 + 2],
+          surfaceToProcess[cellIndex],
+        );
+    const erosionDepth = Math.max(0, -correctionAtCell);
     const previousHeight = terrain.height[cellIndex];
     const loose = Math.min(erosionDepth, terrain.sediment[cellIndex]);
     terrain.sediment[cellIndex] -= loose;
@@ -222,9 +233,17 @@ export function weatherLandscape(
   }
 
   const exported = depositInBasins(grid, terrain, sediment, config);
-  const incisionBudget = Float32Array.from(
-    surfaceToProcess,
-    (processCell) => outletDepth[processCell],
+  const sampleOutletDepth =
+    config.refinementStrength > 0 ? createScalarSampler(processGrid, outletDepth) : undefined;
+  const incisionBudget = Float32Array.from(surfaceToProcess, (processCell, cellIndex) =>
+    sampleOutletDepth
+      ? sampleOutletDepth(
+          grid.positions[cellIndex * 3],
+          grid.positions[cellIndex * 3 + 1],
+          grid.positions[cellIndex * 3 + 2],
+          processCell,
+        )
+      : outletDepth[processCell],
   );
 
   return exported + erodeOutlets(grid, terrain, incisionBudget, config);

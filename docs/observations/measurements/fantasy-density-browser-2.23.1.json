@@ -1,0 +1,859 @@
+{
+  "version": "2.23.1",
+  "baseline": "fa116b3d77cfeb86834a18594b022031915e5657",
+  "environment": {
+    "browser": "System Chromium",
+    "viewport": [1720, 1120],
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "webgl2": true,
+    "nativeMultiDraw": true
+  },
+  "fixture": {
+    "seed": "AETHER-2408",
+    "baseCells": 40962,
+    "cells": 251559,
+    "physicalTriangles": 503114,
+    "physicalPackets": 123,
+    "config": {
+      "seed": "AETHER-2408",
+      "surfaceLevel": 6,
+      "processLevel": 6,
+      "refinementMinSpacing": 50000,
+      "refinementStrength": 0.8,
+      "evolutionRefinements": 2,
+      "landscapeBatches": 12,
+      "hillslopeStrength": 1,
+      "irregularity": 0.65,
+      "plates": 18,
+      "oceanFraction": 0.66,
+      "exposure": 1,
+      "temperature": 15,
+      "obliquity": 23.4,
+      "erosion": 0.35,
+      "radius": 6371000,
+      "continentScale": 1,
+      "reliefScale": 1,
+      "tectonicWidth": 1,
+      "tectonicDuration": 200,
+      "plateSpeed": 3,
+      "volcanicActivity": 1,
+      "hotspotCount": 8,
+      "waveErosion": 1,
+      "windErosion": 1,
+      "lakePersistence": 0.35,
+      "windStrength": 1.8,
+      "circulationScale": 1,
+      "currentStrength": 1,
+      "evaporationScale": 1.5,
+      "moistureLifetime": 18,
+      "moistureMixing": 800000,
+      "orographicStrength": 0.8,
+      "recycling": 0.65,
+      "soilCapacity": 140,
+      "infiltration": 0.85,
+      "riverSourceArea": 8000,
+      "riverSourceFlow": 1,
+      "floodplainExtent": 1,
+      "fluvialDuration": 1,
+      "bankMobility": 1,
+      "depositFrequency": 1,
+      "depositAmount": 1
+    },
+    "note": "Recreated with the existing Balanced cloud preset. Coastline and twin mountain belts match the user screenshots, but this is not the user's exact 327,837-cell saved snapshot. Both renderers use the same immutable recreated world."
+  },
+  "methodology": [
+    "Baseline renderer imported from immutable fa116b3 source; final current production renderer through a QA-only camera and props harness. Source readers and physical packets are production code. No simulation or save schema changes.",
+    "Geographic coverage is an area-weighted proximity proxy: eligible source cells within a fixed great-circle distance of accepted, post-water-mask symbol anchors. It is not pixel fill, visible glyph-ink coverage, or a promise that every mountain or forest patch is drawn.",
+    "Coverage excludes polar source cells beyond 60 degrees latitude. Mountain eligibility: height >= 2500 m and lake fraction < 0.5, mark within 2 degrees. Forest eligibility: forest biome 3/4/8/9, positive height and lake fraction < 0.5, mark within 1 degree; vegetation thresholds are reported separately. Rainforest uses biome 9 and vegetation >= 0.75. Regional bounds are [-112,-78] longitude and [-5,25] latitude.",
+    "Node CPU measurements time the completed collector over the same 123 real physical packets, without browser, texture creation or I/O. These single runs are not FPS or load-time claims. Browser graphics use software SwiftShader; frame timings are not native-GPU predictions.",
+    "The original three-style integration and categorical parity checks from 2.23.0 remain applicable; this focused pass covers placement density, six views, camera stability, placement reuse, lakes and coasts."
+  ],
+  "placements": [
+    {
+      "name": "before",
+      "cells": 251559,
+      "packets": 123,
+      "ms": 1650.975074,
+      "collectorBytes": 3173068,
+      "counts": {
+        "mountain": 324,
+        "forest": 73
+      }
+    },
+    {
+      "name": "after",
+      "cells": 251559,
+      "packets": 123,
+      "ms": 2074.5208870000006,
+      "collectorBytes": 5152084,
+      "counts": {
+        "mountain": 1465,
+        "forest": 2990
+      }
+    }
+  ],
+  "coverage": {
+    "method": "Non-polar eligible source cells within fixed angular distance of accepted post-water symbol anchor; proxy for geographic representation, not pixel fill or visible ink. Mountains: height>=2500m within2deg. Forests: forestbiome,vegetation>=.4,landlake<.5 within1deg. Region[-112,-78]lon[-5,25]lat.",
+    "results": [
+      {
+        "phase": "before",
+        "metrics": [
+          {
+            "kind": "mountain",
+            "threshold": 2,
+            "count": 8198,
+            "covered": 3435,
+            "areaFraction": 0.4214019478729178,
+            "cellFraction": 0.4190046352768968,
+            "regional": {
+              "count": 1964,
+              "covered": 789,
+              "area": 0.08234925385690497,
+              "coveredArea": 0.032959681006332106,
+              "areaFraction": 0.4002426186350739,
+              "cellFraction": 0.40173116089613037
+            }
+          },
+          {
+            "kind": "forest",
+            "threshold": 1,
+            "count": 24446,
+            "covered": 1233,
+            "areaFraction": 0.05061959062386228,
+            "cellFraction": 0.050437699419127874,
+            "regional": {
+              "count": 2617,
+              "covered": 221,
+              "area": 0.11007461031542175,
+              "coveredArea": 0.00931490476366977,
+              "areaFraction": 0.08462355430537216,
+              "cellFraction": 0.08444784103935804
+            }
+          },
+          {
+            "kind": "forest",
+            "label": "denseforest vegetation>=0.75",
+            "threshold": 1,
+            "count": 22409,
+            "covered": 1169,
+            "areaFraction": 0.05240369696602928,
+            "cellFraction": 0.05216654022937213,
+            "regional": {
+              "count": 2480,
+              "covered": 219,
+              "area": 0.10436599608777168,
+              "coveredArea": 0.009238287827459907,
+              "areaFraction": 0.08851817808254825,
+              "cellFraction": 0.08830645161290322
+            }
+          },
+          {
+            "kind": "forest",
+            "label": "denseforest vegetation>=0.85",
+            "threshold": 1,
+            "count": 20601,
+            "covered": 1041,
+            "areaFraction": 0.050734661641224824,
+            "cellFraction": 0.05053152759574778,
+            "regional": {
+              "count": 2388,
+              "covered": 217,
+              "area": 0.10049048362694267,
+              "coveredArea": 0.009146112371116292,
+              "areaFraction": 0.091014711453375,
+              "cellFraction": 0.09087102177554439
+            }
+          },
+          {
+            "kind": "forest",
+            "label": "rainforest vegetation>=.75",
+            "threshold": 1,
+            "count": 1991,
+            "covered": 101,
+            "areaFraction": 0.05093105117492439,
+            "cellFraction": 0.050728277247614265,
+            "regional": {
+              "count": 404,
+              "covered": 31,
+              "area": 0.017324526571072744,
+              "coveredArea": 0.0012741974786872772,
+              "areaFraction": 0.07354876183542244,
+              "cellFraction": 0.07673267326732673
+            }
+          }
+        ]
+      },
+      {
+        "phase": "after",
+        "metrics": [
+          {
+            "kind": "mountain",
+            "threshold": 2,
+            "count": 8198,
+            "covered": 7742,
+            "areaFraction": 0.9438419434469446,
+            "cellFraction": 0.9443766772383508,
+            "regional": {
+              "count": 1964,
+              "covered": 1926,
+              "area": 0.08234925385690497,
+              "coveredArea": 0.08073672663361436,
+              "areaFraction": 0.9804184355320009,
+              "cellFraction": 0.9806517311608961
+            }
+          },
+          {
+            "kind": "forest",
+            "threshold": 1,
+            "count": 24446,
+            "covered": 16675,
+            "areaFraction": 0.683049306768147,
+            "cellFraction": 0.6821156835474106,
+            "regional": {
+              "count": 2617,
+              "covered": 2147,
+              "area": 0.11007461031542175,
+              "coveredArea": 0.09038194229230458,
+              "areaFraction": 0.8210970907215814,
+              "cellFraction": 0.8204050439434467
+            }
+          },
+          {
+            "kind": "forest",
+            "label": "denseforest vegetation>=0.75",
+            "threshold": 1,
+            "count": 22409,
+            "covered": 15572,
+            "areaFraction": 0.6960227475564071,
+            "cellFraction": 0.6948993707885225,
+            "regional": {
+              "count": 2480,
+              "covered": 2119,
+              "area": 0.10436599608777168,
+              "coveredArea": 0.08920527548853223,
+              "areaFraction": 0.8547350557887714,
+              "cellFraction": 0.8544354838709678
+            }
+          },
+          {
+            "kind": "forest",
+            "label": "denseforest vegetation>=0.85",
+            "threshold": 1,
+            "count": 20601,
+            "covered": 14459,
+            "areaFraction": 0.702875381516308,
+            "cellFraction": 0.7018591330517936,
+            "regional": {
+              "count": 2388,
+              "covered": 2082,
+              "area": 0.10049048362694267,
+              "coveredArea": 0.08766561733014522,
+              "areaFraction": 0.8723773054530414,
+              "cellFraction": 0.871859296482412
+            }
+          },
+          {
+            "kind": "forest",
+            "label": "rainforest vegetation>=.75",
+            "threshold": 1,
+            "count": 1991,
+            "covered": 1207,
+            "areaFraction": 0.608394113884777,
+            "cellFraction": 0.6062280261175289,
+            "regional": {
+              "count": 404,
+              "covered": 376,
+              "area": 0.017324526571072744,
+              "coveredArea": 0.016139554446172082,
+              "areaFraction": 0.9316014714722858,
+              "cellFraction": 0.9306930693069307
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "browser": {
+    "captures": [
+      {
+        "name": "map-engraved",
+        "image": "outputs/atlas-fantasy-density-balanced-final-map-engraved.png",
+        "effectiveRelief": "0",
+        "symbols": 4455,
+        "symbolAssetBytes": 10107589.333333334,
+        "placementBytes": 218295,
+        "reused": false,
+        "placementIdentity": [
+          {
+            "id": 1,
+            "count": 4455,
+            "reused": false,
+            "collectorPresent": false
+          }
+        ],
+        "glCalls": {
+          "multiDrawElementsWEBGL": 7,
+          "multiDrawLogical": 56,
+          "drawElementsInstanced": 1,
+          "drawElements": 26
+        },
+        "glErrors": [],
+        "requests": {
+          "physicalManifest": 1,
+          "riverRender": 58,
+          "physicalBatch": 123,
+          "overlays": 2,
+          "releaseRiverRender": 1
+        }
+      },
+      {
+        "name": "map-pan-zoom",
+        "image": "outputs/atlas-fantasy-density-balanced-final-map-pan-zoom.png",
+        "effectiveRelief": "0",
+        "symbols": 4455,
+        "symbolAssetBytes": 10107589.333333334,
+        "placementBytes": 218295,
+        "reused": false,
+        "placementIdentity": [
+          {
+            "id": 1,
+            "count": 4455,
+            "reused": false,
+            "collectorPresent": false
+          }
+        ],
+        "glCalls": {
+          "multiDrawElementsWEBGL": 7,
+          "multiDrawLogical": 74,
+          "drawElementsInstanced": 1,
+          "drawElements": 27
+        },
+        "glErrors": [],
+        "requests": {
+          "physicalManifest": 1,
+          "riverRender": 58,
+          "physicalBatch": 123,
+          "overlays": 3,
+          "releaseRiverRender": 1
+        }
+      },
+      {
+        "name": "map-roundtrip",
+        "image": "outputs/atlas-fantasy-density-balanced-final-map-roundtrip.png",
+        "effectiveRelief": "0",
+        "symbols": 4455,
+        "symbolAssetBytes": 10107589.333333334,
+        "placementBytes": 218295,
+        "reused": false,
+        "placementIdentity": [
+          {
+            "id": 1,
+            "count": 4455,
+            "reused": false,
+            "collectorPresent": false
+          }
+        ],
+        "glCalls": {
+          "multiDrawElementsWEBGL": 7,
+          "multiDrawLogical": 56,
+          "drawElementsInstanced": 1,
+          "drawElements": 26
+        },
+        "glErrors": [],
+        "requests": {
+          "physicalManifest": 1,
+          "riverRender": 58,
+          "physicalBatch": 123,
+          "overlays": 4,
+          "releaseRiverRender": 1
+        }
+      },
+      {
+        "name": "map-parchment",
+        "image": "outputs/atlas-fantasy-density-balanced-final-map-parchment.png",
+        "effectiveRelief": "0",
+        "symbols": 4455,
+        "symbolAssetBytes": 10107589.333333334,
+        "placementBytes": 218295,
+        "reused": true,
+        "placementIdentity": [
+          {
+            "id": 1,
+            "count": 4455,
+            "reused": true,
+            "collectorPresent": false
+          }
+        ],
+        "glCalls": {
+          "multiDrawElementsWEBGL": 7,
+          "multiDrawLogical": 56,
+          "drawElementsInstanced": 1,
+          "drawElements": 26
+        },
+        "glErrors": [],
+        "requests": {
+          "physicalManifest": 1,
+          "riverRender": 58,
+          "physicalBatch": 123,
+          "overlays": 5,
+          "releaseRiverRender": 1
+        }
+      },
+      {
+        "name": "map-painted",
+        "image": "outputs/atlas-fantasy-density-balanced-final-map-painted.png",
+        "effectiveRelief": "0",
+        "symbols": 4455,
+        "symbolAssetBytes": 10107589.333333334,
+        "placementBytes": 218295,
+        "reused": true,
+        "placementIdentity": [
+          {
+            "id": 1,
+            "count": 4455,
+            "reused": true,
+            "collectorPresent": false
+          }
+        ],
+        "glCalls": {
+          "multiDrawElementsWEBGL": 7,
+          "multiDrawLogical": 56,
+          "drawElementsInstanced": 1,
+          "drawElements": 26
+        },
+        "glErrors": [],
+        "requests": {
+          "physicalManifest": 1,
+          "riverRender": 58,
+          "physicalBatch": 123,
+          "overlays": 6,
+          "releaseRiverRender": 1
+        }
+      },
+      {
+        "name": "globe-painted",
+        "image": "outputs/atlas-fantasy-density-balanced-final-globe-painted.png",
+        "effectiveRelief": "0",
+        "symbols": 4455,
+        "symbolAssetBytes": 10107589.333333334,
+        "placementBytes": 218295,
+        "reused": true,
+        "placementIdentity": [
+          {
+            "id": 1,
+            "count": 4455,
+            "reused": true,
+            "collectorPresent": false
+          }
+        ],
+        "glCalls": {
+          "multiDrawElementsWEBGL": 8,
+          "multiDrawLogical": 54,
+          "drawElementsInstanced": 1,
+          "drawElements": 28
+        },
+        "glErrors": [],
+        "requests": {
+          "physicalManifest": 1,
+          "riverRender": 58,
+          "physicalBatch": 123,
+          "overlays": 8,
+          "releaseRiverRender": 1
+        }
+      },
+      {
+        "name": "globe-parchment",
+        "image": "outputs/atlas-fantasy-density-balanced-final-globe-parchment.png",
+        "effectiveRelief": "0",
+        "symbols": 4455,
+        "symbolAssetBytes": 10107589.333333334,
+        "placementBytes": 218295,
+        "reused": true,
+        "placementIdentity": [
+          {
+            "id": 1,
+            "count": 4455,
+            "reused": true,
+            "collectorPresent": false
+          }
+        ],
+        "glCalls": {
+          "multiDrawElementsWEBGL": 8,
+          "multiDrawLogical": 54,
+          "drawElementsInstanced": 1,
+          "drawElements": 28
+        },
+        "glErrors": [],
+        "requests": {
+          "physicalManifest": 1,
+          "riverRender": 58,
+          "physicalBatch": 123,
+          "overlays": 9,
+          "releaseRiverRender": 1
+        }
+      },
+      {
+        "name": "globe-engraved",
+        "image": "outputs/atlas-fantasy-density-balanced-final-globe-engraved.png",
+        "effectiveRelief": "0",
+        "symbols": 4455,
+        "symbolAssetBytes": 10107589.333333334,
+        "placementBytes": 218295,
+        "reused": true,
+        "placementIdentity": [
+          {
+            "id": 1,
+            "count": 4455,
+            "reused": true,
+            "collectorPresent": false
+          }
+        ],
+        "glCalls": {
+          "multiDrawElementsWEBGL": 8,
+          "multiDrawLogical": 54,
+          "drawElementsInstanced": 1,
+          "drawElements": 28
+        },
+        "glErrors": [],
+        "requests": {
+          "physicalManifest": 1,
+          "riverRender": 58,
+          "physicalBatch": 123,
+          "overlays": 10,
+          "releaseRiverRender": 1
+        }
+      },
+      {
+        "name": "map-lake-painted",
+        "image": "outputs/atlas-fantasy-density-balanced-final-map-lake-painted.png",
+        "effectiveRelief": "0",
+        "symbols": 4455,
+        "symbolAssetBytes": 10107589.333333334,
+        "placementBytes": 218295,
+        "reused": true,
+        "placementIdentity": [
+          {
+            "id": 1,
+            "count": 4455,
+            "reused": true,
+            "collectorPresent": false
+          }
+        ],
+        "glCalls": {
+          "multiDrawElementsWEBGL": 7,
+          "multiDrawLogical": 40,
+          "drawElementsInstanced": 1,
+          "drawElements": 25
+        },
+        "glErrors": [],
+        "requests": {
+          "physicalManifest": 1,
+          "riverRender": 58,
+          "physicalBatch": 123,
+          "overlays": 12,
+          "releaseRiverRender": 1
+        }
+      },
+      {
+        "name": "map-style-projection-roundtrip",
+        "image": "outputs/atlas-fantasy-density-balanced-final-map-style-projection-roundtrip.png",
+        "effectiveRelief": "0",
+        "symbols": 4455,
+        "symbolAssetBytes": 10107589.333333334,
+        "placementBytes": 218295,
+        "reused": true,
+        "placementIdentity": [
+          {
+            "id": 1,
+            "count": 4455,
+            "reused": true,
+            "collectorPresent": false
+          }
+        ],
+        "glCalls": {
+          "multiDrawElementsWEBGL": 7,
+          "multiDrawLogical": 56,
+          "drawElementsInstanced": 1,
+          "drawElements": 26
+        },
+        "glErrors": [],
+        "requests": {
+          "physicalManifest": 1,
+          "riverRender": 58,
+          "physicalBatch": 123,
+          "overlays": 14,
+          "releaseRiverRender": 1
+        }
+      }
+    ],
+    "preparation": {
+      "assets": [
+        {
+          "id": 1,
+          "addPacketCalls": 123,
+          "addPacketCpuMs": 2348.2999999523163,
+          "finishCalls": 1,
+          "finishCpuMs": 197.90000000596046,
+          "peakCollectorBytes": 5152084,
+          "collectorReleased": true,
+          "symbolCount": 4455
+        },
+        {
+          "id": 3,
+          "addPacketCalls": 123,
+          "addPacketCpuMs": 0.30000001192092896,
+          "finishCalls": 1,
+          "finishCpuMs": 7.200000017881393,
+          "peakCollectorBytes": 0,
+          "collectorReleased": true,
+          "symbolCount": 4455
+        },
+        {
+          "id": 4,
+          "addPacketCalls": 123,
+          "addPacketCpuMs": 0.09999999403953552,
+          "finishCalls": 1,
+          "finishCpuMs": 20.700000017881393,
+          "peakCollectorBytes": 0,
+          "collectorReleased": true,
+          "symbolCount": 4455
+        },
+        {
+          "id": 5,
+          "addPacketCalls": 123,
+          "addPacketCpuMs": 0.19999998807907104,
+          "finishCalls": 1,
+          "finishCpuMs": 6,
+          "peakCollectorBytes": 0,
+          "collectorReleased": true,
+          "symbolCount": 4455
+        },
+        {
+          "id": 6,
+          "addPacketCalls": 123,
+          "addPacketCpuMs": 0.29999998211860657,
+          "finishCalls": 1,
+          "finishCpuMs": 5.200000017881393,
+          "peakCollectorBytes": 0,
+          "collectorReleased": true,
+          "symbolCount": 4455
+        },
+        {
+          "id": 7,
+          "addPacketCalls": 123,
+          "addPacketCpuMs": 0.29999998211860657,
+          "finishCalls": 1,
+          "finishCpuMs": 5.200000017881393,
+          "peakCollectorBytes": 0,
+          "collectorReleased": true,
+          "symbolCount": 4455
+        },
+        {
+          "id": 8,
+          "addPacketCalls": 123,
+          "addPacketCpuMs": 0.29999998211860657,
+          "finishCalls": 1,
+          "finishCpuMs": 4.300000011920929,
+          "peakCollectorBytes": 0,
+          "collectorReleased": true,
+          "symbolCount": 4455
+        },
+        {
+          "id": 9,
+          "addPacketCalls": 123,
+          "addPacketCpuMs": 0.19999998807907104,
+          "finishCalls": 1,
+          "finishCpuMs": 5.399999976158142,
+          "peakCollectorBytes": 0,
+          "collectorReleased": true,
+          "symbolCount": 4455
+        }
+      ],
+      "collectors": [
+        {
+          "id": 2,
+          "addPacketCalls": 123,
+          "addPacketCpuMs": 2346.9000000059605,
+          "finishCalls": 1,
+          "finishCpuMs": 185.2000000178814,
+          "peakCollectorBytes": 5152084,
+          "collectorReleased": false
+        }
+      ]
+    },
+    "visualReview": "Both mountain belts now read as connected ranges, including the coastal north-south belt and the broader east-west belt. The rainforest south of the ranges forms dense canopy. Three palettes remain legible on flat map and globe. Water shapes stay visible and no sea or lake glyph intrusion was observed in these views. Individual drawn motifs still repeat, and the renderer remains a cartographic representation.",
+    "cameraRoundtripChangedPixels": 0,
+    "styleProjectionRoundtripChangedPixels": 0,
+    "errors": [],
+    "warnings": [
+      {
+        "text": "[.WebGL-0x215c001abe00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+        "location": {
+          "url": "http://127.0.0.1:5176/density-saved.html",
+          "line": 0,
+          "column": 0,
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "text": "[.WebGL-0x215c001abe00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+        "location": {
+          "url": "http://127.0.0.1:5176/density-saved.html",
+          "line": 0,
+          "column": 0,
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "text": "[.WebGL-0x215c001abe00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+        "location": {
+          "url": "http://127.0.0.1:5176/density-saved.html",
+          "line": 0,
+          "column": 0,
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "text": "[.WebGL-0x215c001abe00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)",
+        "location": {
+          "url": "http://127.0.0.1:5176/density-saved.html",
+          "line": 0,
+          "column": 0,
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "text": "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+        "location": {
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "text": "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+        "location": {
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "text": "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+        "location": {
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "text": "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+        "location": {
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "text": "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+        "location": {
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "text": "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+        "location": {
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "text": "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+        "location": {
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      },
+      {
+        "text": "Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+        "location": {
+          "url": "",
+          "line": 0,
+          "column": 0,
+          "lineNumber": 0,
+          "columnNumber": 0
+        }
+      }
+    ],
+    "warningInterpretation": "The 12 warnings are Canvas2D getImageData/readPixels performance notices from screenshot and atlas-hash readback. No shader compilation, page, or WebGL errors were reported."
+  },
+  "sourceSha256": {
+    "src/render/FantasyRidges.ts": "ae34065bba9c84fa36fb2acaacf7a5983577a253b9944f8743f2004a2f3903cc",
+    "src/render/FantasySymbols.ts": "3a96523ca8a9f909e523e0e02fc11ada69bc55a2961fb471ae835ab41e89d5cf",
+    "src/render/FantasyLandCover.ts": "f6730b16fd719a0d6b095e7bbcf97428e4b03569a0a7e875dd4d9e699cb11902",
+    "src/render/FantasySymbolAtlas.ts": "48cf1b2f262fd83393d8e94c08e4c7f76782d02352beb6a473bdead60b81e3f4",
+    "src/render/PagedWorldView.tsx": "c083d17e18a88da42ac85a4cbaddf5ec13dedcba40ddf27ecc50bbda84e5a7d5"
+  },
+  "rawReports": [
+    "outputs/atlas-fantasy-density-balanced-before-qa.json",
+    "outputs/atlas-fantasy-density-balanced-final-qa.json",
+    "outputs/atlas-fantasy-density-balanced-placement-comparison.json",
+    "outputs/atlas-fantasy-density-balanced-coverage.json"
+  ],
+  "checks": [
+    {
+      "name": "six-style-projection-views",
+      "passed": true
+    },
+    {
+      "name": "one-instanced-symbol-draw",
+      "passed": true
+    },
+    {
+      "name": "one-shared-placement-set",
+      "passed": true
+    },
+    {
+      "name": "camera-roundtrip-pixel-identical",
+      "passed": true
+    },
+    {
+      "name": "style-projection-roundtrip-pixel-identical",
+      "passed": true
+    },
+    {
+      "name": "no-extra-terrain-or-river-reads",
+      "passed": true
+    },
+    {
+      "name": "runtime-errors-empty",
+      "passed": true
+    },
+    {
+      "name": "geographic-mountain-and-rainforest-coverage-improved",
+      "passed": true
+    }
+  ]
+}
